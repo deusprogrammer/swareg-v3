@@ -4,7 +4,7 @@
         <title>Registration:Login</title>
     </head>
     <body>
-        <h3>Registration</h3>
+        <h3>Register for ${event}</h3>
         <g:if test="${message}">
             <div class="message" role="status">${message}</div>
         </g:if>

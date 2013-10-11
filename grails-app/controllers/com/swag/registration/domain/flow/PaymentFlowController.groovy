@@ -24,15 +24,16 @@ class PaymentFlowController {
                 println "In start()"
                 flow.userId = 0
                 flow.eventId = params.id
-                flow.event = Event.findByUuid(flow.eventId)
                 flow.ccData = [:]
                 flow.regLevelId = 0
                 flow.receipt = ""
+				
+				if (!params.id) {
+					return noEvent()	
+				}
 
-                if (!flow.event) {
-                    noEvent()
-                }
-
+				flow.event = Event.findByUuid(flow.eventId)
+				
                 if (springSecurityService.loggedIn) {
                     conversation.user = springSecurityService.currentUser
                     return alreadyLoggedIn()
@@ -44,7 +45,7 @@ class PaymentFlowController {
         }
 		
 		chooseEvent {
-			on ("register") {
+			on ("select") {
 				flow.eventId = params.event
 				flow.event = Event.findByUuid(flow.eventId)
 			}.to "choose"
@@ -123,7 +124,7 @@ class PaymentFlowController {
 
         process {
 			action {
-				Registration reg = new Registration(registrationLevel: flow.regLevel, user: flow.user, event: flow.event)
+				Registration reg = new Registration(registrationLevel: flow.regLevel, user: conversation.user, event: flow.event)
 				if (!reg.save()) {
 					flash.message = "Unable to create registration"
 					println "REGISTRATION FUCKED UP!"
@@ -148,13 +149,14 @@ class PaymentFlowController {
                     flash.message = "There was an error with processing your payment"
 					error()
                 }
-            }.to "finish"
+            }
             on ("success").to "finish"
-            on ("error").to "handleError"
+            on ("error").to "pay"
         }
 
         finish {
 
         }
+
     }
 }
