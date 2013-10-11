@@ -10,7 +10,7 @@
             <div class="message" role="status">${message}</div>
         </g:if>
         <g:form>
-            <g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /><br/>
+            <label>Event</label><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /><br/>
             <g:submitButton name="select" value="Continue with this event" />
         </g:form>
     </body>
