@@ -5,14 +5,14 @@
     </head>
     <body>
         <h3>Register for ${event}</h3>
-        <g:if test="${message}">
-            <div class="message" role="status">
-                ${message}
-            </div>
-        </g:if>
+        <div class="pretext">
+            <p>Please enter your email address.  If you have registered using our system previously, you can login and avoid creating a new user.</p>
+        </div>
         <div class="round">
 	        <g:form>
-	            <g:textField name="emailAddress" placeHolder="user@domain.com" /><br/>
+	            <table>
+	               <tr><td>Email Address</td><td><g:textField name="emailAddress" placeHolder="user@domain.com" /></td></tr>
+	            </table>
 		        <g:submitButton name="continue" value="Continue" />
 	        </g:form>
         </div>

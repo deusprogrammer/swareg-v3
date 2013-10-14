@@ -5,14 +5,16 @@
         <title>Registration:Choose-Event</title>
     </head>
     <body>
-        <h3>No Event Selected</h3>
-        <g:if test="${message}">
-            <div class="message" role="status">${message}</div>
-        </g:if>
+        <h3>Please Select An Event</h3>
+        <div class="pretext">
+            <p>For whatever reason, the site you redirected from didn't include their event id.  So please choose which event you were trying to register for.</p>
+        </div>
         <div class="round">
 	        <g:form>
-	            <label>Event</label><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /><br/>
-	            <g:submitButton name="select" value="Continue with this event" />
+	            <table>
+	               <tr><td>Event</td><td><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /></td>
+	            </table>
+                <g:submitButton name="select" value="Continue with this event" />
 	        </g:form>
         </div>
     </body>

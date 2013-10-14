@@ -6,6 +6,7 @@ import com.swag.registration.security.User
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.apache.commons.lang.RandomStringUtils
 
 class UserFlowController {
     SpringSecurityService springSecurityService
@@ -28,8 +29,8 @@ class UserFlowController {
 
         enterUserData {
             on ("next") {
-                flow.userData["username"] = params.username
-                flow.userData["password"] = params.password
+                flow.userData["username"] = params.emailAddress
+                flow.userData["password"] = RandomStringUtils.randomAlphanumeric(16)
                 flow.userData["emailAddress"] = params.emailAddress
                 flow.userData["age"] = params.age
                 flow.userData["gender"] = params.gender
@@ -93,7 +94,6 @@ class UserFlowController {
 					Role roleUser = Role.findByAuthority('ROLE_USER')
 					UserRole.create user, roleUser, true
 					conversation.user = user
-					springSecurityService.reauthenticate(flow.userData["username"], flow.userData["password"])
 					success()
 				}
 			}
@@ -103,6 +103,8 @@ class UserFlowController {
 
         finish {
             action {
+				// Send email about user creation
+				
                 if (flow.sub) {
                     success()
                 } else {

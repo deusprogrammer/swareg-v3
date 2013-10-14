@@ -5,9 +5,6 @@
     </head>
     <body>
         <h3>We found an existing user with that email!</h3>
-        <g:if test="${message}">
-            <div class="message" role="status">${message}</div>
-        </g:if>
         
         <div class="round">
 	        <p>Would you like to login using that existing user?  If you have ever registered for or created an event with us before, you have received an email with a temporary password and a link to change your password.  If you never got this email, feel free to click below and we can resend this email.</p>

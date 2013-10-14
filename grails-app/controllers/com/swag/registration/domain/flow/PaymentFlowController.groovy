@@ -40,14 +40,14 @@ class PaymentFlowController {
                 }
             }
             on ("success").to "choose"
-            on ("alreadyLoggedIn").to "register"
+            on ("alreadyLoggedIn").to "checkRegistration"
             on ("noEvent").to "chooseEvent"
         }
 		
 		chooseEvent {
 			on ("select") {
 				flow.eventId = params.event
-				flow.event = Event.findByUuid(flow.eventId)
+				flow.event = Event.get(params.event)
 			}.to "choose"
 		}
 
@@ -89,13 +89,35 @@ class PaymentFlowController {
 			}
 			
 			on ("error").to "login"
-			on ("success").to "register"
+			on ("success").to "checkRegistration"
 		}
 
         createUser {
             subflow(controller: "userFlow", action: "createUser", input: [sub: true])
-            on ("success").to "register"
+            on ("success").to "checkRegistration"
         }
+		
+		checkRegistration {
+			action {
+				User user = conversation.user
+				Event event = flow.event
+				
+				Event found = user.registrations.find { Registration reg ->
+					reg.event == event
+				}
+				
+				if (found && !found.paid) {
+					return alreadyRegistered()
+				} else if (found && found.paid) {
+					return alreadyRegisteredAndPaid()
+				} else {
+					return success()
+				}
+			}
+			on ("alreadyRegistered").to "pay"
+			on ("alreadyRegisteredAndPaid").to "alreadyPaid"
+			on ("success").to "register"
+		}
 
         register {
             on ("continue") {
@@ -116,6 +138,10 @@ class PaymentFlowController {
                 flow.ccData["expireYear"] = params.expireYear
                 flow.ccData["type"] = params.type
             }.to "confirmRegistration"
+		
+			on ("payLater") {
+				flow.payLater = true
+			}.to "payLater"
         }
 
         confirmRegistration {
@@ -153,6 +179,26 @@ class PaymentFlowController {
             on ("success").to "finish"
             on ("error").to "pay"
         }
+		
+		payLater {
+			action {
+				Registration reg = new Registration(registrationLevel: flow.regLevel, user: conversation.user, event: flow.event)
+				if (!reg.save()) {
+					flash.message = "Unable to create registration"
+					println "REGISTRATION FUCKED UP!"
+					reg.errors.each {
+						println it
+					}
+					flash.message = "Registration failed!"
+					flash.errors = reg.errors
+					return error()
+				} else {
+					return success()
+				}
+			}
+			on "success".to "finish"
+			on "error".to "pay"
+		}
 
         finish {
 

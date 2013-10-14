@@ -82,9 +82,9 @@ function fitImage(imageSelector, containerSelector) {
 
 $(function () {
 	centerElement("div.spinner");
-	centerElement("div.flash-message");
+	centerElement("div.message");
 
-	$("button.flash-message").click(function() {
-		$("div.flash-message").fadeOut("slow");
+	$("button.message").click(function() {
+		$("div.message").fadeOut("slow");
 	});
 })

@@ -7,9 +7,9 @@
     </head>
     <body>
         <h3>Choose Registration Level</h3>
-        <g:if test="${message}">
-            <div class="message" role="status">${message}</div>
-        </g:if>
+        <div class="pretext">
+            <p>Now choose a registration level.  Each registration level comes with different benefits for you, the attendee.</p>
+        </div>
         <div class="round">
 	        <g:form>
 	            <g:select id="registrationLevel" name="regLevelId" from="${event.levels}" optionKey="id" required="" class="many-to-one"/>

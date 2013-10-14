@@ -22,7 +22,8 @@
 	<body>
         <g:if test="${message}">
             <div class="message" role="status">
-                ${message}
+                <div class="message-inner">${message}</div>
+                <button id="message">Okay</button>
             </div>
         </g:if>
 		<g:layoutBody/>

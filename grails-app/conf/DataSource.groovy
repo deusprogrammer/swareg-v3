@@ -9,6 +9,7 @@ hibernate {
 // environment specific settings
 environments {
     development {
+		/*
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:mysql://192.168.1.106/swareg2-dev"
@@ -25,7 +26,7 @@ environments {
                validationQuery="SELECT 1"
             }
         }
-		/*
+        */
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:h2:file:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
@@ -34,7 +35,6 @@ environments {
             username = "sa"
             password = ""
         }
-		*/
     }
     test {
         dataSource {

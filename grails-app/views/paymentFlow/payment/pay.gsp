@@ -186,9 +186,9 @@
     </head>
     <body>
         <h3>Please Enter Credit Card Data</h3>
-        <g:if test="${message}">
-            <div class="message" role="status">${message}</div>
-        </g:if>
+        <div class="pretext">
+            <p>Thanks!  Now we just need to collect payment for your registration.  We process all of our payments through PayPal using the latest encryption suites.  We DO NOT store your credit card data on our server.  We only store the last 4 digits to assist us in finding your payment should you lose your receipt.</p>
+        </div>
         <div class="round">
 	        <g:form>
 	            <table>
