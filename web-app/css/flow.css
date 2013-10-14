@@ -1,4 +1,14 @@
-/* FONT STACK */
 .error {
 	border: solid 2px #FF0000;
+}
+
+div.round {
+    border: 2px solid;
+    border-radius: 25px;
+    background-color: light-grey;
+}
+
+div.message {
+	border: 2px solid;
+	position: absolute;
 }

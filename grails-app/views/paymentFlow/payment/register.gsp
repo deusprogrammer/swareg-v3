@@ -10,9 +10,11 @@
         <g:if test="${message}">
             <div class="message" role="status">${message}</div>
         </g:if>
-        <g:form>
-            <g:select id="registrationLevel" name="regLevelId" from="${event.levels}" optionKey="id" required="" class="many-to-one"/>
-            <g:submitButton name="continue" value="Continue"/>
-        </g:form>
+        <div class="round">
+	        <g:form>
+	            <g:select id="registrationLevel" name="regLevelId" from="${event.levels}" optionKey="id" required="" class="many-to-one"/>
+	            <g:submitButton name="continue" value="Continue"/>
+	        </g:form>
+        </div>
     </body>
 </html>

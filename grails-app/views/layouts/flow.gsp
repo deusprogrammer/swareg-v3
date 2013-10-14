@@ -20,6 +20,11 @@
         <r:layoutResources/>
 	</head>
 	<body>
+        <g:if test="${message}">
+            <div class="message" role="status">
+                ${message}
+            </div>
+        </g:if>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

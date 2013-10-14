@@ -189,14 +189,16 @@
         <g:if test="${message}">
             <div class="message" role="status">${message}</div>
         </g:if>
-        <g:form>
-            <table>
-	            <tr><td>Credit Card #</td><td><g:textField name="creditCardNumber" id="ccNum" placeHolder="1234567890123456" onblur="" /></td></tr>
-	            <tr><td>CVV2</td><td><g:textField name="cvv2" id="cvv2" placeHolder="123" /></td></tr>
-	            <tr><td>Expiration Date</td><td><g:textField name="expireMonth" id="expireMonth" placeHolder="MM" /></td><td>/</td><td><g:textField name="expireYear" id="expireYear" placeHolder="YYYY" /></td></tr>
-	            <tr><td>Type</td><td><g:select id="type" name="type" from="${['Visa', 'Master Card', 'Discover']}" keys="${['visa', 'mastercard', 'discover']}" /></td></tr>
-            </table>
-            <g:submitButton name="continue" id="continue-button" value="Continue" disabled="true" />
-        </g:form>
+        <div class="round">
+	        <g:form>
+	            <table>
+		            <tr><td>Credit Card #</td><td><g:textField name="creditCardNumber" id="ccNum" placeHolder="1234567890123456" onblur="" /></td></tr>
+		            <tr><td>CVV2</td><td><g:textField name="cvv2" id="cvv2" placeHolder="123" /></td></tr>
+		            <tr><td>Expiration Date</td><td><g:textField name="expireMonth" id="expireMonth" placeHolder="MM" /></td><td>/</td><td><g:textField name="expireYear" id="expireYear" placeHolder="YYYY" /></td></tr>
+		            <tr><td>Type</td><td><g:select id="type" name="type" from="${['Visa', 'Master Card', 'Discover']}" keys="${['visa', 'mastercard', 'discover']}" /></td></tr>
+	            </table>
+	            <g:submitButton name="continue" id="continue-button" value="Continue" disabled="true" />
+	        </g:form>
+        </div>
     </body>
 </html>

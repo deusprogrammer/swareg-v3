@@ -9,9 +9,11 @@
         <g:if test="${message}">
             <div class="message" role="status">${message}</div>
         </g:if>
-        <g:form>
-            <label>Event</label><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /><br/>
-            <g:submitButton name="select" value="Continue with this event" />
-        </g:form>
+        <div class="round">
+	        <g:form>
+	            <label>Event</label><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /><br/>
+	            <g:submitButton name="select" value="Continue with this event" />
+	        </g:form>
+        </div>
     </body>
 </html>

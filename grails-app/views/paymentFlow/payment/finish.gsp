@@ -8,6 +8,8 @@
         <g:if test="${message}">
             <div class="message" role="status">${message}</div>
         </g:if>
-        Your receipt number is ${receipt}
+        <div class="round">
+            <p>Your receipt number is ${receipt}</p>
+        </div>
     </body>
 </html>
