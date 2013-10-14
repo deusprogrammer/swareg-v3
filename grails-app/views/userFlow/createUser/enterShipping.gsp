@@ -1,7 +1,12 @@
 <html>
+    <head>
+        <meta name="layout" content="flow">
+        <title>User:Shipping</title>
+    </head>
     <body>
         <h3>Shipping Data</h3>
         <div class="pretext">
+            <p>Please enter your shipping address.</p>
         </div>
         <div class="round">
 	        <g:form>

@@ -1,7 +1,12 @@
 <html>
+    <head>
+        <meta name="layout" content="flow">
+        <title>User:Billing</title>
+    </head>
     <body>
         <h3>Billing Data</h3>
         <div class="pretext">
+            <p>Please enter your billing address.</p>
         </div>
         <div class="round">
 	        <g:form>

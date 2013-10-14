@@ -28,16 +28,27 @@ class UserFlowController {
         }
 
         enterUserData {
-            on ("next") {
-                flow.userData["username"] = params.emailAddress
-                flow.userData["password"] = RandomStringUtils.randomAlphanumeric(16)
-                flow.userData["emailAddress"] = params.emailAddress
-                flow.userData["age"] = params.age
-                flow.userData["gender"] = params.gender
-                flow.userData["firstName"] = params.firstName
-                flow.userData["lastName"] = params.lastName
-            }.to "enterShipping"
+            on ("next").to "processUserData"
         }
+		
+		processUserData {
+			action {
+				if (params.password1 != params.password2) {
+					flash.message = "Passwords do not match!"
+					return error()
+				}
+				
+				flow.userData["username"] = params.emailAddress
+				flow.userData["password"] = params.password1
+				flow.userData["emailAddress"] = params.emailAddress
+				flow.userData["age"] = params.age
+				flow.userData["gender"] = params.gender
+				flow.userData["firstName"] = params.firstName
+				flow.userData["lastName"] = params.lastName
+			}
+			on ("success").to "enterShipping"
+			on ("error").to "enterUserData"
+		}
 
         enterShipping {
             on ("next") {

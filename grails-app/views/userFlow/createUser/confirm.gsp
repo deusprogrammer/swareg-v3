@@ -1,13 +1,20 @@
 <html>
+    <head>
+        <meta name="layout" content="flow">
+        <title>User:Confirm</title>
+    </head>
     <body>
+        <h3>Confirm</h3>
+        <div class="pretext">
+            <p>Now just look over your data and confirm that it is correct.</p>
+        </div>
         <g:form>
             <div class="round">
 	            <h4>User Data</h4>
 	            <g:actionSubmit name="editUserInfo" value="Edit" />
 	            <table>
-	                <tr><td>Username</td><td>${userData?.username}</td></tr>
-	                <tr><td>Password</td><td>${userData?.password}</td></tr>
-	                <tr><td>Email</td><td>${userData?.emailAddress}</td></tr>
+                    <tr><td>Email</td><td>${userData?.emailAddress}</td></tr>
+	                <tr><td>Password</td><td>****************</td></tr>
 	                <tr><td>First Name</td><td>${userData?.firstName}</td></tr>
 	                <tr><td>Last Name</td><td>${userData?.lastName}</td></tr>
 	                <tr><td>Gender</td><td>${userData?.gender}</td></tr>
@@ -36,6 +43,7 @@
 	                <tr><td>Zip Code</td><td>${billingData?.zipCode}</td></tr>
 	            </table>
             </div>
+            <br/>
             <div class="round">
 	            <g:submitButton name="back" value="Back"/>
 				<g:submitButton name="confirm" value="Confirm"/>

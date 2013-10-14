@@ -16,6 +16,7 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'flow.css')}" type="text/css">
 		<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+		<script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
 		<g:layoutHead/>
         <r:layoutResources/>
 	</head>
@@ -26,7 +27,9 @@
                 <button id="message">Okay</button>
             </div>
         </g:if>
-		<g:layoutBody/>
+        <div id="main-container">
+		  <g:layoutBody/>
+		</div>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 		<g:javascript library="application"/>

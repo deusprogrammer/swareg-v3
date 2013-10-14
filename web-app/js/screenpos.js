@@ -84,7 +84,7 @@ $(function () {
 	centerElement("div.spinner");
 	centerElement("div.message");
 
-	$("button.message").click(function() {
+	$("button#message").click(function() {
 		$("div.message").fadeOut("slow");
 	});
 })
