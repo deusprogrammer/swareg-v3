@@ -10,6 +10,78 @@ import org.apache.commons.lang.RandomStringUtils
 
 class UserFlowController {
     SpringSecurityService springSecurityService
+	
+	def changePasswordFlow = {
+		start {
+			action {
+				flow.emailAddress = params.emailAddress
+				
+				flow.user = User.findByEmailAddress(flow.emailAddress)
+				
+				if (!flow.user) {
+					return invalidEmail()	
+				} else {
+					return success()
+				}
+			}
+			on ("success").to "changePassword"
+			on ("invalidEmail").to "enterEmailAddress"
+		}
+		
+		enterEmailAddress {
+			on ("go") {
+				flow.emailAddress = params.emailAddress
+			}.to "processEmailAddress"
+		}
+		
+		processEmailAddress {
+			action {
+				flow.user = User.findByEmailAddress(flow.emailAddress)
+				if (!flow.user) {
+					flash.message = "No user with email address ${flow.emailAddress} exists!"
+					return invalidEmail()
+				} else {
+					return success()
+				}
+			}
+			on ("invalidEmail").to "enterEmailAddress"
+			on ("success").to "changePassword"
+		}
+		
+		changePassword {
+			on ("changePassword") {
+				flow.oldPassword = params.oldPassword
+				flow.password1 = params.password1
+				flow.password2 = params.password2
+			}.to "processChangePassword"
+		}
+		
+		processChangePassword {
+			action {
+				User user = flow.user
+				if (user.password != springSecurityService.encodePassword(flow.oldPassword)) {
+					flash.message = "Invalid password for email address ${flow.emailAddress}"
+					return invalidLogin()
+				}
+				
+				if (flow.password1 != flow.password2) {
+					flash.message = "Password and confirmation password don't match!"
+					return passwordMismatch()
+				} else {
+					user.password = params.password1
+					user.save(flush: true)
+					return success()
+				}
+			}
+			on ("passwordMismatch").to "changePassword"
+			on ("invalidLogin").to "changePassword"
+			on ("success").to "finish"
+		}
+		
+		finish {
+			
+		}
+	}
 
     def createUserFlow = {
         input {

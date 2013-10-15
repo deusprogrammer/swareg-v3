@@ -14,14 +14,80 @@ import org.springframework.security.core.context.SecurityContextHolder
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 
-class PaymentFlowController {
+class RegistrationFlowController {
     PaymentService paymentService
     SpringSecurityService springSecurityService
 
-    def paymentFlow = {
+	def manualRegistrationFlow = {
+		start {
+			action {
+				flow.eventId = params.id
+				flow.event = Event.findByUuid(flow.eventId)
+				
+				if (!flow.eventId || !flow.event) {
+					return noEvent()
+				}
+				
+				// Do checks on current user to see if they are admin on this event
+				
+				return success()
+			}
+			on ("noEvent").to "handleError"
+			on ("accessDenied").to "handleError"
+			on ("success").to "createManualRegistration"
+		}
+		
+		createManualRegistration {
+			on ("submit") {
+				flow.emailAddress = params.emailAddress
+                flow.regLevelId = params.regLevelId
+			}.to "processManualRegistration"
+		}
+		
+		processManualRegistration {
+			action {
+				flow.regLevel = RegistrationLevel.get(flow.regLevelId)
+				User user = User.findByEmailAddress(flow.emailAddress)
+				
+				if (!flow.regLevel) {
+					flash.message = "Registration level not found!"
+					return error()
+				}
+				
+				if (!user) {
+					user = new User(emailAddress: flow.emailAddress, password: RandomStringUtils.random(16))
+					if (!user.save(flush: true)) {
+						flash.message = "User creation failed"
+						flash.errors = user.errors
+						return error()
+					}
+				}
+				
+				Registration reg = new Registration(registrationLevel: flow.regLevel, user: user, event: flow.event, paid: true)
+				if (!reg.save(flush: true)) {
+					flash.message = "Registration failed!"
+					flash.errors = reg.errors
+					return error()
+				}
+				
+				return success()
+			}
+			on ("success").to "finish"
+			on ("error").to "createManualRegistration"
+		}
+		
+		finish {
+			
+		}
+		
+		handleError {
+			
+		}
+	}
+
+    def registrationFlow = {
         start {
             action {
-                println "In start()"
                 flow.userId = 0
                 flow.eventId = params.id
                 flow.ccData = [:]

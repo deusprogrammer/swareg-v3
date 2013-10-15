@@ -3,7 +3,7 @@ package com.swag.registration.domain
 import grails.converters.JSON
 import java.util.UUID
 import com.swag.registration.security.*
-
+import org.apache.commons.lang.RandomStringUtils
 
 class JSController {
 
@@ -101,8 +101,9 @@ class JSController {
 
         if (!user) {
             user = new User()
+			user.username = emailAddress
             user.emailAddress = emailAddress
-            user.password = UUID.randomUUID().toString()
+            user.password = RandomStringUtils.random(16)
             user.registrationComplete = false
             user.save()
         }
@@ -123,7 +124,6 @@ class JSController {
         }
         else {
             user.save()
-
             ret = [status: "success", user: user.emailAddress, level: regLevel.toString(), guid: registrationInstance.uuid, event: event.toString(), paid: true]
         }
 
@@ -133,8 +133,8 @@ class JSController {
                sendMail {
                    to user.emailAddress
                    subject "${event.toString()} Registration Confirmation"
-                   html "<p>Thank you for your registration for ${event.toString()}!  Please go below to complete your registration!</p><p><a href='${createLink(controller: "user", action: "completeRegistration", id: registrationInstance.uuid, absolute: true)}'>${createLink(controller: "user", action: "completeRegistration", id: registrationInstance.uuid, absolute: true)}</a></p>"
-            }
+                   html "<p>Thank you for your registration for ${event.toString()}!  We have created a user for you with temporary credentials given below.  If you need to register with our service again in the future, you will use this username and password.  You can go <a href="">here</a> to change your password though.</p>.<br/><br/>Username: ${user.emailAddress}<br/>Password: ${user.password}"
+			   }
             } catch (Exception e) {
                 println "Unable to send confirmation email!"
                 ret["status"] = "failure"
