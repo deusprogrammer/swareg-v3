@@ -1,5 +1,6 @@
 package com.swag.registration.domain
 
+import java.text.SimpleDateFormat
 import org.springframework.dao.DataIntegrityViolationException
 
 import com.swag.registration.security.acl.EventService
@@ -9,6 +10,8 @@ class PreRegistrationOfferController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
 	EventService eventService
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy")
 
     def create() {
         println "IN CREATE()"
@@ -16,10 +19,12 @@ class PreRegistrationOfferController {
     }
 
     def save() {
-        println "PARAMS: " + params
-
-        def preRegistrationOfferInstance = new PreRegistrationOffer(params)
+		params.startDate = formatter.parse(params.startDate)
+		params.endDate   = formatter.parse(params.endDate)
 		
+		println "PARAMS: " + params
+		
+		def preRegistrationOfferInstance = new PreRegistrationOffer(params)
 		eventService.checkWrite(preRegistrationOfferInstance)
 		
         if (!preRegistrationOfferInstance.save(flush: true)) {
@@ -61,6 +66,8 @@ class PreRegistrationOfferController {
 
     def update(Long id, Long version) {
         def preRegistrationOfferInstance = PreRegistrationOffer.get(id)
+		params.startDate = formatter.parse(params.startDate)
+		params.endDate   = formatter.parse(params.endDate)
 		
         if (!preRegistrationOfferInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'preRegistrationOffer.label', default: 'PreRegistrationOffer'), id])

@@ -15,8 +15,17 @@
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'flow.css')}" type="text/css">
-		<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
+        <script>
+            $(function() {
+                $("#date").datepicker();
+                $("#startDate").datepicker();
+                $("#endDate").datepicker();
+            });
+        </script>
 		<g:layoutHead/>
         <r:layoutResources/>
 	</head>
