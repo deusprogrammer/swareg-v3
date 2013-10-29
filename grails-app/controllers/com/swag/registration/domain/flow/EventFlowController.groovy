@@ -58,7 +58,7 @@ class EventFlowController {
 
         createUser {
             subflow(controller: "userFlow", action: "createUser", input: [sub: true])
-            on ("success").to "basicInfo"
+            on ("success").to "login"
         }
 
         basicInfo {

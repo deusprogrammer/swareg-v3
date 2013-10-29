@@ -13,8 +13,8 @@
         <div class="round">
 	        <g:form>
 	            <table>
-	                <tr><td>ClientId</td><td><g:textField name="clientId" /></td></tr>
-	                <tr><td>Secret</td><td><g:textField name="secret" /></td></tr>
+	                <tr><td>ClientId</td><td><g:textField size="60" name="clientId" /></td></tr>
+	                <tr><td>Secret</td><td><g:textField size="60" name="secret" /></td></tr>
 	            </table>
 	            <g:submitButton name="next" value="Next"/>
 	        </g:form>

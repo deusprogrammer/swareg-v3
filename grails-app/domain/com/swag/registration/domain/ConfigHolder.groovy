@@ -23,4 +23,8 @@ class ConfigHolder implements Serializable {
     static constraints = {
         configKey unique: true
     }
+	
+	public String toString() {
+		return "${configKey} => ${configValue}"
+	}
 }

@@ -29,8 +29,8 @@ class SetupFlowController {
 		
 		setupPayPalApi {
 			on("next") {
-				ConfigHolder.setConfig("paypal.clientId", flow.clientId)
-				ConfigHolder.setConfig("paypal.secret", flow.secret)
+				ConfigHolder.setConfig("payPal.clientId", params.clientId)
+				ConfigHolder.setConfig("payPal.secret", params.secret)
 			}.to "changePassword"
 		}
 		

@@ -36,3 +36,9 @@ div.message {
 	padding: 10px;
 	margin: auto;
 }
+
+.centered {
+	text-align: center;
+	width: 600px;
+	margin: auto;
+}

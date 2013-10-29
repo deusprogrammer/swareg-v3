@@ -127,9 +127,9 @@ class RegistrationFlowController {
 			action {
 				User user = User.findByEmailAddress(conversation.emailAddress)
 				if (user) {
-					existingUser()
+					return existingUser()
 				} else {
-					success()
+					return success()
 				}
 			}
 			on ("success").to "createUser"
@@ -146,11 +146,10 @@ class RegistrationFlowController {
 				User user = User.findByEmailAddress(conversation.emailAddress)
 				if (user.password == springSecurityService.encodePassword(params.password)) {
 					conversation.user = user
-					springSecurityService.reauthenticate(user.username, params.password)
-					success()
+					return success()
 				} else {
 					flash.message = "Username or password is incorrect!"
-					error()
+					return error()
 				}
 			}
 			
@@ -168,7 +167,7 @@ class RegistrationFlowController {
 				User user = conversation.user
 				Event event = flow.event
 				
-				Event found = user.registrations.find { Registration registration ->
+				Registration found = user.registrations.find { Registration registration ->
 					registration.event == event
 				}
 				
@@ -184,7 +183,7 @@ class RegistrationFlowController {
 					return success()
 				}
 			}
-			on ("alreadyRegistered").to "pay"
+			on ("alreadyRegistered").to "resume"
 			on ("alreadyPaid").to "alreadyPaid"
 			on ("success").to "register"
 		}
@@ -197,28 +196,10 @@ class RegistrationFlowController {
 
                 flow.regLevelId = params.regLevelId
                 flow.regLevel = RegistrationLevel.get(flow.regLevelId)
-            }.to "pay"
+            }.to "processRegistration"
         }
-
-        pay {
-            on ("continue") {
-                flow.ccData["creditCardNumber"] = params.creditCardNumber
-                flow.ccData["cvv2"] = params.cvv2
-                flow.ccData["expireMonth"] = params.expireMonth
-                flow.ccData["expireYear"] = params.expireYear
-                flow.ccData["type"] = params.type
-            }.to "confirmRegistration"
 		
-			on ("payLater") {
-				flow.payLater = true
-			}.to "payLater"
-        }
-
-        confirmRegistration {
-            on ("confirm").to "process"
-        }
-
-        process {
+		processRegistration {
 			action {
 				Registration reg = new Registration(registrationLevel: flow.regLevel, user: conversation.user, event: flow.event)
 				if (!reg.save()) {
@@ -229,7 +210,43 @@ class RegistrationFlowController {
 					flash.errors = reg.errors
 					return error()
 				}
+				
+				flow.registration = reg
+			}
+			on("success").to "choosePayment"
+			on("error").to "register"
+		}
+		
+		resume {
+			on ("resume").to "choosePayment"
+			on ("startOver"){
+				flow.registration.delete()
+			}.to "register"
+		}
+		
+		choosePayment {
+			on ("paypal").to "paypalPay"
+			on ("credit").to "creditPay"
+			on ("payLater").to "payLater"
+		}
 
+        creditPay {
+            on ("continue") {
+                flow.ccData["creditCardNumber"] = params.creditCardNumber
+                flow.ccData["cvv2"] = params.cvv2
+                flow.ccData["expireMonth"] = params.expireMonth
+                flow.ccData["expireYear"] = params.expireYear
+                flow.ccData["type"] = params.type
+            }.to "confirmCreditCardPayment"
+        }
+
+        confirmCreditCardPayment {
+            on ("confirm").to "processCreditCardPayment"
+        }
+
+        processCreditCardPayment {
+			action {
+				Registration reg = flow.registration
 				Map paymentResults = paymentService.payWithCreditCard(reg, flow.ccData["creditCardNumber"], flow.ccData["cvv2"], flow.ccData["expireMonth"], flow.ccData["expireYear"], flow.ccData["type"])
 
 				if (paymentResults["success"]) {
@@ -239,37 +256,24 @@ class RegistrationFlowController {
 					reg.payment = payment
 					reg.paid = true
 					reg.save()
-
                 } else {
 					reg.delete()
-                    flash.message = "There was an error with processing your payment"
-					error()
+                    flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
+					return error()
                 }
             }
             on ("success").to "finish"
-            on ("error").to "pay"
+            on ("error").to "creditPay"
         }
 		
 		payLater {
-			action {
-				Registration reg = new Registration(registrationLevel: flow.regLevel, user: conversation.user, event: flow.event)
-				if (!reg.save()) {
-					reg.errors.each {
-						println it
-					}
-					flash.message = "Registration failed!"
-					flash.errors = reg.errors
-					return error()
-				} else {
-					return success()
-				}
-			}
-			on ("success").to "finish"
-			on ("error").to "pay"
+			on ("ok").to "finish"
+			on ("wait").to "choosePayment"
 		}
 		
 		alreadyPaid {
-			
+			on ("yes").to "register"
+			on ("no").to "finish"
 		}
 
         finish {

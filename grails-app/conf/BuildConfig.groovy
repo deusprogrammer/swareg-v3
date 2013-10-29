@@ -24,6 +24,8 @@ grails.project.dependency.resolution = {
 
         mavenLocal()
         mavenCentral()
+		
+		flatDir name:'myRepo', dirs:'/home/mmain/flat_repo/'
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
@@ -35,7 +37,6 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         runtime 'mysql:mysql-connector-java:5.1.20'
-        compile "com.paypal.sdk:rest-api-sdk:0.7.1"
         compile "org.grails:grails-webflow:$grailsVersion"
     }
 
@@ -45,6 +46,8 @@ grails.project.dependency.resolution = {
 
         compile ":spring-security-core:1.2.7.3"
         compile ":spring-security-acl:1.1.1"
+		compile ":jersey-request-builder:1.1.3"
+		compile ":grails-pay-pal-rest:0.2"
 
         build ":tomcat:$grailsVersion"
 
@@ -55,4 +58,3 @@ grails.project.dependency.resolution = {
         }
     }
 }
-grails.plugin.location.'PayPal-REST' = "C:/Users/Michael/Documents/workspace/PayPal-REST"

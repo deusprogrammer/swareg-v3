@@ -62,9 +62,11 @@ grails.hibernate.cache.queries = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+		payPal.debug = true
     }
     production {
         grails.logging.jul.usebridge = false
+		payPal.debug = false
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }

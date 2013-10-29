@@ -192,12 +192,12 @@
         <div class="round">
 	        <g:form>
 	            <table>
-		            <tr><td>Credit Card #</td><td><g:textField name="creditCardNumber" id="ccNum" placeHolder="1234567890123456" onblur="" /></td></tr>
-		            <tr><td>CVV2</td><td><g:textField name="cvv2" id="cvv2" placeHolder="123" /></td></tr>
-		            <tr><td>Expiration Date</td><td><g:textField name="expireMonth" id="expireMonth" placeHolder="MM" /></td><td>/</td><td><g:textField name="expireYear" id="expireYear" placeHolder="YYYY" /></td></tr>
+		            <tr><td>Credit Card #</td><td><g:textField size="16" name="creditCardNumber" id="ccNum" placeHolder="1234567890123456" /></td></tr>
+		            <tr><td>CVV2</td><td><g:textField size="4" name="cvv2" id="cvv2" placeHolder="1234" /></td></tr>
+		            <tr><td>Expiration Date</td><td><g:textField size="2" name="expireMonth" id="expireMonth" placeHolder="MM" />/<g:textField size="4" name="expireYear" id="expireYear" placeHolder="YYYY" /></td></tr>
 		            <tr><td>Type</td><td><g:select id="type" name="type" from="${['Visa', 'Master Card', 'Discover']}" keys="${['visa', 'mastercard', 'discover']}" /></td></tr>
 	            </table>
-	            <g:submitButton name="continue" id="continue-button" value="Continue" disabled="true" />
+	            <g:submitButton name="continue" id="continue-button" value="Pay Now" disabled="true" />
 	        </g:form>
         </div>
     </body>
