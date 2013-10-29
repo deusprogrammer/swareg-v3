@@ -1,112 +1,77 @@
 package com.swag.registration.domain
 
-import com.paypal.api.payments.*;
-import com.paypal.api.payments.util.*;
-import com.paypal.core.rest.*;
-import com.paypal.core.Constants;
 import com.swag.registration.security.User
+
+import com.trinary.paypal.*
+import com.trinary.paypal.oauth.*
+import com.trinary.paypal.payment.*
+import com.trinary.paypal.payment.payer.*
 
 class PaymentService {
 
     public Map payWithCreditCard(Payable payableObject, String creditCardNumber, String cvv2, String expireMonth, String expireYear, String cardType) {
-        User user = payableObject.getPurchaser()
-        Double price = payableObject.getPrice()
-        Double taxRate = payableObject.getTaxRate()
-        Currency currency = payableObject.getCurrency()
-        Double tax = (price * taxRate).round(2)
-        Double total = (price + tax).round(2)
-        String last4Digits = creditCardNumber[-4..-1]
-		
-		if (payableObject.isPaid()) {
-			return [success: false, message: "This item is already paid for!", ccNumber: last4Digits, receiptNumber: "", status: ""]
+		PayPalConfig.setClientId(ConfigHolder.getConfig("payPal.clientId"))
+		PayPalConfig.setSecret(ConfigHolder.getConfig("payPal.secret"))
+		if (ConfigHolder.getConfig("payPal.debug") == "true") {
+			PayPalConfig.enableSandbox()
 		}
 		
-		println "USER:     ${user}"
-		println "PRICE:    ${price}"
-		println "TAXRATE:  ${taxRate}"
-		println "CURRENCY: ${currency}"
+		User user = payableObject.getPurchaser()
+		Double price = payableObject.getPrice()
+		Double taxRate = payableObject.getTaxRate()
+		com.trinary.paypal.payment.Currency currency = com.trinary.paypal.payment.Currency.valueOf(payableObject.getCurrency().getCurrencyCode())
+		Double tax = (price * taxRate).round(2)
+		String last4 = creditCardNumber[-4..-1]
+		
+		String firstName = user.firstName
+		String lastName  = user.lastName
+		
+		if (payableObject.isPaid()) {
+			return [success: false, message: "This item is already paid for!", ccNumber: last4, receiptNumber: "", status: ""]
+		}
+		
+		CreditCardPayer payer = new CreditCardPayer()
+		CreditCard creditCard = new CreditCard([
+			number: creditCardNumber,
+			type: CreditCardType.valueOf(cardType.toUpperCase()),
+			expireMonth: expireMonth.toInteger(),
+			expireYear: expireYear.toInteger(),
+			cvv2: cvv2,
+			firstName: firstName,
+			lastName: lastName,
+			billingAddress: new BillingAddress([
+				line1: user.streetAddress1,
+				line2: user.streetAddress2,
+				city: user.city,
+				countryCode: "US",
+				postalCode: user.zipCode,
+				state: user.state
+			])
+		])
 
-        Address billingAddress = new Address()
-        billingAddress.setCity(user.city)
-        billingAddress.setCountryCode("US")
-        billingAddress.setLine1(user.streetAddress1)
-        billingAddress.setLine2(user.streetAddress2)
-        billingAddress.setPostalCode(user.zipCode)
-        billingAddress.setState(user.state)
+		payer.addFundingInstrument(creditCard)
 
-        CreditCard creditCard = new CreditCard()
-        creditCard.setBillingAddress(billingAddress)
-        creditCard.setCvv2(cvv2)
-        creditCard.setExpireMonth(expireMonth.toInteger())
-        creditCard.setExpireYear(expireYear.toInteger())
-        creditCard.setFirstName(user.firstName)
-        creditCard.setLastName(user.lastName)
-        creditCard.setNumber(creditCardNumber)
-        creditCard.setType(cardType)
+		PaymentRequest payment = new PaymentRequest([
+			intent: Intent.SALE,
+			payer: payer
+		])
+		payment.addTransaction(new Transaction([
+			amount: new Amount([
+				currency: currency,
+				details: new Details([
+					subtotal: price,
+					tax: tax
+				])
+			]),
+			description: payableObject.getDescription()
+		]))
 
-        Details details = new Details();
-        details.setShipping("0")
-        details.setSubtotal(String.format('%.2f', price))
-        details.setTax(String.format('%.2f', tax))
-
-        Amount amount = new Amount()
-        amount.setCurrency(currency.currencyCode)
-        amount.setTotal(String.format('%.2f', total))
-        amount.setDetails(details)
-
-        Transaction transaction = new Transaction()
-        transaction.setAmount(amount)
-        transaction.setDescription("${payableObject.getDescription()}")
-
-        List<Transaction> transactions = new ArrayList<Transaction>()
-        transactions.add(transaction)
-
-        FundingInstrument fundingInstrument = new FundingInstrument()
-        fundingInstrument.setCreditCard(creditCard)
-
-        List<FundingInstrument> fundingInstrumentList = new ArrayList<FundingInstrument>()
-        fundingInstrumentList.add(fundingInstrument)
-
-        Payer payer = new Payer()
-        payer.setFundingInstruments(fundingInstrumentList)
-        payer.setPaymentMethod("credit_card")
-
-
-        com.paypal.api.payments.Payment payment = new com.paypal.api.payments.Payment()
-        payment.setIntent("sale")
-        payment.setPayer(payer)
-        payment.setTransactions(transactions)
-
-        String mode = Constants.LIVE
-
-        if (ConfigHolder.getConfig("payPal.debug") == "true") {
-            mode = Constants.SANDBOX
-        }
-
-        Map<String, String> options = [mode: mode]
-
-        try {
-            String accessToken = new OAuthTokenCredential(
-                ConfigHolder.getConfig("payPal.clientId"),
-                ConfigHolder.getConfig("payPal.secret"),
-                options)
-                    .getAccessToken()
-
-            APIContext apiContext = new APIContext(accessToken)
-
-            com.paypal.api.payments.Payment createdPayment = payment.create(apiContext);
-
-            if (createdPayment.getState() != "approved") {
-                return [success: false, message: "Payment declined!", ccNumber: last4Digits,  receiptNumber: "", status: createdPayment.getState()]
-            }
-
-            return [success: true, message: "Payment completed successfully.", ccNumber: last4Digits, receiptNumber: createdPayment.getId(), status: createdPayment.getState()]
-        } catch (PayPalRESTException e) {
-            println "PaymentService failed to complete due to an exception!  EXCEPTION: ${e.message}"
-            return [success: false, message: "PaymentService failed to complete due to an exception!  EXCEPTION: ${e.message}", details: e, ccNumber: last4Digits, receiptNumber: "", status: ""]
-        } catch (Exception e) {
-            println "PaymentService caught an unexpected exception!  EXCEPTION ${e.message}"
-            return [success: false, message: "PaymentService caught an unexpected exception!  EXCEPTION ${e.message}", ccNumber: last4Digits, receiptNumber: "", status: ""]
-        }
+		PaymentResponse paymentResponse = payment.pay()
+		
+		if (paymentResponse.state != "approved") {
+			return [success: false, message: "Payment declined", ccNumber: last4, receiptNumber: "", status: paymentResponse.state]
+		} else {
+			return [success: true, message: "Payment approved!", ccNumber: last4, receiptNumber: paymentResponse.id, status: paymentResponse.state]
+		}
     }
 }

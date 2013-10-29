@@ -92,6 +92,9 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+		   
+	trace  'com.trinary.paypal'
+	debug  'com.budjb.requestbuilder'
 }
 
 // Added by the Spring Security Core plugin:

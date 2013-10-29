@@ -264,8 +264,8 @@ class RegistrationFlowController {
 					return success()
 				}
 			}
-			on "success".to "finish"
-			on "error".to "pay"
+			on ("success").to "finish"
+			on ("error").to "pay"
 		}
 		
 		alreadyPaid {

@@ -55,3 +55,4 @@ grails.project.dependency.resolution = {
         }
     }
 }
+grails.plugin.location.'PayPal-REST' = "C:/Users/Michael/Documents/workspace/PayPal-REST"
