@@ -11,6 +11,16 @@ import org.apache.commons.lang.RandomStringUtils
 class UserFlowController {
     SpringSecurityService springSecurityService
 	
+	def login() {
+		User user = User.findByEmailAddress(params.emailAddress)
+		if (user && user.password == springSecurityService.encodePassword(params.password)) {
+			springSecurityService.reauthenticate(user.username, params.password)
+		} else {
+			flash.message = "Username or password is incorrect!"
+		}
+		redirect(uri: "/")
+	}
+	
 	def changePasswordFlow = {
 		start {
 			action {
@@ -200,7 +210,7 @@ class UserFlowController {
 
         done {
             action {
-                redirect(controller: "user", action: "show", id: flow.userId)
+                redirect(uri: "/")
             }
             on ("success").to "end"
         }

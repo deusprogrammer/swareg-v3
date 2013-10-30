@@ -82,26 +82,32 @@
 		</style>
 	</head>
 	<body>
-		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div id="page-body" role="main">
-			<h1>SWAreG Registration System</h1>
+		<h1>SWAreG Registration System</h1>
+           <div id="dashboard">
             <sec:ifNotLoggedIn>
-                <div id="dashboard">
-		            <g:form controller="user" action="processLogin">
-		                <table>
-		                <tr><td>Email Address</td><td><g:textField name="emailAddress" /></td></tr>
-		                <tr><td>Password</td><td><g:passwordField name="password" /></td></tr>
-		                </table>
-		                <g:submitButton name="login" value="Login" />
-		            </g:form>
-		        </div>
+	            <g:form controller="userFlow">
+	                <table>
+	                <tr><td>Email Address</td><td><g:textField name="emailAddress" /></td></tr>
+	                <tr><td>Password</td><td><g:passwordField name="password" /></td></tr>
+	                </table>
+	                <div class="event-button">
+	                <g:actionSubmit name="login" action="login" value="Login" />
+	                <g:actionSubmit name="newUser" action="createUser" value="New User" />
+	                </div>
+	            </g:form>
             </sec:ifNotLoggedIn>
             <sec:ifLoggedIn>
-                <div id="dashboard">
-                    <h3>Dashboard</h3>
+                   <h3>Dashboard</h3>
+                   <div class="event-list">
+                       <h6>Events</h6>
                     <g:displayEvents />
-                </div>
+                   </div>
+                   <div class="event-button">
+                       <g:form controller="eventFlow">
+                           <g:actionSubmit action="createEvent" value="New Event" />
+                       </g:form>
+                   </div>
             </sec:ifLoggedIn>
-		</div>
+           </div>
 	</body>
 </html>

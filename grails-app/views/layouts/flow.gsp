@@ -15,6 +15,8 @@
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'flow.css')}" type="text/css">
+	    <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+        <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 	    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -36,9 +38,13 @@
                 <button id="message">Okay</button>
             </div>
         </g:if>
-        <div id="main-container">
-		  <g:layoutBody/>
-		</div>
+        <div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
+        <div style="background-color: lightblue; color: white;">
+            <sec:ifLoggedIn>
+                Welcome back <sec:username/>!  <g:link controller='logout'>Logout?</g:link>
+            </sec:ifLoggedIn>
+        </div>
+        <g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 		<g:javascript library="application"/>

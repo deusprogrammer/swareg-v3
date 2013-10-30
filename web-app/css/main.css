@@ -8,6 +8,10 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 1.1;
 }
 
+h1 {
+	text-align: center;
+}
+
 /* BASE LAYOUT */
 
 html {
@@ -593,4 +597,57 @@ th:hover, tr:hover {
 a.skip {
 	position: absolute;
 	left: -9999px;
+}
+
+
+.error {
+    border: solid 2px #FF0000;
+}
+
+h3 {
+    text-align: center;
+}
+
+div#main-container {
+    margin: auto;
+    width: 800px;
+    border: solid 2px;
+}
+
+div#dashboard {
+    margin: auto;
+    max-width: 600px;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 25px;
+    background-color: #E6E6E6;
+}
+
+div.event-list {
+	text-align: center;
+    width: 150px;
+    margin: auto;
+    padding: 5px;
+    background-color: #E6E6E6;
+}
+
+div.event-button {
+    text-align: center;
+    width: 200px;
+    margin: auto;
+    padding: 5px;
+    background-color: #E6E6E6;
+}
+
+div.message {
+    border: 2px solid;
+    position: absolute;
+    padding: 10px;
+    margin: auto;
+}
+
+.centered {
+    text-align: center;
+    width: 600px;
+    margin: auto;
 }

@@ -32,9 +32,6 @@
 	<body>
 		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
 		<div style="background-color: lightblue; color: white;">
-			<sec:ifNotLoggedIn>
-			    <g:link controller='login'>Login</g:link>.  If you don't have a user you can <g:link controller='userFlow' action='createUser'>sign up!</g:link>
-			</sec:ifNotLoggedIn>
 			<sec:ifLoggedIn>
 			    Welcome back <sec:username/>!  <g:link controller='logout'>Logout?</g:link>
 			</sec:ifLoggedIn>
