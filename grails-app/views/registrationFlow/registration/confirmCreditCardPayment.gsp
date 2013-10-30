@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta name="layout" content="flow">
-        <title>Registration:Level</title>
+        <title>Registration:Confirmation</title>
     </head>
     <body>
         <h3>Please Confirm Your Purchase</h3>
@@ -10,6 +10,7 @@
 	        ${ccData.type} ending in ${ccData.creditCardNumber[-4..-1].toString()}?</p>
 	        <g:form>
 	            <g:submitButton name="confirm" value="Confirm"/>
+	            <g:submitButton name="cancel" value="Cancel"/>
 	        </g:form>
         </div>
     </body>

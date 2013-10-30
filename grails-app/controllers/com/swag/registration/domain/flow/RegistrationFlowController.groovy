@@ -29,8 +29,6 @@ class RegistrationFlowController {
 				}
 				
 				// Do checks on current user to see if they are admin on this event
-				
-				return success()
 			}
 			on ("noEvent").to "handleError"
 			on ("accessDenied").to "handleError"
@@ -201,7 +199,11 @@ class RegistrationFlowController {
 		
 		processRegistration {
 			action {
-				Registration reg = new Registration(registrationLevel: flow.regLevel, user: conversation.user, event: flow.event)
+				Registration reg = new Registration(
+					registrationLevel: flow.regLevel, 
+					user: conversation.user, 
+					event: flow.event
+				)
 				if (!reg.save()) {
 					reg.errors.each {
 						println it
@@ -239,6 +241,10 @@ class RegistrationFlowController {
                 flow.ccData["type"] = params.type
             }.to "confirmCreditCardPayment"
         }
+		
+		paypalPay {
+			on ("continue").to "processPayPalPayment"
+		}
 
         confirmCreditCardPayment {
             on ("confirm").to "processCreditCardPayment"
@@ -247,17 +253,32 @@ class RegistrationFlowController {
         processCreditCardPayment {
 			action {
 				Registration reg = flow.registration
-				Map paymentResults = paymentService.payWithCreditCard(reg, flow.ccData["creditCardNumber"], flow.ccData["cvv2"], flow.ccData["expireMonth"], flow.ccData["expireYear"], flow.ccData["type"])
+				Map paymentResults = paymentService.payWithCreditCard(
+					reg, 
+					flow.ccData["creditCardNumber"], 
+					flow.ccData["cvv2"], 
+					flow.ccData["expireMonth"], 
+					flow.ccData["expireYear"], 
+					flow.ccData["type"]
+				)
 
 				if (paymentResults["success"]) {
 					flow.receipt = paymentResults["receiptNumber"]
-					Payment payment = new Payment(creditCardNumber: paymentResults["ccNumber"], paymentId: paymentResults["receiptNumber"], status: paymentResults["status"])
+					Payment payment = new Payment(
+						creditCardNumber: paymentResults["ccNumber"], 
+						paymentId: paymentResults["receiptNumber"], 
+						status: paymentResults["status"], 
+						total: reg.getTotal(), 
+						subtotal: reg.getPrice(), 
+						tax: reg.getTax(), 
+						paymentType: "CREDIT_CARD", 
+						completed: true,
+						transactionId: paymentResults["transactionId"]
+					)
 					payment.save()
 					reg.payment = payment
-					reg.paid = true
 					reg.save()
                 } else {
-					reg.delete()
                     flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
 					return error()
                 }
@@ -265,6 +286,43 @@ class RegistrationFlowController {
             on ("success").to "finish"
             on ("error").to "creditPay"
         }
+		
+		processPayPalPayment {
+			action {
+				Registration reg = flow.registration
+				String transactionId = UUID.randomUUID()
+				
+				String returnUrl = createLink(absolute: true, action: "completePayPal", params: [transaction: transactionId])
+				String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
+				
+				Map paymentResults = paymentService.payWithPayPal(reg, returnUrl, cancelUrl)
+
+				if (paymentResults["success"]) {
+					flow.receipt = paymentResults["receiptNumber"]
+					Payment payment = new Payment(
+						creditCardNumber: paymentResults["ccNumber"], 
+						paymentId: paymentResults["receiptNumber"], 
+						status: paymentResults["status"], 
+						total: reg.getTotal(), 
+						subtotal: reg.getPrice(), 
+						tax: reg.getTax(),
+						paymentType: "PAYPAL", 
+						completed: false,
+						transactionId: transactionId
+					)
+					payment.save()
+					reg.payment = payment
+					reg.save()
+					println "Redirecting to ${paymentResults['redirectUrl']}"
+					redirect(url: paymentResults['redirectUrl'])
+				} else {
+					flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
+					return error()
+				}
+			}
+			on ("success").to "end"
+			on ("error").to "paypalPay"
+		}
 		
 		payLater {
 			on ("ok").to "finish"
@@ -279,6 +337,89 @@ class RegistrationFlowController {
         finish {
 
         }
-
+		
+		end {
+			
+		}
     }
+	
+	def completePayPal() {
+		Payment payment = Payment.findByTransactionId(params.transaction)
+		
+		if (!payment) {
+			log.error("Unable to find a transaction with id ${params.transactionId}")
+			flash.message = "Unable to find a transaction with id ${params.transactionId}"
+			return [payment: payment]
+		} else {
+			log.info("Found payment!")
+		}
+		
+		Map paymentResults = paymentService.executePayPalPayment(payment, params.PayerID)
+		
+		println "RESULTS: ${paymentResults}"
+		
+		if (paymentResults["success"]) {
+			payment.completed = true
+			payment.status = paymentResults["status"]
+			payment.save()
+			return [payment: payment]
+		} else {
+			flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
+			return [payment: payment]
+		}
+	}
+	
+	/*
+	def completePayPalFlow = {
+		start {
+			action {
+				flow.transactionId = params.transaction
+				flow.payerId       = params.PayerID
+			}
+			on ("success").to "confirmPayPalPayment"
+		}
+		
+		confirmPayPalPayment {
+			on ("confirm").to "execute"
+			on ("cancel").to "cancel"
+		}
+		
+		execute {
+			action {
+				Payment payment = Payment.findByTransactionId(flow.transactionId)
+				flow.payment = payment
+				
+				if (!payment) {
+					flash.message = "Unable to find a transaction with id ${flow.transactionId}"
+					return error()
+				}
+				
+				Map paymentResults = paymentService.executePayPalPayment(payment, flow.payerId)
+				
+				println "RESULTS: ${paymentResults}"
+				
+				if (paymentResults["success"]) {
+					flow.receipt = paymentResults["receiptNumber"]
+					payment.completed = true
+					payment.status = paymentResults["status"]
+					payment.save()
+				} else {
+					flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
+					return error()
+				}
+			}
+			on ("success").to "finish"
+			on ("error").to "errorHandler"
+		}
+		
+		finish {
+		}
+		
+		errorHandler {
+		}
+		
+		cancel {
+		}
+	}
+	*/
 }

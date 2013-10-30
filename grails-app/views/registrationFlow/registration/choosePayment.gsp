@@ -13,7 +13,7 @@
             </div>
             <div class="centered">
                 <p>Pay with your PayPal account. (Note: you will be redirected to PayPal to login and confirm your purchase.)</p>
-                <g:link event="paypal"><button disabled=true>Pay Pal</button></g:link>
+                <g:link event="paypal"><button>Pay Pal</button></g:link>
             </div>
             <div class="centered">
                 <p>Pay later.  This will not reserve the current promotional price of ${String.format('$%.2f', registration.price)}, but it will make paying later easier, even onsite at the convention!</p>

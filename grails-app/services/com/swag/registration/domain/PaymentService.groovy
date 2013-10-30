@@ -2,14 +2,160 @@ package com.swag.registration.domain
 
 import com.swag.registration.security.User
 import com.trinary.paypal.*
+import com.trinary.paypal.rest.*
 import com.trinary.paypal.oauth.*
 import com.trinary.paypal.payment.*
 import com.trinary.paypal.payment.payer.*
-import com.trinary.paypal.rest.PaymentRequest;
-import com.trinary.paypal.rest.PaymentResponse;
 
 class PaymentService {
 	def grailsApplication
+	
+	public Map executePayPalPayment(Payment payment, String payerId) {
+		PaymentRequest paymentRequest = new PaymentRequest()
+		PaymentResponse paymentResponse = paymentRequest.execute(payment.paymentId, payerId)
+		
+		if (!paymentResponse) {
+			return [
+				success: false,
+				message: "Payment failed!",
+				ccNumber: "PAYPAL",
+				receiptNumber: "",
+				transactionId: "",
+				status: "",
+				redirectUrl: "",
+				error: [
+					errorType: paymentRequest.errors.name,
+					message: paymentRequest.errors.message,
+					details: paymentRequest.errors.details.collect{it.toString()}
+				]
+			]
+		} else {
+			return [
+				success: true,
+				message: "Payment successful!",
+				ccNumber: "PAYPAL",
+				receiptNumber: paymentResponse.id,
+				transactionId: "",
+				status: paymentResponse.state,
+				redirectUrl: "",
+				error: [
+					errorType: "",
+					message: "",
+					details: []
+				]
+			]
+		}
+	}
+	
+	public Map payWithPayPal(Payable payableObject, String returnUrl, String cancelUrl) {
+		String clientId = ConfigHolder.getConfig('payPal.clientId')
+		String secret   = ConfigHolder.getConfig('payPal.secret')
+		println "CLIENT_ID: ${clientId}"
+		println "SECRET:    ${secret}"
+		println "ALL: ${ConfigHolder.list()}"
+		
+		PayPalConfig.setClientId(clientId)
+		PayPalConfig.setSecret(secret)
+		if (grailsApplication.config.payPal.debug) {
+			println "DEBUG ENABLED"
+			PayPalConfig.enableSandbox()
+		}
+		
+		if (payableObject.isPaid()) {
+			return [
+				success: false,
+				message: "This item is already paid for!",
+				ccNumber: "PAYPAL",
+				receiptNumber: "",
+				transactionId: "",
+				status: "",
+				redirectUrl: "",
+				error: [
+					type: "",
+					details: []
+				]
+			]
+		}
+		
+		User user = payableObject.getPurchaser()
+		Double price = payableObject.getPrice()
+		Double taxRate = payableObject.getTaxRate()
+		com.trinary.paypal.payment.Currency currency = com.trinary.paypal.payment.Currency.valueOf(payableObject.getCurrency().getCurrencyCode())
+		Double tax = payableObject.getTax().round(2)
+		
+		// PayPal Payment
+		PaymentRequest paymentRequest = new PaymentRequest([
+			intent: Intent.SALE,
+			payer: new PayPalPayer(),
+			redirectUrls: new RedirectUrls([
+				returnUrl: returnUrl,
+				cancelUrl: cancelUrl
+			])
+		])
+		paymentRequest.addTransaction(new Transaction([
+			amount: new Amount([
+				currency: currency,
+				details: new Details([
+					subtotal: price,
+					tax: tax
+				])
+			]),
+			description: payableObject.getDescription()
+		]))
+
+		PaymentResponse paymentResponse = paymentRequest.pay()
+		
+		if (!paymentResponse) {
+			return [
+				success: false,
+				message: "An error occurred processing your order.",
+				ccNumber: "PAYPAL",
+				receiptNumber: "",
+				transactionId: "",
+				status: "",
+				redirectUrl: "",
+				error: [
+					errorType: paymentRequest.errors.name,
+					message: paymentRequest.errors.message,
+					details: paymentRequest.errors.details.collect{it.toString()}
+				]
+			]
+		}
+		
+		if (paymentResponse.state != "created") {
+			return [
+				success: false,
+				message: "Payment creation failed!",
+				ccNumber: "PAYPAL",
+				receiptNumber: "",
+				transactionId: "",
+				status: paymentResponse.state,
+				redirectUrl: "",
+				error: [
+					type: "",
+					message: "",
+					details: []
+				]
+			]
+		} else {
+			return [
+				success: true,
+				message: "Payment pending",
+				ccNumber: "PAYPAL",
+				receiptNumber: paymentResponse.id,
+				transactionId: "",
+				status: paymentResponse.state,
+				redirectUrl: paymentResponse.links.find {Link link->
+					link.rel == "approval_url"
+				}.href,
+				error: [
+					type: "",
+					message: "",
+					details: []
+				]
+			]
+		}
+	}
 
     public Map payWithCreditCard(Payable payableObject, String creditCardNumber, String cvv2, String expireMonth, String expireYear, String cardType) {
 		String clientId = ConfigHolder.getConfig('payPal.clientId')
@@ -20,7 +166,6 @@ class PaymentService {
 		
 		PayPalConfig.setClientId(clientId)
 		PayPalConfig.setSecret(secret)
-		//if (ConfigHolder.getConfig("paypal.debug") == "true") {
 		if (grailsApplication.config.payPal.debug) {
 			println "DEBUG ENABLED"
 			PayPalConfig.enableSandbox()
@@ -41,8 +186,10 @@ class PaymentService {
 				success: false, 
 				message: "This item is already paid for!", 
 				ccNumber: last4, 
-				receiptNumber: "", 
+				receiptNumber: "",
+				transactionId: "",
 				status: "",
+				redirectUrl: "",
 				error: [
 					type: "",
 					details: []
@@ -93,8 +240,10 @@ class PaymentService {
 				success: false, 
 				message: "An error occurred processing your order.", 
 				ccNumber: last4, 
-				receiptNumber: "", 
-				status: "", 
+				receiptNumber: "",
+				transactionId: "",
+				status: "",
+				redirectUrl: "",
 				error: [
 					errorType: paymentRequest.errors.name,
 					message: paymentRequest.errors.message,
@@ -108,8 +257,10 @@ class PaymentService {
 				success: false, 
 				message: "Payment declined", 
 				ccNumber: last4, 
-				receiptNumber: "", 
+				receiptNumber: "",
+				transactionId: "",
 				status: paymentResponse.state,
+				redirectUrl: "",
 				error: [
 					type: "",
 					message: "",
@@ -121,8 +272,10 @@ class PaymentService {
 				success: true, 
 				message: "Payment approved!", 
 				ccNumber: last4, 
-				receiptNumber: paymentResponse.id, 
+				receiptNumber: paymentResponse.id,
+				transactionId: "",
 				status: paymentResponse.state,
+				redirectUrl: "",
 				error: [
 					type: "",
 					message: "",

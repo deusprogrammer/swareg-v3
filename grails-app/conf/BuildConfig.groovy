@@ -25,7 +25,11 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
 		
-		flatDir name: 'myRepo', dirs: env['GRAILS_REPO']
+		//flatDir(name: 'myRepo', dirs: System.getenv('GRAILS_REPO'))
+		flatDir(
+			name: 'myRepo', 
+			dirs: "/home/mmain/flat_repo/"
+		)
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
@@ -47,7 +51,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:1.2.7.3"
         compile ":spring-security-acl:1.1.1"
 		compile ":jersey-request-builder:1.1.3"
-		compile ":grails-pay-pal-rest:0.2"
+		compile ":grails-pay-pal-rest:0.4"
 
         build ":tomcat:$grailsVersion"
 

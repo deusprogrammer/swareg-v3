@@ -1,13 +1,13 @@
 package com.swag.registration.domain
 
 import java.util.UUID
+
 import com.swag.registration.security.User
 
 class Registration implements Serializable, Payable, EventChildObject {
     String uuid
     String receiptNumber
     RegistrationLevel registrationLevel
-    Boolean paid = false
     Payment payment
 
     static belongsTo = [user: User, event: Event]
@@ -34,6 +34,16 @@ class Registration implements Serializable, Payable, EventChildObject {
     public Double getPrice() {
         return registrationLevel.getCurrentPrice()
     }
+	
+	@Override
+	public Double getTotal() {
+		return getPrice() + getTax()
+	}
+
+	@Override
+	public Double getTax() {
+		return getTaxRate() * getPrice()
+	}
 
     @Override
     public Double getTaxRate() {
@@ -62,6 +72,6 @@ class Registration implements Serializable, Payable, EventChildObject {
 
 	@Override
 	public Boolean isPaid() {
-		return paid;
+		return payment ? payment.completed : false
 	}
 }
