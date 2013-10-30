@@ -156,7 +156,7 @@ class RegistrationFlowController {
 		}
 
         createUser {
-            subflow(controller: "userFlow", action: "createUser", input: [sub: true])
+            subflow(controller: "userFlow", action: "createUser", input: [sub: true, isRegistration: true])
             on ("success").to "checkRegistration"
         }
 		
@@ -273,7 +273,8 @@ class RegistrationFlowController {
 						tax: reg.getTax(), 
 						paymentType: "CREDIT_CARD", 
 						completed: true,
-						transactionId: paymentResults["transactionId"]
+						transactionId: paymentResults["transactionId"],
+						registration: reg
 					)
 					payment.save()
 					reg.payment = payment
@@ -308,7 +309,8 @@ class RegistrationFlowController {
 						tax: reg.getTax(),
 						paymentType: "PAYPAL", 
 						completed: false,
-						transactionId: transactionId
+						transactionId: transactionId,
+						registration: reg
 					)
 					payment.save()
 					reg.payment = payment
@@ -361,65 +363,23 @@ class RegistrationFlowController {
 		if (paymentResults["success"]) {
 			payment.completed = true
 			payment.status = paymentResults["status"]
+			payment.transactionId = null
 			payment.save()
+			
+			// Update user with shipping info returned from PayPal
+			User user = User.get(payment.registration.user.id)
+			user.streetAddress1 = paymentResults["shipping"]["line1"]
+			user.streetAddress2 = paymentResults["shipping"]["line2"]
+			user.city = paymentResults["shipping"]["city"]
+			user.state = paymentResults["shipping"]["state"]
+			user.zipCode = paymentResults["shipping"]["zipCode"]
+			user.countryCode = paymentResults["shipping"]["countryCode"]
+			user.save()
+			
 			return [payment: payment]
 		} else {
 			flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
 			return [payment: payment]
 		}
 	}
-	
-	/*
-	def completePayPalFlow = {
-		start {
-			action {
-				flow.transactionId = params.transaction
-				flow.payerId       = params.PayerID
-			}
-			on ("success").to "confirmPayPalPayment"
-		}
-		
-		confirmPayPalPayment {
-			on ("confirm").to "execute"
-			on ("cancel").to "cancel"
-		}
-		
-		execute {
-			action {
-				Payment payment = Payment.findByTransactionId(flow.transactionId)
-				flow.payment = payment
-				
-				if (!payment) {
-					flash.message = "Unable to find a transaction with id ${flow.transactionId}"
-					return error()
-				}
-				
-				Map paymentResults = paymentService.executePayPalPayment(payment, flow.payerId)
-				
-				println "RESULTS: ${paymentResults}"
-				
-				if (paymentResults["success"]) {
-					flow.receipt = paymentResults["receiptNumber"]
-					payment.completed = true
-					payment.status = paymentResults["status"]
-					payment.save()
-				} else {
-					flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
-					return error()
-				}
-			}
-			on ("success").to "finish"
-			on ("error").to "errorHandler"
-		}
-		
-		finish {
-		}
-		
-		errorHandler {
-		}
-		
-		cancel {
-		}
-	}
-	*/
 }

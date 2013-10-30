@@ -23,6 +23,14 @@ class PaymentService {
 				transactionId: "",
 				status: "",
 				redirectUrl: "",
+				shipping: [
+					line1: "",
+					line2: "",
+					city: "",
+					state: "",
+					zipCode: "",
+					countryCode: ""
+				],
 				error: [
 					errorType: paymentRequest.errors.name,
 					message: paymentRequest.errors.message,
@@ -38,6 +46,14 @@ class PaymentService {
 				transactionId: "",
 				status: paymentResponse.state,
 				redirectUrl: "",
+				shipping: [
+					line1: paymentResponse.payer.payerInfo?.shippingAddress?.line1,
+					line2: paymentResponse.payer.payerInfo?.shippingAddress?.line2,
+					city: paymentResponse.payer.payerInfo?.shippingAddress?.city,
+					state: paymentResponse.payer.payerInfo?.shippingAddress?.state,
+					zipCode: paymentResponse.payer.payerInfo?.shippingAddress?.postalCode,
+					countryCode: paymentResponse.payer.payerInfo?.shippingAddress?.countryCode
+				],
 				error: [
 					errorType: "",
 					message: "",

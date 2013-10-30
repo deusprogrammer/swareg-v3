@@ -12,6 +12,8 @@ class Payment implements Serializable {
 	String  debugId          = ""
 	
 	String transactionId     = ""
+	
+	static belongsTo = [registration: Registration]
 
     static constraints = {
         creditCardNumber nullable: true

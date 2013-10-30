@@ -96,6 +96,7 @@ class UserFlowController {
     def createUserFlow = {
         input {
             sub(false)
+			isRegistration(false)
         }
 
         start {
@@ -123,12 +124,15 @@ class UserFlowController {
 				flow.userData["username"] = params.emailAddress
 				flow.userData["password"] = params.password1
 				flow.userData["emailAddress"] = params.emailAddress
-				flow.userData["age"] = params.age
-				flow.userData["gender"] = params.gender
 				flow.userData["firstName"] = params.firstName
 				flow.userData["lastName"] = params.lastName
+				
+				if (flow.isRegistration) {
+					skipAddress()
+				}
 			}
 			on ("success").to "enterShipping"
+			on ("skipAddress").to "confirm"
 			on ("error").to "enterUserData"
 		}
 

@@ -48,7 +48,7 @@
 				</li>
 				</g:if>
                           
-                                <g:if test="${registrationInstance?.uuid}">
+	            <g:if test="${registrationInstance?.uuid}">
 				<li class="fieldcontain">
 					<span id="uuid-label" class="property-label"><g:message code="registration.uuid.label" default="Uuid" /></span>
 					
@@ -56,6 +56,15 @@
 					
 				</li>
 				</g:if>
+				
+                <g:if test="${registrationInstance?.payment}">
+                <li class="fieldcontain">
+                    <span id="payment-label" class="property-label"><g:message code="registration.payment.label" default="Payment" /></span>
+                    
+                        <span class="property-value" aria-labelledby="payment-label"><g:link controller="payment" action="show" id="${registrationInstance?.payment?.id}">Payment</g:link></span>
+                    
+                </li>
+                </g:if>
 			
 			</ol>
 			<g:form>

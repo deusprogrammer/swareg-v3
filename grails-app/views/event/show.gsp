@@ -96,14 +96,6 @@
 				</li>
 				</g:if>
 			</ol>
-			<g:form>
-				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${eventInstance?.id}" />
-					<g:link controller="registration" action="listByEvent" id="${eventInstance.id}">List Registrations</g:link>
-					<g:link controller="registrationLevel" action="create" params="${[eventId: eventInstance?.id]}">Add Registration Level</g:link>
-					<g:link action="edit" id="${eventInstance?.id}">Edit</g:link>
-				</fieldset>
-			</g:form>
-                </div>
+        </div>
 	</body>
 </html>

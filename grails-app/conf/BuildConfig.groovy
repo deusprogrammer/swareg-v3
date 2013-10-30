@@ -51,7 +51,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:1.2.7.3"
         compile ":spring-security-acl:1.1.1"
 		compile ":jersey-request-builder:1.1.3"
-		compile ":grails-pay-pal-rest:0.4"
+		compile ":grails-pay-pal-rest:0.5"
 
         build ":tomcat:$grailsVersion"
 

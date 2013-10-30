@@ -80,12 +80,9 @@
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
-                                        <g:hiddenField name="id" value="${registrationLevelInstance?.id}" />
-                                        <g:hiddenField name="eventId" value="${registrationLevelInstance?.event.id}" />
-					<g:link class="edit" action="edit" id="${registrationLevelInstance?.id}" params="${[levelId: registrationLevelInstance?.id, eventId: registrationLevelInstance?.event.id]}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-                                        <g:link controller="preRegistrationOffer" action="create" params="${[levelId: registrationLevelInstance?.id, eventId: registrationLevelInstance?.event.id]}">Add Pre-Registration Offer</g:link>
-                                        <g:link controller="benefit" action="addBenefit" params="${[eventId: registrationLevelInstance?.event.id,levelId: registrationLevelInstance?.id]}">Add Benefit</g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                    <g:hiddenField name="id" value="${registrationLevelInstance?.id}" />
+                    <g:hiddenField name="eventId" value="${registrationLevelInstance?.event.id}" />
+                    <g:link controller="preRegistrationOffer" action="create" params="${[levelId: registrationLevelInstance?.id, eventId: registrationLevelInstance?.event.id]}">Add Pre-Registration Offer</g:link>
 				</fieldset>
 			</g:form>
 		</div>

@@ -23,6 +23,7 @@ class User implements Serializable {
     String city
     String state
     String zipCode
+	String countryCode
     String emailAddress
 
     // Personal information
@@ -51,6 +52,7 @@ class User implements Serializable {
         city nullable: true
         state nullable: true
         zipCode nullable: true
+		countryCode nullable: true
         gender nullable: true
         age nullable: true
         emailAddress email: true, unique: true

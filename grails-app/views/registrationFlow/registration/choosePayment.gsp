@@ -8,10 +8,6 @@
         <h3>Please Choose a Payment Method</h3>
         <div class="pretext">
             <div class="centered">
-                <p>Pay with a Visa, Mastercard, or American Express.</p>
-                <g:link event="credit"><button>Credit Card</button></g:link>
-            </div>
-            <div class="centered">
                 <p>Pay with your PayPal account. (Note: you will be redirected to PayPal to login and confirm your purchase.)</p>
                 <g:link event="paypal"><button>Pay Pal</button></g:link>
             </div>
