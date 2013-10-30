@@ -25,7 +25,7 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
 		
-		flatDir name:'myRepo', dirs:'/home/mmain/flat_repo/'
+		flatDir name: 'myRepo', dirs: env['GRAILS_REPO']
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"

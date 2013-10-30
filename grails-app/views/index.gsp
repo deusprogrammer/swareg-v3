@@ -1,3 +1,4 @@
+<%@ page import="com.swag.registration.domain.Event" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -83,9 +84,24 @@
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div id="page-body" role="main">
-			<h1>Welcome to SWAreG version 0.1a</h1>
-			<p>SWAreG is a Registration Service designed as a SaaS.  With it many conventions can create events and easily accept registrations and payments 
-                          through our site.  Our site also doubles as the tool Ops would use to register users on site and verify registration.</p>
+			<h1>SWAreG Registration System</h1>
+            <sec:ifNotLoggedIn>
+                <div id="dashboard">
+		            <g:form controller="user" action="processLogin">
+		                <table>
+		                <tr><td>Email Address</td><td><g:textField name="emailAddress" /></td></tr>
+		                <tr><td>Password</td><td><g:passwordField name="password" /></td></tr>
+		                </table>
+		                <g:submitButton name="login" value="Login" />
+		            </g:form>
+		        </div>
+            </sec:ifNotLoggedIn>
+            <sec:ifLoggedIn>
+                <div id="dashboard">
+                    <h3>Dashboard</h3>
+                    <g:displayEvents />
+                </div>
+            </sec:ifLoggedIn>
 		</div>
 	</body>
 </html>
