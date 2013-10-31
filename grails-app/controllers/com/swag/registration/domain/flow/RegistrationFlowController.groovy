@@ -1,11 +1,8 @@
 package com.swag.registration.domain.flow
 
 import com.sun.org.apache.xerces.internal.impl.xs.traversers.OneAttr
-import com.swag.registration.domain.Event
-import com.swag.registration.domain.OrderService
-import com.swag.registration.domain.Registration
-import com.swag.registration.domain.RegistrationLevel
-import com.swag.registration.domain.order.Order;
+import com.swag.registration.domain.*
+import com.swag.registration.domain.order.*
 import com.swag.registration.security.User
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -152,170 +149,65 @@ class RegistrationFlowController {
 			}
 			
 			on ("error").to "login"
-			on ("success").to "checkRegistration"
+			on ("success").to "createOrder"
 		}
 
         createUser {
             subflow(controller: "userFlow", action: "createUser", input: [sub: true, isRegistration: true])
-            on ("success").to "checkRegistration"
+            on ("success").to "createOrder"
         }
-		
-		checkRegistration {
-			action {
-				User user = conversation.user
-				Event event = flow.event
-				
-				Registration found = user.registrations.find { Registration registration ->
-					registration.event == event
-				}
-				
-				if (found) {
-					flow.registration = found
-				}
-				
-				if (found && !found.paid) {
-					return alreadyRegistered()
-				} else if (found && found.paid) {
-					return alreadyPaid()
-				} else {
-					return success()
-				}
-			}
-			on ("alreadyRegistered").to "resume"
-			on ("alreadyPaid").to "alreadyPaid"
-			on ("success").to "register"
-		}
 
-        register {
+        createOrder {
             on ("continue") {
-                if (!params.regLevelId) {
-                    flash.message = "You must choose a registration level!"
-                }
-
-                flow.regLevelId = params.regLevelId
-                flow.regLevel = RegistrationLevel.get(flow.regLevelId)
-            }.to "processRegistration"
+                println "PARAMS: ${params}"
+				
+				// Get number in textfield and create an order object
+				PayPalOrder order = new PayPalOrder([event: flow.event])
+				params.levels.each { key, value ->
+					if (key.isNumber()) {
+						println "${key} => ${value.quantity}"
+						order.addToBadges(new RegistrationOrderItem([
+							registrationLevel: RegistrationLevel.get(key.toLong()),
+							quantity: value.quantity
+						]))
+					}
+				}
+				
+				flow.order = order
+            }.to "paypalPay"
         }
 		
-		processRegistration {
+		processOrder {
 			action {
-				Registration reg = new Registration(
-					registrationLevel: flow.regLevel, 
-					user: conversation.user, 
-					event: flow.event
-				)
-				if (!reg.save()) {
-					reg.errors.each {
-						println it
-					}
-					flash.message = "Registration failed!"
-					flash.errors = reg.errors
+				if (!flow.order.validate()) {
+					flash.message = "Unable to validate order!"
 					return error()
 				}
-				
-				flow.registration = reg
 			}
-			on("success").to "choosePayment"
-			on("error").to "register"
+			on("success").to "paypalPay"
+			on("error").to "createOrder"
 		}
-		
-		resume {
-			on ("resume").to "choosePayment"
-			on ("startOver"){
-				flow.registration.delete()
-			}.to "register"
-		}
-		
-		choosePayment {
-			on ("paypal").to "paypalPay"
-			on ("credit").to "creditPay"
-			on ("payLater").to "payLater"
-		}
-
-        creditPay {
-            on ("continue") {
-                flow.ccData["creditCardNumber"] = params.creditCardNumber
-                flow.ccData["cvv2"] = params.cvv2
-                flow.ccData["expireMonth"] = params.expireMonth
-                flow.ccData["expireYear"] = params.expireYear
-                flow.ccData["type"] = params.type
-            }.to "confirmCreditCardPayment"
-        }
-		
+				
 		paypalPay {
 			on ("continue").to "processPayPalPayment"
 		}
-
-        confirmCreditCardPayment {
-            on ("confirm").to "processCreditCardPayment"
-        }
-
-        processCreditCardPayment {
-			action {
-				Registration reg = flow.registration
-				Map paymentResults = orderService.payWithCreditCard(
-					reg, 
-					flow.ccData["creditCardNumber"], 
-					flow.ccData["cvv2"], 
-					flow.ccData["expireMonth"], 
-					flow.ccData["expireYear"], 
-					flow.ccData["type"]
-				)
-
-				if (paymentResults["success"]) {
-					flow.receipt = paymentResults["receiptNumber"]
-					Order payment = new Order(
-						creditCardNumber: paymentResults["ccNumber"], 
-						paymentId: paymentResults["receiptNumber"], 
-						status: paymentResults["status"], 
-						total: reg.getTotal(), 
-						subtotal: reg.getPrice(), 
-						tax: reg.getTax(), 
-						paymentType: "CREDIT_CARD", 
-						completed: true,
-						transactionId: paymentResults["transactionId"],
-						registration: reg
-					)
-					payment.save()
-					reg.payment = payment
-					reg.save()
-                } else {
-                    flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
-					return error()
-                }
-            }
-            on ("success").to "finish"
-            on ("error").to "creditPay"
-        }
 		
 		processPayPalPayment {
 			action {
-				Registration reg = flow.registration
+				PayPalOrder order = flow.order
 				Event event = flow.event
-				String transactionId = UUID.randomUUID()
+				String transactionId = order.transactionId
+				User user = conversation.user
 				
 				String returnUrl = createLink(absolute: true, action: "completePayPal", params: [transaction: transactionId])
 				String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
 				
-				Map paymentResults = orderService.payWithPayPal([reg], event.taxRate, event.currency, returnUrl, cancelUrl)
+				Map paymentResults = orderService.payWithPayPal(order, returnUrl, cancelUrl)
 
 				if (paymentResults["success"]) {
-					flow.receipt = paymentResults["receiptNumber"]
-					Order payment = new Order(
-						creditCardNumber: paymentResults["ccNumber"], 
-						paymentId: paymentResults["receiptNumber"], 
-						status: paymentResults["status"], 
-						total: reg.getTotal(), 
-						subtotal: reg.getPrice(), 
-						tax: reg.getTax(),
-						paymentType: "PAYPAL", 
-						completed: false,
-						transactionId: transactionId,
-						registration: reg
-					)
-					payment.save()
-					reg.payment = payment
-					reg.save()
+					order.user = user
+					order.save()
+
 					println "Redirecting to ${paymentResults['redirectUrl']}"
 					redirect(url: paymentResults['redirectUrl'])
 				} else {
@@ -325,16 +217,6 @@ class RegistrationFlowController {
 			}
 			on ("success").to "end"
 			on ("error").to "paypalPay"
-		}
-		
-		payLater {
-			on ("ok").to "finish"
-			on ("wait").to "choosePayment"
-		}
-		
-		alreadyPaid {
-			on ("yes").to "register"
-			on ("no").to "finish"
 		}
 
         finish {
@@ -347,7 +229,7 @@ class RegistrationFlowController {
     }
 	
 	def completePayPal() {
-		Order payment = Order.findByTransactionId(params.transaction)
+		PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
 		
 		if (!payment) {
 			log.error("Unable to find a transaction with id ${params.transactionId}")
@@ -357,18 +239,19 @@ class RegistrationFlowController {
 			log.info("Found payment!")
 		}
 		
-		Map paymentResults = orderService.executePayPalPayment(payment, params.PayerID)
+		Map paymentResults = orderService.executePayPalPayment(order, params.PayerID)
 		
 		println "RESULTS: ${paymentResults}"
 		
 		if (paymentResults["success"]) {
-			payment.completed = true
-			payment.status = paymentResults["status"]
-			payment.transactionId = null
-			payment.save()
+			order.paymentCompleted = true
+			order.paymentStatus = paymentResults["status"]
+			order.transactionId = null
+			order.generateRegistrations()
+			order.save()
 			
 			// Update user with shipping info returned from PayPal
-			User user = User.get(payment.registration.user.id)
+			User user = order.user
 			user.streetAddress1 = paymentResults["shipping"]["line1"]
 			user.streetAddress2 = paymentResults["shipping"]["line2"]
 			user.city = paymentResults["shipping"]["city"]
@@ -377,10 +260,10 @@ class RegistrationFlowController {
 			user.countryCode = paymentResults["shipping"]["countryCode"]
 			user.save()
 			
-			return [payment: payment]
+			return [order: order]
 		} else {
 			flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
-			return [payment: payment]
+			return [order: order]
 		}
 	}
 	

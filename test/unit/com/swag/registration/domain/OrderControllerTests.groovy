@@ -4,12 +4,12 @@ package com.swag.registration.domain
 
 import org.junit.*
 
-import com.swag.registration.domain.order.Order;
+import com.swag.registration.domain.order.PayPalOrder;
 
 import grails.test.mixin.*
 
 @TestFor(OrderController)
-@Mock(Order)
+@Mock(PayPalOrder)
 class OrderControllerTests {
 
     def populateValidParams(params) {
@@ -50,7 +50,7 @@ class OrderControllerTests {
 
         assert response.redirectedUrl == '/payment/show/1'
         assert controller.flash.message != null
-        assert Order.count() == 1
+        assert PayPalOrder.count() == 1
     }
 
     void testShow() {
@@ -60,7 +60,7 @@ class OrderControllerTests {
         assert response.redirectedUrl == '/payment/list'
 
         populateValidParams(params)
-        def payment = new Order(params)
+        def payment = new PayPalOrder(params)
 
         assert payment.save() != null
 
@@ -78,7 +78,7 @@ class OrderControllerTests {
         assert response.redirectedUrl == '/payment/list'
 
         populateValidParams(params)
-        def payment = new Order(params)
+        def payment = new PayPalOrder(params)
 
         assert payment.save() != null
 
@@ -98,7 +98,7 @@ class OrderControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def payment = new Order(params)
+        def payment = new PayPalOrder(params)
 
         assert payment.save() != null
 
@@ -142,17 +142,17 @@ class OrderControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def payment = new Order(params)
+        def payment = new PayPalOrder(params)
 
         assert payment.save() != null
-        assert Order.count() == 1
+        assert PayPalOrder.count() == 1
 
         params.id = payment.id
 
         controller.delete()
 
-        assert Order.count() == 0
-        assert Order.get(payment.id) == null
+        assert PayPalOrder.count() == 0
+        assert PayPalOrder.get(payment.id) == null
         assert response.redirectedUrl == '/payment/list'
     }
 }

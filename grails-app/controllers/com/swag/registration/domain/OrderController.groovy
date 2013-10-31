@@ -2,7 +2,7 @@ package com.swag.registration.domain
 
 import org.springframework.dao.DataIntegrityViolationException
 
-import com.swag.registration.domain.order.Order;
+import com.swag.registration.domain.order.PayPalOrder;
 
 class OrderController {
 
@@ -14,15 +14,15 @@ class OrderController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [paymentInstanceList: Order.list(params), paymentInstanceTotal: Order.count()]
+        [paymentInstanceList: PayPalOrder.list(params), paymentInstanceTotal: PayPalOrder.count()]
     }
 
     def create() {
-        [paymentInstance: new Order(params)]
+        [paymentInstance: new PayPalOrder(params)]
     }
 
     def save() {
-        def paymentInstance = new Order(params)
+        def paymentInstance = new PayPalOrder(params)
         if (!paymentInstance.save(flush: true)) {
             render(view: "create", model: [paymentInstance: paymentInstance])
             return
@@ -33,7 +33,7 @@ class OrderController {
     }
 
     def show(Long id) {
-        def paymentInstance = Order.get(id)
+        def paymentInstance = PayPalOrder.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")
@@ -44,7 +44,7 @@ class OrderController {
     }
 
     def edit(Long id) {
-        def paymentInstance = Order.get(id)
+        def paymentInstance = PayPalOrder.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")
@@ -55,7 +55,7 @@ class OrderController {
     }
 
     def update(Long id, Long version) {
-        def paymentInstance = Order.get(id)
+        def paymentInstance = PayPalOrder.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")
@@ -84,7 +84,7 @@ class OrderController {
     }
 
     def delete(Long id) {
-        def paymentInstance = Order.get(id)
+        def paymentInstance = PayPalOrder.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")

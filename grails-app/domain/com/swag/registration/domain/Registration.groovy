@@ -2,14 +2,12 @@ package com.swag.registration.domain
 
 import java.util.UUID
 
-import com.swag.registration.domain.order.Order;
+import com.swag.registration.domain.order.PayPalOrder;
 import com.swag.registration.security.User
 
-class Registration implements Serializable, Payable, EventChildObject {
-    String uuid
-    String receiptNumber
+class Registration implements Serializable, EventChildObject {
     RegistrationLevel registrationLevel
-    Order payment
+    PayPalOrder order
 
     static belongsTo = [user: User, event: Event]
 
@@ -17,48 +15,10 @@ class Registration implements Serializable, Payable, EventChildObject {
         return "${event.name}[${registrationLevel.name}]- ${user.username}"
     }
 
-    transient beforeInsert() {
-        uuid = UUID.randomUUID().toString()
-        if (!receiptNumber) {
-            receiptNumber = uuid
-        }
-    }
-
     static constraints = {
         registrationLevel nullable: true
-        receiptNumber nullable: true
-        uuid nullable: true
-        payment nullable: true
-    }
-
-    @Override
-    public Double getPrice() {
-        return registrationLevel.getCurrentPrice()
-    }
-	
-	@Override
-	public Double getTotal() {
-		return getPrice() + getTax()
-	}
-
-	@Override
-	public Double getTax() {
-		return getTaxRate() * getPrice()
-	}
-
-    @Override
-    public Double getTaxRate() {
-        return event.taxRate
-    }
-
-    @Override
-    public User getPurchaser() {
-        return user
-    }
-
-    @Override
-    public Currency getCurrency() {
-        return event.currency
+        order nullable: true
+		user nullable: true
     }
 
     @Override
@@ -73,6 +33,6 @@ class Registration implements Serializable, Payable, EventChildObject {
 
 	@Override
 	public Boolean isPaid() {
-		return payment ? payment.completed : false
+		return order ? order.completed : false
 	}
 }

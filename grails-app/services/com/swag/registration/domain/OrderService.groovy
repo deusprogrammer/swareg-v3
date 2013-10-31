@@ -1,6 +1,6 @@
 package com.swag.registration.domain
 
-import com.swag.registration.domain.order.Order;
+import com.swag.registration.domain.order.*
 import com.swag.registration.security.User
 import com.trinary.paypal.*
 import com.trinary.paypal.rest.*
@@ -8,10 +8,12 @@ import com.trinary.paypal.oauth.*
 import com.trinary.paypal.payment.*
 import com.trinary.paypal.payment.payer.*
 
+import com.trinary.paypal.payment.Currency as PayPalCurrency
+
 class OrderService {
 	def grailsApplication
 	
-	public Map executePayPalPayment(Order payment, String payerId) {
+	public Map executePayPalPayment(PayPalOrder payment, String payerId) {
 		PaymentRequest paymentRequest = new PaymentRequest()
 		PaymentResponse paymentResponse = paymentRequest.execute(payment.paymentId, payerId)
 		
@@ -64,7 +66,7 @@ class OrderService {
 		}
 	}
 	
-	public Map payWithPayPal(ArrayList<Payable> payableObjects, Double taxRate, Currency currency, String returnUrl, String cancelUrl) {
+	public Map payWithPayPal(PayPalOrder order, String returnUrl, String cancelUrl) {
 		String clientId = ConfigHolder.getConfig('payPal.clientId')
 		String secret   = ConfigHolder.getConfig('payPal.secret')
 		println "CLIENT_ID: ${clientId}"
@@ -78,7 +80,7 @@ class OrderService {
 			PayPalConfig.enableSandbox()
 		}
 		
-		com.trinary.paypal.payment.Currency saleCurrency = com.trinary.paypal.payment.Currency.valueOf(currency.getCurrencyCode())
+		PayPalCurrency currency = PayPalCurrency.valueOf(order.currency.currencyCode)
 		
 		// PayPal Payment
 		PaymentRequest paymentRequest = new PaymentRequest([
@@ -92,46 +94,31 @@ class OrderService {
 		
 		Transaction transaction = new Transaction([
 			amount: new Amount([
-				currency: saleCurrency,
+				currency: currency,
 				details: new Details()
 			]),
 			itemList: new ItemList()
 		])
 		
-		payableObjects.each { Payable payableObject ->
-			if (payableObject.isPaid()) {
-				return [
-					success: false,
-					message: "This item is already paid for!",
-					ccNumber: "PAYPAL",
-					receiptNumber: "",
-					transactionId: "",
-					status: "",
-					redirectUrl: "",
-					error: [
-						type: "",
-						details: []
-					]
-				]
-			}
-			
-			Double price = payableObject.getPrice()
-			String description = payableObject.getDescription()
+		order.badges.each { RegistrationOrderItem badge ->
+			Double price = badge.price
+			Integer quantity = badge.quantity
+			String description = badge.description
 			
 			transaction.addItem(new Item([
 				name: description,
 				price: price,
-				currency: saleCurrency,
-				quantity: 1
+				currency: currency,
+				quantity: quantity
 			]))
 		}
 		
 		println "AMOUNT   ${transaction.amount}"
 		println "DETAILS  ${transaction.amount.details}"
 		println "SUBTOTAL ${transaction.amount.details.subtotal}"
-		println "TAXRATE  ${taxRate}"
-		println "CURRENCY ${saleCurrency.toString()}"
-		transaction.amount.details.setTax(taxRate * transaction.amount.details.subtotal)
+		println "TAXRATE  ${order.taxRate}"
+		println "CURRENCY ${currency}"
+		transaction.amount.details.setTax(order.taxRate * transaction.amount.details.subtotal)
 		
 		paymentRequest.addTransaction(transaction)
 

@@ -1,5 +1,8 @@
 package com.swag.registration.domain
 
+import com.swag.registration.security.*
+import com.swag.registration.domain.order.*
+
 class RegistrationLevel implements Serializable, EventChildObject {
     String name
     String description
@@ -12,10 +15,32 @@ class RegistrationLevel implements Serializable, EventChildObject {
     static belongsTo = [event: Event]
 
     String toString() {
-        return "${name}: ${description} (${asMoney(currentPrice)})"
+        return "${name}: ${description} (${String.format("\$%.2f",currentPrice)})"
     }
+	
+	public Registration generateRegistration(User user, PayPalOrder order) {
+		Registration reg = new Registration([
+			registrationLevel: this,
+			event: event,
+			order: order,
+			user: user
+		])
+		
+		reg.save()
+		user.addToRegistrations(reg)
+		return reg
+	}
+	
+	public Registration generateRegistration(Map map) {
+		return generateRegistration(map["user"], map["order"])
+	}
+	
+	@Override
+	public String getDescription() {
+		return "${name} registration for ${event.name}";
+	}
 
-    def getCurrentPrice() {
+    public Double getCurrentPrice() {
         def now = new Date()
         def price
         PreRegistrationOffer offer = this.preRegOffers?.find{ PreRegistrationOffer offer -> offer.startDate <= now && offer.endDate >= now}
@@ -28,22 +53,6 @@ class RegistrationLevel implements Serializable, EventChildObject {
         }
 
         return price
-    }
-
-    private static String asMoney(def value) {
-        String svalue = value.toString()
-        String[] number = svalue.split("\\.")
-        String fraction = "00"
-        String whole = svalue
-
-        if (number.length > 1) {
-            if (number[1].length() < 2) {
-                whole = number[0]
-                fraction = number[1] + "0"
-            }
-        }
-
-        return "\$" + whole + "." + fraction
     }
 
     static constraints = {
