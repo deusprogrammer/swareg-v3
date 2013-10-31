@@ -92,10 +92,9 @@ class PaymentService {
 		Transaction transaction = new Transaction([
 			amount: new Amount([
 				currency: saleCurrency,
-				details: new Details([
-					tax: tax
-				])
-			])
+				details: new Details()
+			]),
+			itemList: new ItemList()
 		])
 		
 		payableObjects.each { Payable payableObject ->
@@ -116,7 +115,6 @@ class PaymentService {
 			}
 			
 			Double price = payableObject.getPrice()
-			Double tax = payableObject.getTax().round(2)
 			String description = payableObject.getDescription()
 			
 			transaction.addItem(new Item([
@@ -124,6 +122,8 @@ class PaymentService {
 				price: price
 			]))
 		}
+		
+		transaction.amount.details.setTax(taxRate * transaction.amount.subtotal)
 		
 		paymentRequest.addTransaction(transaction)
 

@@ -291,12 +291,13 @@ class RegistrationFlowController {
 		processPayPalPayment {
 			action {
 				Registration reg = flow.registration
+				Event event = flow.event
 				String transactionId = UUID.randomUUID()
 				
 				String returnUrl = createLink(absolute: true, action: "completePayPal", params: [transaction: transactionId])
 				String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
 				
-				Map paymentResults = paymentService.payWithPayPal(reg, returnUrl, cancelUrl)
+				Map paymentResults = paymentService.payWithPayPal([reg], event.taxRate, event.currency, returnUrl, cancelUrl)
 
 				if (paymentResults["success"]) {
 					flow.receipt = paymentResults["receiptNumber"]
