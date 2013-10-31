@@ -1,5 +1,6 @@
 package com.swag.registration.domain
 
+import com.swag.registration.domain.order.Order;
 import com.swag.registration.security.User
 import com.trinary.paypal.*
 import com.trinary.paypal.rest.*
@@ -7,10 +8,10 @@ import com.trinary.paypal.oauth.*
 import com.trinary.paypal.payment.*
 import com.trinary.paypal.payment.payer.*
 
-class PaymentService {
+class OrderService {
 	def grailsApplication
 	
-	public Map executePayPalPayment(Payment payment, String payerId) {
+	public Map executePayPalPayment(Order payment, String payerId) {
 		PaymentRequest paymentRequest = new PaymentRequest()
 		PaymentResponse paymentResponse = paymentRequest.execute(payment.paymentId, payerId)
 		

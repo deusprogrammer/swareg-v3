@@ -1,12 +1,10 @@
-package com.swag.registration.domain
+package com.swag.registration.domain.order
 
-class Payment implements Serializable {
+import com.swag.registration.domain.Currency;
+import com.swag.registration.domain.Registration;
+
+class Order implements Serializable {
     String  creditCardNumber = ""
-	
-	Double  total            = 0.00
-	Double  subtotal         = 0.00
-	Double  tax              = 0.00
-	Currency currency        = Currency.USD	
 	
 	String  paymentType      = ""
     String  paymentId        = ""
@@ -17,13 +15,26 @@ class Payment implements Serializable {
 	String transactionId     = ""
 	
 	static belongsTo = [registration: Registration]
-	static hasMany = [items: PaymentItem]
+	static hasMany = [items: RegistrationOrderItem]
+	
+	public Double getTotal() {
+		return 0.00
+	}
+	
+	public Double getSubtotal() {
+		return 0.00
+	}
+	
+	public Double getTax() {
+		return 0.00
+	}
+	
+	public Double getFees() {
+		return 0.00
+	}
 
     static constraints = {
         creditCardNumber nullable: true
-		total nullable: true
-		subtotal nullable: true
-		tax nullable: true
 		paymentType nullable: true
         paymentId nullable: true
         status nullable: true

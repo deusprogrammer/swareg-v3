@@ -1,4 +1,4 @@
-package com.swag.registration.domain
+package com.swag.registration.domain.order
 
 
 
@@ -8,8 +8,8 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(PaymentItem)
-class PaymentItemTests {
+@TestFor(AddonOrderItem)
+class AddonOrderItemTests {
 
     void testSomething() {
        fail "Implement me"

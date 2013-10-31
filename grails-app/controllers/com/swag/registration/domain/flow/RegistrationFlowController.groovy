@@ -2,10 +2,10 @@ package com.swag.registration.domain.flow
 
 import com.sun.org.apache.xerces.internal.impl.xs.traversers.OneAttr
 import com.swag.registration.domain.Event
-import com.swag.registration.domain.Payment
-import com.swag.registration.domain.PaymentService
+import com.swag.registration.domain.OrderService
 import com.swag.registration.domain.Registration
 import com.swag.registration.domain.RegistrationLevel
+import com.swag.registration.domain.order.Order;
 import com.swag.registration.security.User
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -15,7 +15,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 
 class RegistrationFlowController {
-    PaymentService paymentService
+    OrderService orderService
     SpringSecurityService springSecurityService
 
 	def manualRegistrationFlow = {
@@ -253,7 +253,7 @@ class RegistrationFlowController {
         processCreditCardPayment {
 			action {
 				Registration reg = flow.registration
-				Map paymentResults = paymentService.payWithCreditCard(
+				Map paymentResults = orderService.payWithCreditCard(
 					reg, 
 					flow.ccData["creditCardNumber"], 
 					flow.ccData["cvv2"], 
@@ -264,7 +264,7 @@ class RegistrationFlowController {
 
 				if (paymentResults["success"]) {
 					flow.receipt = paymentResults["receiptNumber"]
-					Payment payment = new Payment(
+					Order payment = new Order(
 						creditCardNumber: paymentResults["ccNumber"], 
 						paymentId: paymentResults["receiptNumber"], 
 						status: paymentResults["status"], 
@@ -297,11 +297,11 @@ class RegistrationFlowController {
 				String returnUrl = createLink(absolute: true, action: "completePayPal", params: [transaction: transactionId])
 				String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
 				
-				Map paymentResults = paymentService.payWithPayPal([reg], event.taxRate, event.currency, returnUrl, cancelUrl)
+				Map paymentResults = orderService.payWithPayPal([reg], event.taxRate, event.currency, returnUrl, cancelUrl)
 
 				if (paymentResults["success"]) {
 					flow.receipt = paymentResults["receiptNumber"]
-					Payment payment = new Payment(
+					Order payment = new Order(
 						creditCardNumber: paymentResults["ccNumber"], 
 						paymentId: paymentResults["receiptNumber"], 
 						status: paymentResults["status"], 
@@ -347,7 +347,7 @@ class RegistrationFlowController {
     }
 	
 	def completePayPal() {
-		Payment payment = Payment.findByTransactionId(params.transaction)
+		Order payment = Order.findByTransactionId(params.transaction)
 		
 		if (!payment) {
 			log.error("Unable to find a transaction with id ${params.transactionId}")
@@ -357,7 +357,7 @@ class RegistrationFlowController {
 			log.info("Found payment!")
 		}
 		
-		Map paymentResults = paymentService.executePayPalPayment(payment, params.PayerID)
+		Map paymentResults = orderService.executePayPalPayment(payment, params.PayerID)
 		
 		println "RESULTS: ${paymentResults}"
 		

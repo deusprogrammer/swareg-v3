@@ -2,13 +2,14 @@ package com.swag.registration.domain
 
 import java.util.UUID
 
+import com.swag.registration.domain.order.Order;
 import com.swag.registration.security.User
 
 class Registration implements Serializable, Payable, EventChildObject {
     String uuid
     String receiptNumber
     RegistrationLevel registrationLevel
-    Payment payment
+    Order payment
 
     static belongsTo = [user: User, event: Event]
 

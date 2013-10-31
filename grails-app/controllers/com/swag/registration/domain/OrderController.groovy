@@ -2,7 +2,9 @@ package com.swag.registration.domain
 
 import org.springframework.dao.DataIntegrityViolationException
 
-class PaymentController {
+import com.swag.registration.domain.order.Order;
+
+class OrderController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -12,15 +14,15 @@ class PaymentController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [paymentInstanceList: Payment.list(params), paymentInstanceTotal: Payment.count()]
+        [paymentInstanceList: Order.list(params), paymentInstanceTotal: Order.count()]
     }
 
     def create() {
-        [paymentInstance: new Payment(params)]
+        [paymentInstance: new Order(params)]
     }
 
     def save() {
-        def paymentInstance = new Payment(params)
+        def paymentInstance = new Order(params)
         if (!paymentInstance.save(flush: true)) {
             render(view: "create", model: [paymentInstance: paymentInstance])
             return
@@ -31,7 +33,7 @@ class PaymentController {
     }
 
     def show(Long id) {
-        def paymentInstance = Payment.get(id)
+        def paymentInstance = Order.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")
@@ -42,7 +44,7 @@ class PaymentController {
     }
 
     def edit(Long id) {
-        def paymentInstance = Payment.get(id)
+        def paymentInstance = Order.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")
@@ -53,7 +55,7 @@ class PaymentController {
     }
 
     def update(Long id, Long version) {
-        def paymentInstance = Payment.get(id)
+        def paymentInstance = Order.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")
@@ -82,7 +84,7 @@ class PaymentController {
     }
 
     def delete(Long id) {
-        def paymentInstance = Payment.get(id)
+        def paymentInstance = Order.get(id)
         if (!paymentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), id])
             redirect(action: "list")

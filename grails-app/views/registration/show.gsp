@@ -61,7 +61,7 @@
                 <li class="fieldcontain">
                     <span id="payment-label" class="property-label"><g:message code="registration.payment.label" default="Payment" /></span>
                     
-                        <span class="property-value" aria-labelledby="payment-label"><g:link controller="payment" action="show" id="${registrationInstance?.payment?.id}">Payment</g:link></span>
+                        <span class="property-value" aria-labelledby="payment-label"><g:link controller="order" action="show" id="${registrationInstance?.payment?.id}">Payment</g:link></span>
                     
                 </li>
                 </g:if>

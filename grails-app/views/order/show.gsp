@@ -1,5 +1,5 @@
 
-<%@ page import="com.swag.registration.domain.Payment" %>
+<%@ page import="com.swag.registration.domain.Order" %>
 <!DOCTYPE html>
 <html>
 	<head>

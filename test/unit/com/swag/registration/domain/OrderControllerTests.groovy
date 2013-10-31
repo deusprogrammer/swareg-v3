@@ -3,11 +3,14 @@ package com.swag.registration.domain
 
 
 import org.junit.*
+
+import com.swag.registration.domain.order.Order;
+
 import grails.test.mixin.*
 
-@TestFor(PaymentController)
-@Mock(Payment)
-class PaymentControllerTests {
+@TestFor(OrderController)
+@Mock(Order)
+class OrderControllerTests {
 
     def populateValidParams(params) {
         assert params != null
@@ -47,7 +50,7 @@ class PaymentControllerTests {
 
         assert response.redirectedUrl == '/payment/show/1'
         assert controller.flash.message != null
-        assert Payment.count() == 1
+        assert Order.count() == 1
     }
 
     void testShow() {
@@ -57,7 +60,7 @@ class PaymentControllerTests {
         assert response.redirectedUrl == '/payment/list'
 
         populateValidParams(params)
-        def payment = new Payment(params)
+        def payment = new Order(params)
 
         assert payment.save() != null
 
@@ -75,7 +78,7 @@ class PaymentControllerTests {
         assert response.redirectedUrl == '/payment/list'
 
         populateValidParams(params)
-        def payment = new Payment(params)
+        def payment = new Order(params)
 
         assert payment.save() != null
 
@@ -95,7 +98,7 @@ class PaymentControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def payment = new Payment(params)
+        def payment = new Order(params)
 
         assert payment.save() != null
 
@@ -139,17 +142,17 @@ class PaymentControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def payment = new Payment(params)
+        def payment = new Order(params)
 
         assert payment.save() != null
-        assert Payment.count() == 1
+        assert Order.count() == 1
 
         params.id = payment.id
 
         controller.delete()
 
-        assert Payment.count() == 0
-        assert Payment.get(payment.id) == null
+        assert Order.count() == 0
+        assert Order.get(payment.id) == null
         assert response.redirectedUrl == '/payment/list'
     }
 }
