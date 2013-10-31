@@ -2,18 +2,22 @@ package com.swag.registration.domain
 
 class Payment implements Serializable {
     String  creditCardNumber = ""
-	double  total            = 0.00
-	double  subtotal         = 0.00
-	double  tax              = 0.00
+	
+	Double  total            = 0.00
+	Double  subtotal         = 0.00
+	Double  tax              = 0.00
+	Currency currency        = Currency.USD	
+	
 	String  paymentType      = ""
     String  paymentId        = ""
     String  status           = ""
-	boolean completed        = false
+	Boolean completed        = false
 	String  debugId          = ""
 	
 	String transactionId     = ""
 	
 	static belongsTo = [registration: Registration]
+	static hasMany = [items: PaymentItem]
 
     static constraints = {
         creditCardNumber nullable: true

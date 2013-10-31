@@ -382,4 +382,12 @@ class RegistrationFlowController {
 			return [payment: payment]
 		}
 	}
+	
+	def processPayPal() {
+		
+	}
+	
+	def cancelPayPal() {
+		
+	}
 }

@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.apache.commons.lang.RandomStringUtils
 
+import org.apache.commons.lang.RandomStringUtils
+
 class UserFlowController {
     SpringSecurityService springSecurityService
 	
@@ -19,6 +21,25 @@ class UserFlowController {
 			flash.message = "Username or password is incorrect!"
 		}
 		redirect(uri: "/")
+	}
+	
+	def requestPasswordReset(long id) {
+		User user = User.get(id)
+		user.resetToken = UUID.randomUUID()
+		user.save()
+		
+		// Email that reset token and a link to the user
+	}
+	
+	def resetPassword(long id) {
+		String token = id
+		
+		User user = User.findByResetToken(token)
+		user.resetToken = null
+		user.password = RandomStringUtils.random(9, true, true)
+		user.save()
+		
+		// Email that password to the user's email address
 	}
 	
 	def changePasswordFlow = {

@@ -63,7 +63,7 @@ class PaymentService {
 		}
 	}
 	
-	public Map payWithPayPal(Payable payableObject, String returnUrl, String cancelUrl) {
+	public Map payWithPayPal(ArrayList<Payable> payableObjects, Double taxRate, Currency currency, String returnUrl, String cancelUrl) {
 		String clientId = ConfigHolder.getConfig('payPal.clientId')
 		String secret   = ConfigHolder.getConfig('payPal.secret')
 		println "CLIENT_ID: ${clientId}"
@@ -77,27 +77,7 @@ class PaymentService {
 			PayPalConfig.enableSandbox()
 		}
 		
-		if (payableObject.isPaid()) {
-			return [
-				success: false,
-				message: "This item is already paid for!",
-				ccNumber: "PAYPAL",
-				receiptNumber: "",
-				transactionId: "",
-				status: "",
-				redirectUrl: "",
-				error: [
-					type: "",
-					details: []
-				]
-			]
-		}
-		
-		User user = payableObject.getPurchaser()
-		Double price = payableObject.getPrice()
-		Double taxRate = payableObject.getTaxRate()
-		com.trinary.paypal.payment.Currency currency = com.trinary.paypal.payment.Currency.valueOf(payableObject.getCurrency().getCurrencyCode())
-		Double tax = payableObject.getTax().round(2)
+		com.trinary.paypal.payment.Currency saleCurrency = com.trinary.paypal.payment.Currency.valueOf(currency.getCurrencyCode())
 		
 		// PayPal Payment
 		PaymentRequest paymentRequest = new PaymentRequest([
@@ -108,16 +88,44 @@ class PaymentService {
 				cancelUrl: cancelUrl
 			])
 		])
-		paymentRequest.addTransaction(new Transaction([
+		
+		Transaction transaction = new Transaction([
 			amount: new Amount([
-				currency: currency,
+				currency: saleCurrency,
 				details: new Details([
-					subtotal: price,
 					tax: tax
 				])
-			]),
-			description: payableObject.getDescription()
-		]))
+			])
+		])
+		
+		payableObjects.each { Payable payableObject ->
+			if (payableObject.isPaid()) {
+				return [
+					success: false,
+					message: "This item is already paid for!",
+					ccNumber: "PAYPAL",
+					receiptNumber: "",
+					transactionId: "",
+					status: "",
+					redirectUrl: "",
+					error: [
+						type: "",
+						details: []
+					]
+				]
+			}
+			
+			Double price = payableObject.getPrice()
+			Double tax = payableObject.getTax().round(2)
+			String description = payableObject.getDescription()
+			
+			transaction.addItem(new Item([
+				name: description,
+				price: price
+			]))
+		}
+		
+		paymentRequest.addTransaction(transaction)
 
 		PaymentResponse paymentResponse = paymentRequest.pay()
 		

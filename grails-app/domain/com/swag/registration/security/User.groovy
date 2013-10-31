@@ -12,6 +12,7 @@ class User implements Serializable {
     boolean accountExpired = false
     boolean accountLocked = false
     boolean passwordExpired = false
+	String resetToken
 
     // Name
     String firstName
@@ -56,6 +57,7 @@ class User implements Serializable {
         gender nullable: true
         age nullable: true
         emailAddress email: true, unique: true
+		resetToken nullable: true
     }
 
     static mapping = {
