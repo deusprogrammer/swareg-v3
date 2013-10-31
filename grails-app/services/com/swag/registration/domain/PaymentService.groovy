@@ -119,11 +119,18 @@ class PaymentService {
 			
 			transaction.addItem(new Item([
 				name: description,
-				price: price
+				price: price,
+				currency: saleCurrency,
+				quantity: 1
 			]))
 		}
 		
-		transaction.amount.details.setTax(taxRate * transaction.amount.subtotal)
+		println "AMOUNT   ${transaction.amount}"
+		println "DETAILS  ${transaction.amount.details}"
+		println "SUBTOTAL ${transaction.amount.details.subtotal}"
+		println "TAXRATE  ${taxRate}"
+		println "CURRENCY ${saleCurrency.toString()}"
+		transaction.amount.details.setTax(taxRate * transaction.amount.details.subtotal)
 		
 		paymentRequest.addTransaction(transaction)
 
