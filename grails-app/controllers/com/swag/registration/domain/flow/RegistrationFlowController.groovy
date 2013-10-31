@@ -231,10 +231,10 @@ class RegistrationFlowController {
 	def completePayPal() {
 		PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
 		
-		if (!payment) {
+		if (!order) {
 			log.error("Unable to find a transaction with id ${params.transactionId}")
 			flash.message = "Unable to find a transaction with id ${params.transactionId}"
-			return [payment: payment]
+			return [order: order]
 		} else {
 			log.info("Found payment!")
 		}

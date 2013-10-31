@@ -10,21 +10,19 @@ class PayPalOrder implements Serializable, Payable {
 	Boolean paymentCompleted    = false
 	String  paymentDebugId      = ""
 	
-	String transactionId = ""
+	String transactionId = UUID.randomUUID()
 	
 	User user
 	Event event
 
 	static hasMany = [badges: RegistrationOrderItem, addons: AddonOrderItem]
 	
-	public beforeInsert() {
-		transactionId = UUID.randomUUID()
-	}
-	
 	public ArrayList<Registration> generateRegistrations() {
 		ArrayList<Registration> registrations = new ArrayList<Registration>()
 		badges.each { RegistrationOrderItem badge ->
-			registrations.add(badge.registrationLevel.generateRegistration(user, this))
+			badge.quantity.times {
+				registrations.add(badge.registrationLevel.generateRegistration(user, this))
+			}
 		}
 		user.save()
 		
