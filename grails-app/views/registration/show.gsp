@@ -47,33 +47,16 @@
 					
 				</li>
 				</g:if>
-                          
-	            <g:if test="${registrationInstance?.uuid}">
-				<li class="fieldcontain">
-					<span id="uuid-label" class="property-label"><g:message code="registration.uuid.label" default="Uuid" /></span>
-					
-						<span class="property-value" aria-labelledby="uuid-label">${registrationInstance?.uuid}</span>
-					
-				</li>
-				</g:if>
 				
-                <g:if test="${registrationInstance?.payment}">
+                <g:if test="${registrationInstance?.order}">
                 <li class="fieldcontain">
-                    <span id="payment-label" class="property-label"><g:message code="registration.payment.label" default="Payment" /></span>
+                    <span id="payment-label" class="property-label"><g:message code="registration.payment.label" default="Order" /></span>
                     
-                        <span class="property-value" aria-labelledby="payment-label"><g:link controller="order" action="show" id="${registrationInstance?.payment?.id}">Payment</g:link></span>
-                    
+                    <span class="property-value" aria-labelledby="payment-label"><g:link controller="order" action="show" id="${registrationInstance?.order?.id}">${registrationInstance?.order?.paymentId}</g:link></span>
                 </li>
                 </g:if>
 			
 			</ol>
-			<g:form>
-				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${registrationInstance?.id}" />
-					<g:link class="edit" action="edit" id="${registrationInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
 		</div>
 	</body>
 </html>

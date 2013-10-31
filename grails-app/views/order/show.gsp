@@ -1,5 +1,4 @@
-
-<%@ page import="com.swag.registration.domain.Order" %>
+<%@ page import="com.swag.registration.domain.order.PayPalOrder" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -70,29 +69,29 @@
 			
 
 			
-				<g:if test="${paymentInstance?.status}">
+				<g:if test="${paymentInstance?.paymentStatus}">
 				<li class="fieldcontain">
 					<span id="status-label" class="property-label"><g:message code="payment.status.label" default="Status" /></span>
 					
-						<span class="property-value" aria-labelledby="status-label"><g:fieldValue bean="${paymentInstance}" field="status"/></span>
+						<span class="property-value" aria-labelledby="status-label">${paymentInstance?.paymentStatus}</span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${paymentInstance?.completed}">
+				<g:if test="${paymentInstance?.paymentCompleted}">
 				<li class="fieldcontain">
 					<span id="completed-label" class="property-label"><g:message code="payment.completed.label" default="Completed" /></span>
 					
-						<span class="property-value" aria-labelledby="completed-label"><g:formatBoolean boolean="${paymentInstance?.completed}" /></span>
+						<span class="property-value" aria-labelledby="completed-label"><g:formatBoolean boolean="${paymentInstance?.paymentCompleted}" /></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${paymentInstance?.debugId}">
+				<g:if test="${paymentInstance?.paymentDebugId}">
 				<li class="fieldcontain">
 					<span id="debugId-label" class="property-label"><g:message code="payment.debugId.label" default="Debug Id" /></span>
 					
-						<span class="property-value" aria-labelledby="debugId-label"><g:fieldValue bean="${paymentInstance}" field="debugId"/></span>
+						<span class="property-value" aria-labelledby="debugId-label"><g:fieldValue bean="${paymentInstance}" field="paymentDebugId"/></span>
 					
 				</li>
 				</g:if>
@@ -105,6 +104,15 @@
 					
 				</li>
 				</g:if>
+				
+                <g:if test="${paymentInstance?.badges}">
+                   <table>
+                   <tr><th colspan="3">Badges</th></tr>
+                   <g:each in="${paymentInstance.badges}" var="r">
+                       <tr><td><b>${r.description}</b></td><td>X ${r.quantity}</td><td>(${String.format("\$%.2f",r.price)} each)</td></tr>
+                   </g:each>
+                   </table>
+                </g:if>
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

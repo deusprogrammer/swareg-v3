@@ -12,7 +12,7 @@ class Registration implements Serializable, EventChildObject {
     static belongsTo = [user: User, event: Event]
 
     String toString() {
-        return "${event.name}[${registrationLevel.name}]- ${user.username}"
+        return "${event}[${registrationLevel.name}]- ${user.username}"
     }
 
     static constraints = {

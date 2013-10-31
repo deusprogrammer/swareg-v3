@@ -127,7 +127,7 @@
 					<span id="registrations-label" class="property-label"><g:message code="user.registrations.label" default="Registrations" /></span>
 					
 						<g:each in="${userInstance.registrations}" var="r">
-						<span class="property-value" aria-labelledby="registrations-label"><g:link controller="registration" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="registrations-label"><g:link controller="registration" action="show" id="${r.id}">${r?.event} [${r?.registrationLevel.name}]</g:link></span>
 						</g:each>
 					
 				</li>
