@@ -1,7 +1,6 @@
 package com.swag.registration.domain.order
 
-import com.swag.registration.domain.Currency;
-import com.swag.registration.domain.Registration;
+import com.swag.registration.domain.*
 
 class Order implements Serializable {
     String  creditCardNumber = ""
@@ -13,9 +12,8 @@ class Order implements Serializable {
 	String  debugId          = ""
 	
 	String transactionId     = ""
-	
-	static belongsTo = [registration: Registration]
-	static hasMany = [items: RegistrationOrderItem]
+
+	static hasMany = [badges: RegistrationOrderItem, addons: AddonOrderItem]
 	
 	public Double getTotal() {
 		return 0.00
