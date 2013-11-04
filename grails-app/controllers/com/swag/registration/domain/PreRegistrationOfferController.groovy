@@ -8,10 +8,10 @@ import com.swag.registration.security.acl.EventService
 class PreRegistrationOfferController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-	
-	EventService eventService
-	
-	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy")
+
+    EventService eventService
+
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy")
 
     def create() {
         println "IN CREATE()"
@@ -19,14 +19,14 @@ class PreRegistrationOfferController {
     }
 
     def save() {
-		params.startDate = formatter.parse(params.startDate)
-		params.endDate   = formatter.parse(params.endDate)
-		
-		println "PARAMS: " + params
-		
-		def preRegistrationOfferInstance = new PreRegistrationOffer(params)
-		eventService.checkWrite(preRegistrationOfferInstance)
-		
+        params.startDate = formatter.parse(params.startDate)
+        params.endDate   = formatter.parse(params.endDate)
+
+        println "PARAMS: " + params
+
+        def preRegistrationOfferInstance = new PreRegistrationOffer(params)
+        eventService.checkWrite(preRegistrationOfferInstance)
+
         if (!preRegistrationOfferInstance.save(flush: true)) {
             render(view: "create", model: [preRegistrationOfferInstance: preRegistrationOfferInstance])
             return
@@ -38,44 +38,44 @@ class PreRegistrationOfferController {
 
     def show(Long id) {
         def preRegistrationOfferInstance = PreRegistrationOffer.get(id)
-		
+
         if (!preRegistrationOfferInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'preRegistrationOffer.label', default: 'PreRegistrationOffer'), id])
             redirect(action: "list")
             return
         }
-		
-		eventService.checkRead(preRegistrationOfferInstance)
+
+        eventService.checkRead(preRegistrationOfferInstance)
 
         [preRegistrationOfferInstance: preRegistrationOfferInstance, eventId: preRegistrationOfferInstance.registrationLevel.event.id]
     }
 
     def edit(Long id) {
         def preRegistrationOfferInstance = PreRegistrationOffer.get(id)
-		
+
         if (!preRegistrationOfferInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'preRegistrationOffer.label', default: 'PreRegistrationOffer'), id])
             redirect(action: "list")
             return
         }
-		
-		eventService.checkWrite(preRegistrationOfferInstance)
+
+        eventService.checkWrite(preRegistrationOfferInstance)
 
         [preRegistrationOfferInstance: preRegistrationOfferInstance, levelId: preRegistrationOfferInstance.registrationLevel.id, eventId: preRegistrationOfferInstance.registrationLevel.event.id]
     }
 
     def update(Long id, Long version) {
         def preRegistrationOfferInstance = PreRegistrationOffer.get(id)
-		params.startDate = formatter.parse(params.startDate)
-		params.endDate   = formatter.parse(params.endDate)
-		
+        params.startDate = formatter.parse(params.startDate)
+        params.endDate   = formatter.parse(params.endDate)
+
         if (!preRegistrationOfferInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'preRegistrationOffer.label', default: 'PreRegistrationOffer'), id])
             redirect(controller: "registrationLevel", action: "show", id: params.registrationLevel.id)
             return
         }
-		
-		eventService.checkWrite(preRegistrationOfferInstance)
+
+        eventService.checkWrite(preRegistrationOfferInstance)
 
         if (version != null) {
             if (preRegistrationOfferInstance.version > version) {
@@ -100,14 +100,14 @@ class PreRegistrationOfferController {
 
     def delete(Long id) {
         def preRegistrationOfferInstance = PreRegistrationOffer.get(id)
-		
+
         if (!preRegistrationOfferInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'preRegistrationOffer.label', default: 'PreRegistrationOffer'), id])
             redirect(controller: "registrationLevel", action: "show", id: levelId)
             return
         }
-		
-		eventService.checkDelete(preRegistrationOfferInstance)
+
+        eventService.checkDelete(preRegistrationOfferInstance)
 
         try {
             preRegistrationOfferInstance.delete(flush: true)

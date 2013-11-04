@@ -18,7 +18,7 @@ class Registration implements Serializable, EventChildObject {
     static constraints = {
         registrationLevel nullable: true
         order nullable: true
-		user nullable: true
+        user nullable: true
     }
 
     @Override
@@ -31,8 +31,8 @@ class Registration implements Serializable, EventChildObject {
         return event
     }
 
-	@Override
-	public Boolean isPaid() {
-		return order ? order.completed : false
-	}
+    @Override
+    public Boolean isPaid() {
+        return order ? order.completed : false
+    }
 }

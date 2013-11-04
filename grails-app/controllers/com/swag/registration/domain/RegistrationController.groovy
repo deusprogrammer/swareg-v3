@@ -6,19 +6,19 @@ import org.springframework.dao.DataIntegrityViolationException
 class RegistrationController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-	
-	EventService eventService
+
+    EventService eventService
 
     def show(Long id) {
         def registrationInstance = Registration.get(id)
-		
+
         if (!registrationInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'registration.label', default: 'Registration'), id])
             redirect(action: "list")
             return
         }
-		
-		eventService.checkRead(registrationInstance)
+
+        eventService.checkRead(registrationInstance)
 
         [registrationInstance: registrationInstance]
     }

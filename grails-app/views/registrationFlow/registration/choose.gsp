@@ -10,10 +10,13 @@
         </div>
         <div class="round">
 	        <g:form>
-	            <table>
-	               <tr><td>Email Address</td><td><g:textField name="emailAddress" placeHolder="user@domain.com" /></td></tr>
-	            </table>
-		        <g:submitButton name="continue" value="Continue" />
+                <fieldset class="flow">
+                    <legend>Email Check</legend>
+		            <table>
+		               <tr><td>Email Address</td><td><g:field type="email" name="emailAddress" placeHolder="user@domain.com" /></td></tr>
+		            </table>
+			        <g:submitButton name="continue" value="Continue" />
+		        </fieldset>
 	        </g:form>
         </div>
     </body>

@@ -27,34 +27,34 @@ class EventFlowController {
                     conversation.user = springSecurityService.currentUser
                     alreadyLoggedIn()
                 } else {
-					success()
+                    success()
                 }
             }
             on ("success").to "login"
             on ("alreadyLoggedIn").to "basicInfo"
         }
-		
-		login {
-			on ("login").to "authenticate"
-			on ("createUser").to "createUser"
-		}
-		
-		authenticate {
-			action {
-				User user = User.findByEmailAddress(params.emailAddress)
-				if (user && user.password == springSecurityService.encodePassword(params.password)) {
-					conversation.user = user
-					springSecurityService.reauthenticate(user.username, params.password)
-					success()
-				} else {
-					flash.message = "Username or password is incorrect!"
-					error()
-				}
-			}
-			
-			on ("error").to "login"
-			on ("success").to "basicInfo"
-		}
+
+        login {
+            on ("login").to "authenticate"
+            on ("createUser").to "createUser"
+        }
+
+        authenticate {
+            action {
+                User user = User.findByEmailAddress(params.emailAddress)
+                if (user && user.password == springSecurityService.encodePassword(params.password)) {
+                    conversation.user = user
+                    springSecurityService.reauthenticate(user.username, params.password)
+                    success()
+                } else {
+                    flash.message = "Username or password is incorrect!"
+                    error()
+                }
+            }
+
+            on ("error").to "login"
+            on ("success").to "basicInfo"
+        }
 
         createUser {
             subflow(controller: "userFlow", action: "createUser", input: [sub: true])
@@ -84,17 +84,17 @@ class EventFlowController {
 
         registrationLevel {
             on ("addAnother") {
-                flow.eventData["registrationLevels"] += [name: params.name, description: params.description, price: params.price, validFor: params.validFor]
+                flow.eventData["registrationLevels"] += [name: params.name, description: params.description, price: params.price.toDouble(), validFor: params.validFor]
             }.to "registrationLevel"
             on ("done") {
-                flow.eventData["registrationLevels"] += [name: params.name, description: params.description, price: params.price, validFor: params.validFor]
+                flow.eventData["registrationLevels"] += [name: params.name, description: params.description, price: params.price.toDouble(), validFor: params.validFor]
             }.to "confirm"
         }
 
         confirm {
-			on ("editBasicInfo").to "basicInfo"
-			on ("editMerchantInfo").to "merchantInfo"
-			on ("editRegistrationInfo").to "registrationLevel"
+            on ("editBasicInfo").to "basicInfo"
+            on ("editMerchantInfo").to "merchantInfo"
+            on ("editRegistrationInfo").to "registrationLevel"
             on ("confirm").to "finish"
             on ("error").to "confirm"
         }
@@ -103,17 +103,26 @@ class EventFlowController {
             action {
                 Event event = eventService.create(flow.eventData)
                 flow.eventData["registrationLevels"].each {
+                    /*
+                    RegistrationLevel level = new RegistrationLevel()
+                    level.name = it["name"]
+                    level.price = it["price"]
+                    level.description = it["description"]
+                    level.validFor = it["validFor"]
+                    level.save()
+                    */
                     RegistrationLevel level = new RegistrationLevel(it)
                     level.save()
                     event.addToLevels(level)
                 }
+                event.save()
                 redirect (uri: "/")
             }
             on ("success").to "end"
         }
 
         end() {
-			
-		}
+
+        }
     }
 }

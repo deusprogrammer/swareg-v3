@@ -6,8 +6,8 @@ class RegistrationPayment implements Serializable {
     String status = ""
 
     static constraints = {
-		creditCardNumber nullable: true
-		paymentId nullable: true
-		status nullable: true
+        creditCardNumber nullable: true
+        paymentId nullable: true
+        status nullable: true
     }
 }

@@ -9,46 +9,46 @@ import grails.plugins.springsecurity.SpringSecurityService
 import grails.plugins.springsecurity.Secured
 
 class SetupFlowController {
-	SpringSecurityService springSecurityService
+    SpringSecurityService springSecurityService
 
-	@Secured(['ROLE_GLOBAL'])
+    @Secured(['ROLE_GLOBAL'])
     def setupFlow = {
-		start {
-			action {
-				if (!ConfigHolder.getSwitch("swareg.setup")) {
-					firstTime()
-				}
-			}
-			on("firstTime").to "welcome"
-			on("success").to "setupPayPalApi"
-		}
-		
-		welcome {
-			on ("ok").to "setupPayPalApi"
-		}
-		
-		setupPayPalApi {
-			on("next") {
-				ConfigHolder.setConfig("payPal.clientId", params.clientId)
-				ConfigHolder.setConfig("payPal.secret", params.secret)
-			}.to "changePassword"
-		}
-		
-		changePassword {
-			on("set") {
-				if (params.password == params.confirmPassword) {
-					User user = User.findByUsername("global_admin")
-					user.password = params.password
-					user.save()
-					ConfigHolder.setSwitch("swareg.setup", true)
-				} else {
-					flash.message = "Your passwords don't match"
-					error()
-				}
-			}.to "finish"
-			on("error").to "changePassword"
-		}
-		
-		finish()
-	}
+        start {
+            action {
+                if (!ConfigHolder.getSwitch("swareg.setup")) {
+                    firstTime()
+                }
+            }
+            on("firstTime").to "welcome"
+            on("success").to "setupPayPalApi"
+        }
+
+        welcome {
+            on ("ok").to "setupPayPalApi"
+        }
+
+        setupPayPalApi {
+            on("next") {
+                ConfigHolder.setConfig("payPal.clientId", params.clientId)
+                ConfigHolder.setConfig("payPal.secret", params.secret)
+            }.to "changePassword"
+        }
+
+        changePassword {
+            on("set") {
+                if (params.password == params.confirmPassword) {
+                    User user = User.findByUsername("global_admin")
+                    user.password = params.password
+                    user.save()
+                    ConfigHolder.setSwitch("swareg.setup", true)
+                } else {
+                    flash.message = "Your passwords don't match"
+                    error()
+                }
+            }.to "finish"
+            on("error").to "changePassword"
+        }
+
+        finish()
+    }
 }

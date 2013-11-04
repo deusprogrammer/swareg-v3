@@ -62,11 +62,11 @@ grails.hibernate.cache.queries = false
 environments {
     development {
         grails.logging.jul.usebridge = true
-		payPal.debug = true
+        payPal.debug = true
     }
     production {
         grails.logging.jul.usebridge = false
-		payPal.debug = false
+        payPal.debug = false
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
@@ -94,9 +94,9 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
-		   
-	trace  'com.trinary.paypal'
-	debug  'com.budjb.requestbuilder'
+
+    trace  'com.trinary.paypal'
+    debug  'com.budjb.requestbuilder'
 }
 
 // Added by the Spring Security Core plugin:

@@ -10,14 +10,22 @@
         </div>
         <div class="round">
 	        <g:form>
-	            <table>
-		            <tr><td>Email</td><td><g:textField name="emailAddress" value="${userData?.emailAddress}"/></td></tr>
-		            <tr><td>Password</td><td><g:passwordField name="password1" value="${userData?.password}" /></td></tr>
-		            <tr><td></td><td><g:passwordField name="password2" value="${userData?.password}" /></td></tr>
-		            <tr><td>First Name</td><td><g:textField name="firstName" value="${userData?.firstName}"/></td></tr>
-		            <tr><td>Last Name</td><td><g:textField name="lastName" value="${userData?.lastName}"/></td></tr>
-	            </table>
-	            <g:submitButton name="next" value="Next"/>
+	            <fieldset class="flow">
+		            <legend>User Data</legend>
+		            <table>
+		                <g:if test="${isRegistration}">
+			                 <tr><td>Email</td><td><g:field type="email" name="emailAddress" value="${userData?.emailAddress}" readonly="readonly" /></td></tr>
+			            </g:if>
+			            <g:else>
+			                 <tr><td>Email</td><td><g:field type="email" name="emailAddress" value="${userData?.emailAddress}" /></td></tr>
+			            </g:else>
+			            <tr><td>Password</td><td><g:passwordField name="password1" id="password1" value="${userData?.password}" /></td></tr>
+			            <tr><td></td><td><g:passwordField name="password2" id="password2" value="${userData?.password}" /></td></tr>
+			            <tr><td>First Name</td><td><g:textField name="firstName" value="${userData?.firstName}"/></td></tr>
+			            <tr><td>Last Name</td><td><g:textField name="lastName" value="${userData?.lastName}"/></td></tr>
+		            </table>
+		            <g:submitButton name="next" value="Next"/>
+	            </fieldset>
 	        </g:form>
         </div>
     </body>

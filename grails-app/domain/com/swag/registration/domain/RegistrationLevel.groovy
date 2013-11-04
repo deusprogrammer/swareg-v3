@@ -15,30 +15,30 @@ class RegistrationLevel implements Serializable, EventChildObject {
     static belongsTo = [event: Event]
 
     String toString() {
-        return "${event}[${name}]: ${description} (${String.format("\$%.2f",currentPrice)})"
+        return "${event}[${name}]: ${description} (${String.format("%.2f",currentPrice)} ${event.currency.currencyCode})"
     }
-	
-	public Registration generateRegistration(User user, PayPalOrder order) {
-		Registration reg = new Registration([
-			registrationLevel: this,
-			event: event,
-			order: order,
-			user: user
-		])
-		
-		reg.save()
-		user.addToRegistrations(reg)
-		return reg
-	}
-	
-	public Registration generateRegistration(Map map) {
-		return generateRegistration(map["user"], map["order"])
-	}
-	
-	@Override
-	public String getDescription() {
-		return "${name} registration for ${event.name}";
-	}
+    
+    public Registration generateRegistration(User user, PayPalOrder order) {
+        Registration reg = new Registration([
+            registrationLevel: this,
+            event: event,
+            order: order,
+            user: user
+        ])
+        
+        reg.save()
+        user.addToRegistrations(reg)
+        return reg
+    }
+    
+    public Registration generateRegistration(Map map) {
+        return generateRegistration(map["user"], map["order"])
+    }
+    
+    @Override
+    public String getDescription() {
+            return "${name} registration for ${event?.name}";
+    }
 
     public Double getCurrentPrice() {
         def now = new Date()
@@ -54,14 +54,18 @@ class RegistrationLevel implements Serializable, EventChildObject {
 
         return price
     }
+    
+    public String getCurrentPriceString() {
+        return "${currentPrice}${event.currency.escapeCode}"
+    }
 
     static constraints = {
     }
 
     static mapping = {sort "price"}
 
-	@Override
-	public Event getOwner() {
-		return event
+    @Override
+    public Event getOwner() {
+        return event
     }
 }

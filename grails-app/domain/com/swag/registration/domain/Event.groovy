@@ -1,7 +1,6 @@
 package com.swag.registration.domain
 
 import com.swag.registration.security.*
-
 import java.util.UUID
 
 class Event implements Serializable, Payable, Ownable {
@@ -50,16 +49,16 @@ class Event implements Serializable, Payable, Ownable {
     public Double getPrice() {
         return 0
     }
-	
-	@Override
-	public Double getTotal() {
-		return 0.00
-	}
 
-	@Override
-	public Double getTax() {
-		return 0.00
-	}
+    @Override
+    public Double getTotal() {
+        return 0.00
+    }
+
+    @Override
+    public Double getTax() {
+        return 0.00
+    }
 
     @Override
     public Double getTaxRate() {
@@ -86,8 +85,8 @@ class Event implements Serializable, Payable, Ownable {
         return user
     }
 
-	@Override
-	public Boolean isPaid() {
-		return true
-	}
+    @Override
+    public Boolean isPaid() {
+        return true
+    }
 }

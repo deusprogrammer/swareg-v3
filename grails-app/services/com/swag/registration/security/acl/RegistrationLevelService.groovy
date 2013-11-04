@@ -5,6 +5,6 @@ import com.swag.registration.domain.PreRegistrationOffer
 import com.swag.registration.domain.RegistrationLevel
 
 class RegistrationLevelService {
-	EventService eventService
+    EventService eventService
 
 }

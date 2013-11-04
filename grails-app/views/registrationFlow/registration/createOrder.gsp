@@ -13,12 +13,15 @@
         </div>
         <div class="round">
 	        <g:form>
-	            <table>
-		            <g:each in="${event.levels}" var="level">
-		                <tr><td>${level.name}</td><td>${String.format("\$%.2f",level.currentPrice)}</td><td><g:field size="2" type="number" name="levels.${level.id}.quantity" /></td></tr>
-	                </g:each>
-                </table>
-	            <g:submitButton name="continue" value="Continue"/>
+	            <fieldset class="flow">
+		            <legend>Badge Levels</legend>
+		            <table>
+			            <g:each in="${event.levels}" var="level">
+			                <tr><td>${level.name}</td><td>${String.format("\$%.2f",level.currentPrice)}</td><td><g:field size="2" type="number" name="levels.${level.id}.quantity" /></td></tr>
+		                </g:each>
+	                </table>
+		            <g:submitButton name="continue" value="Continue"/>
+	            </fieldset>
 	        </g:form>
         </div>
     </body>

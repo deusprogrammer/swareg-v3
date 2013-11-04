@@ -11,10 +11,13 @@
         </div>
         <div class="round">
 	        <g:form>
-	            <table>
-	               <tr><td>Event</td><td><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /></td>
-	            </table>
-                <g:submitButton name="select" value="Continue with this event" />
+	            <fieldset class="flow">
+	                <legend>Event</legend>
+		            <table>
+		               <tr><td>Event</td><td><g:select name="event" from="${Event.list()}" keys="${Event.list()*.id}" /></td>
+		            </table>
+	                <g:submitButton name="select" value="Continue with this event" />
+                </fieldset>
 	        </g:form>
         </div>
     </body>

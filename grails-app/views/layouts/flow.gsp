@@ -26,6 +26,26 @@
                 $("#date").datepicker();
                 $("#startDate").datepicker();
                 $("#endDate").datepicker();
+
+                $("#password2").blur(function() {
+                    if ($("#password2").val() != $("#password1").val()) {
+                        $("#password2").addClass("error");
+                    } else {
+                        $("#password2").removeClass("error");
+                    }
+                });
+
+                $("#sameAsShipping").click(function() {
+                    if ($(this).is(':checked')) {
+                    	$(".disablable").each(function() {
+                        	$(this).prop('disabled', true);
+                    	});
+                    } else {
+                        $(".disablable").each(function() {
+                            $(this).prop('disabled', false);
+                        });
+                    }
+                });
             });
         </script>
 		<g:layoutHead/>

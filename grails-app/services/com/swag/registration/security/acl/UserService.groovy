@@ -7,14 +7,14 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
 
 class UserService {
 
-	SpringSecurityService springSecurityService
-	
+    SpringSecurityService springSecurityService
+
     void accessCheck(User user) {
-		if (!springSecurityService.currentUser || 
-			user != springSecurityService.currentUser && 
-			!SecurityContextHolderAwareRequestWrapper.isUserInRole("ROLE_GLOBAL")) {
-			
-			throw new AccessDeniedException("Access exception occured")
-		}
+        if (!springSecurityService.currentUser ||
+            user != springSecurityService.currentUser &&
+            !SecurityContextHolderAwareRequestWrapper.isUserInRole("ROLE_GLOBAL")) {
+
+            throw new AccessDeniedException("Access exception occured")
+        }
     }
 }

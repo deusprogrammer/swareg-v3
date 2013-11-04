@@ -6,8 +6,8 @@ import com.swag.registration.security.acl.EventService
 class RegistrationLevelController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-	
-	EventService eventService
+
+    EventService eventService
 
     def create() {
         def loggedInUser = session["userId"]
@@ -25,9 +25,9 @@ class RegistrationLevelController {
 
     def save() {
         def registrationLevelInstance = new RegistrationLevel(params)
-		
-		eventService.checkWrite(registrationLevelInstance)
-		
+
+        eventService.checkWrite(registrationLevelInstance)
+
         if (!registrationLevelInstance.save(flush: true)) {
             render(view: "create", model: [registrationLevelInstance: registrationLevelInstance])
             return
@@ -39,28 +39,28 @@ class RegistrationLevelController {
 
     def show(Long id) {
         def registrationLevelInstance = RegistrationLevel.get(id)
-		
+
         if (!registrationLevelInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'registrationLevel.label', default: 'RegistrationLevel'), id])
             redirect(action: "list")
             return
         }
-		
-		eventService.checkRead(registrationLevelInstance)
+
+        eventService.checkRead(registrationLevelInstance)
 
         [registrationLevelInstance: registrationLevelInstance]
     }
 
     def edit(Long id) {
         def registrationLevelInstance = RegistrationLevel.get(id)
-		
+
         if (!registrationLevelInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'registrationLevel.label', default: 'RegistrationLevel'), id])
             redirect(action: "list")
             return
         }
-		
-		eventService.checkWrite(registrationLevelInstance)
+
+        eventService.checkWrite(registrationLevelInstance)
 
         def loggedInUser = session["userId"]
 
@@ -79,14 +79,14 @@ class RegistrationLevelController {
 
     def update(Long id, Long version) {
         def registrationLevelInstance = RegistrationLevel.get(id)
-		
+
         if (!registrationLevelInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'registrationLevel.label', default: 'RegistrationLevel'), id])
             redirect(action: "list")
             return
         }
-		
-		eventService.checkWrite(registrationLevelInstance)
+
+        eventService.checkWrite(registrationLevelInstance)
 
         if (version != null) {
             if (registrationLevelInstance.version > version) {
@@ -111,15 +111,15 @@ class RegistrationLevelController {
 
     def delete(Long id) {
         def registrationLevelInstance = RegistrationLevel.get(id)
-		
+
         def eventId = registrationLevelInstance.event.id
         if (!registrationLevelInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'registrationLevel.label', default: 'RegistrationLevel'), id])
             redirect(controller: "event", action: "show", id: eventId)
             return
         }
-		
-		eventService.checkDelete(registrationLevelInstance)
+
+        eventService.checkDelete(registrationLevelInstance)
 
         try {
             registrationLevelInstance.delete(flush: true)

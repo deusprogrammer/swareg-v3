@@ -101,7 +101,7 @@ class JSController {
 
         if (!user) {
             user = new User()
-			user.username = emailAddress
+            user.username = emailAddress
             user.emailAddress = emailAddress
             user.password = RandomStringUtils.random(16)
             user.registrationComplete = false
@@ -134,7 +134,7 @@ class JSController {
                    to user.emailAddress
                    subject "${event.toString()} Registration Confirmation"
                    html "<p>Thank you for your registration for ${event.toString()}!  We have created a user for you with temporary credentials given below.  If you need to register with our service again in the future, you will use this username and password.  You can go <a href="">here</a> to change your password though.</p>.<br/><br/>Username: ${user.emailAddress}<br/>Password: ${user.password}"
-			   }
+               }
             } catch (Exception e) {
                 println "Unable to send confirmation email!"
                 ret["status"] = "failure"

@@ -32,8 +32,8 @@ class PreRegistrationOffer implements Serializable, EventChildObject {
     static constraints = {
     }
 
-	@Override
-	public Event getOwner() {
-		return registrationLevel.event;
-	}
+    @Override
+    public Event getOwner() {
+        return registrationLevel.event;
+    }
 }

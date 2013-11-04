@@ -14,15 +14,15 @@ import org.springframework.security.core.authority.AuthorityUtils
  * @author mmain
  */
 class SecurityFilters {
-	SpringSecurityService springSecurityService
+    SpringSecurityService springSecurityService
     def filters = {
         everything(controller: "setupFlow|errors", invert: true) {
             before = {
-				if (!ConfigHolder.getSwitch("swareg.setup")) {
-					springSecurityService.reauthenticate("global_admin")
-					redirect(controller: "setupFlow", action: "setup")
-					return
-				}
+                if (!ConfigHolder.getSwitch("swareg.setup")) {
+                    springSecurityService.reauthenticate("global_admin")
+                    redirect(controller: "setupFlow", action: "setup")
+                    return
+                }
             }
         }
     }

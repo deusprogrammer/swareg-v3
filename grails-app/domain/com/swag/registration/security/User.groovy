@@ -12,7 +12,7 @@ class User implements Serializable {
     boolean accountExpired = false
     boolean accountLocked = false
     boolean passwordExpired = false
-	String resetToken
+    String resetToken
 
     // Name
     String firstName
@@ -24,7 +24,7 @@ class User implements Serializable {
     String city
     String state
     String zipCode
-	String countryCode
+    String countryCode
     String emailAddress
 
     // Personal information
@@ -53,11 +53,11 @@ class User implements Serializable {
         city nullable: true
         state nullable: true
         zipCode nullable: true
-		countryCode nullable: true
+        countryCode nullable: true
         gender nullable: true
         age nullable: true
         emailAddress email: true, unique: true
-		resetToken nullable: true
+        resetToken nullable: true
     }
 
     static mapping = {
@@ -77,10 +77,10 @@ class User implements Serializable {
             encodePassword()
         }
     }
-	
-	def testPassword(String password) {
-		return this.password == springSecurityService.encodePassword(password)
-	}
+
+    def testPassword(String password) {
+        return this.password == springSecurityService.encodePassword(password)
+    }
 
     protected void encodePassword() {
         password = springSecurityService.encodePassword(password)

@@ -16,7 +16,7 @@ class UrlMappings {
             exception: AccessDeniedException)
       "500"(controller: "errors", action: "error403",
             exception: NotFoundException)
-	  "500"(controller: "errors", action: "error500",
-		  	exception: Exception)
+      "500"(controller: "errors", action: "error500",
+              exception: Exception)
    }
 }

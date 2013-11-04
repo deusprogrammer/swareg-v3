@@ -73,130 +73,130 @@ class EventService {
    Event get(long id) {
       return Event.get(id)
    }
-   
+
    void checkWrite(EventChildObject object) {
-	   Event event = Event.get(object.owner.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(object.owner.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkRead(EventChildObject object) {
-	   Event event = Event.get(object.owner.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(object.owner.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkDelete(EventChildObject object) {
-	   Event event = Event.get(object.owner.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.DELETE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(object.owner.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.DELETE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkAdmin(EventChildObject object) {
-	   Event event = Event.get(object.owner.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(object.owner.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    /*
    void checkWrite(RegistrationLevel level) {
-	   Event event = Event.get(level.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(level.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkWrite(PreRegistrationOffer offer) {
-	   Event event = Event.get(offer.registrationLevel.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(offer.registrationLevel.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkWrite(Registration reg) {
-	   Event event = Event.get(reg.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(reg.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkRead(RegistrationLevel level) {
-	   Event event = Event.get(level.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(level.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkRead(PreRegistrationOffer offer) {
-	   Event event = Event.get(offer.registrationLevel.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(offer.registrationLevel.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkRead(Registration reg) {
-	   Event event = Event.get(reg.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(reg.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkDelete(RegistrationLevel level) {
-	   Event event = Event.get(level.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication.principal, event, BasePermission.DELETE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(level.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication.principal, event, BasePermission.DELETE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkDelete(PreRegistrationOffer offer) {
-	   Event event = Event.get(offer.registrationLevel.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication.principal, event, BasePermission.DELETE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(offer.registrationLevel.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication.principal, event, BasePermission.DELETE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkDelete(Registration reg) {
-	   Event event = Event.get(reg.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.DELETE) &&
-		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(reg.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.DELETE) &&
+           !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkAdmin(RegistrationLevel level) {
-	   Event event = Event.get(level.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(level.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkAdmin(PreRegistrationOffer offer) {
-	   Event event = Event.get(offer.registrationLevel.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication.principal, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(offer.registrationLevel.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication.principal, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
-   
+
    void checkAdmin(Registration reg) {
-	   Event event = Event.get(reg.event.id)
-	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
-		   throw new AccessDeniedException("Access exception occured")
-	   }
+       Event event = Event.get(reg.event.id)
+       if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+           throw new AccessDeniedException("Access exception occured")
+       }
    }
    */
 

@@ -9,7 +9,7 @@ hibernate {
 // environment specific settings
 environments {
     development {
-		/*
+        /*
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:mysql://192.168.2.14/swareg2-dev"
