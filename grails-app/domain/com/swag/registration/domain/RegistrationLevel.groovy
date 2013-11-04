@@ -15,7 +15,7 @@ class RegistrationLevel implements Serializable, EventChildObject {
     static belongsTo = [event: Event]
 
     String toString() {
-        return "${event}[${name}]: ${description} (${String.format("%.2f",currentPrice)} ${event.currency.currencyCode})"
+        return "${event}[${name}]: ${description} (${String.format("%.2f",currentPrice)} ${event.currency})"
     }
     
     public Registration generateRegistration(User user, PayPalOrder order) {
