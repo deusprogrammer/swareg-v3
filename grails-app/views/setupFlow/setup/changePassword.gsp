@@ -11,11 +11,14 @@
         </div>
         <div class="round">
 	        <g:form>
-	            <table>
-	                <tr><td>Password</td><td><g:passwordField name="password" /></td></tr>
-	                <tr><td>Confirm</td><td><g:passwordField name="confirmPassword" /></td></tr>
-	            </table>
-	            <g:submitButton name="set" value="Set"/>
+	            <fieldset class="flow">
+	                <legend>Change Password</legend>
+		            <table>
+		                <tr><td>Password</td><td><g:passwordField name="password" id="password1" /></td></tr>
+		                <tr><td></td><td><g:passwordField name="confirmPassword" id="password2" /></td></tr>
+		            </table>
+		            <g:submitButton name="set" value="Set"/>
+	            </fieldset>
 	        </g:form>
         </div>
     </body>

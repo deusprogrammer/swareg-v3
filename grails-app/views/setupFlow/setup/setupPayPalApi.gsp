@@ -12,11 +12,14 @@
         
         <div class="round">
 	        <g:form>
-	            <table>
-	                <tr><td>ClientId</td><td><g:textField size="60" name="clientId" /></td></tr>
-	                <tr><td>Secret</td><td><g:textField size="60" name="secret" /></td></tr>
-	            </table>
-	            <g:submitButton name="next" value="Next"/>
+                <fieldset class="flow">	                    
+                    <legend>PayPal API Settings</legend>
+		            <table>
+		                <tr><td>ClientId</td><td><g:textField size="65" name="clientId" /></td></tr>
+		                <tr><td>Secret</td><td><g:textField size="65" name="secret" /></td></tr>
+		            </table>
+		            <g:submitButton name="next" value="Next"/>
+	            </fieldset>
 	        </g:form>
         </div>
     </body>
