@@ -27,11 +27,47 @@
                 $("#startDate").datepicker();
                 $("#endDate").datepicker();
 
-                $("#password2").blur(function() {
-                    if ($("#password2").val() != $("#password1").val()) {
-                        $("#password2").addClass("error");
+                $(".password-confirm").blur(function() {
+                    if ($(this).val() != $(".password").val()) {
+                        $(this).addClass("error");
+                        $(this).tooltip({ show: { effect: "bounce", duration: 800 }});
+                        $(this).tooltip({ position: {at: "right+105"}});
+                        $(this).attr("title", "Passwords must match");
+                        $(this).tooltip("open");
                     } else {
-                        $("#password2").removeClass("error");
+                        $(this).removeClass("error");
+                        $(this).tooltip({content : ""});
+                        $(this).tooltip("close");
+                    }
+                });
+
+                $(".email").blur(function() {
+                	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                    if (!filter.test($(this).val())) {
+                        $(this).addClass("error");
+                        $(this).tooltip({ show: { effect: "bounce", duration: 800 }});
+                        $(this).tooltip({ position: {at: "right+105"}});
+                        $(this).attr("title", "Invalid email address");
+                        $(this).tooltip("open");
+                    } else {
+                        $(this).removeClass("error");
+                        $(this).tooltip({content : ""});
+                        $(this).tooltip("close");
+                    }
+                });
+
+                $(".url").blur(function() {
+                    var filter = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/;
+                    if (!filter.test($(this).val())) {
+                        $(this).addClass("error");
+                        $(this).tooltip({ show: { effect: "bounce", duration: 800 }});
+                        $(this).tooltip({ position: {at: "right+105"}});
+                        $(this).attr("title", "Malformed url");
+                        $(this).tooltip("open");
+                    } else {
+                        $(this).removeClass("error");
+                        $(this).tooltip({content : ""});
+                        $(this).tooltip("close");
                     }
                 });
 
@@ -45,6 +81,10 @@
                             $(this).prop('disabled', false);
                         });
                     }
+                });
+
+                $(function() {
+                    $(document).tooltip();
                 });
             });
         </script>

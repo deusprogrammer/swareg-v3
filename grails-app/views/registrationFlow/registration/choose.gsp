@@ -13,7 +13,7 @@
                 <fieldset class="flow">
                     <legend>Email Check</legend>
 		            <table>
-		               <tr><td>Email Address</td><td><g:field type="email" name="emailAddress" placeHolder="user@domain.com" /></td></tr>
+		               <tr><td>Email Address</td><td><g:textField class="email" name="emailAddress" placeHolder="user@domain.com" /></td></tr>
 		            </table>
 			        <g:submitButton name="continue" value="Continue" />
 		        </fieldset>

@@ -16,7 +16,7 @@
 		                <tr><td>Event Name</td><td><g:textField name="name" value="${eventData?.name}"/></td></tr>
 		                <tr><td>Year</td><td><g:textField name="year" value="${eventData?.year}"/></td></tr>
 		                <tr><td>Numeral</td><td><g:textField name="numeral" value="${eventData?.numeral}"/></td></tr>
-		                <tr><td>Home Page</td><td><g:field type="url" name="homePage" value="${eventData?.homePage}"/></td></tr>
+		                <tr><td>Home Page</td><td><g:textField class="url" name="homePage" value="${eventData?.homePage}"/></td></tr>
 		            </table>
 		            <g:submitButton name="next" value="Next"/>
 	            </fieldset>

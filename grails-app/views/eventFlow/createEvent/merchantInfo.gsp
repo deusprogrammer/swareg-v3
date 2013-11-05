@@ -13,7 +13,7 @@
     	        <fieldset class="flow">
 	    	        <legend>Merchant Info</legend>
 		            <table>
-		                <tr><td>Pay Pal Email Address</td><td><g:textField name="merchantEmail" value="${eventData?.merchantEmail}"/></td></tr>
+		                <tr><td>Pay Pal Email Address</td><td><g:textField class="email" name="merchantEmail" value="${eventData?.merchantEmail}"/></td></tr>
 		                <tr><td>Currency</td><td><g:select name="currency" from="${com.swag.registration.domain.Currency?.values()}" keys="${com.swag.registration.domain.Currency.values()*.name()}" required="" value="${eventInstance?.currency?.name()}"/></td></tr>
 		                <tr><td>Tax Rate</td><td><g:textField name="taxRate" value="${eventData?.taxRate}"/></td></tr>
 		            </table>

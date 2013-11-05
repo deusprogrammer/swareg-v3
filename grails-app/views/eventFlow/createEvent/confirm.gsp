@@ -12,7 +12,6 @@
            <div class="round">
 	            <fieldset class="flow">
 	                <legend>Basic Info</legend>
-		            <g:submitButton name="editBasicInfo" value="Edit" />
 		            <table>
 		                <tr><td>Name</td><td>${eventData?.name}</td></tr>
 		                <tr><td>Year</td><td>${eventData?.year}</td></tr>
@@ -22,7 +21,6 @@
 	            </fieldset>
                 <fieldset class="flow">
                     <legend>Merchant Info</legend>
-		            <g:submitButton name="editMerchantInfo" value="Edit" />
 		            <table>
 		                <tr><td>Pay Pal Email Address</td><td>${eventData?.merchantEmail}</td></tr>
 		                <tr><td>Currency</td><td>${eventData?.currency}</td></tr>
@@ -33,7 +31,6 @@
             <div class="round">
                 <fieldset class="flow">
                     <legend>Registration Levels</legend>
-		            <g:submitButton name="editRegistrationInfo" value="Edit" />
 		            <table>
 		                <g:each in="${eventData?.registrationLevels}" var="level">
 		                    <tr><td>${level?.name}</td><td>${String.format("%.2f",level?.price)} ${eventData?.currency}</td></tr>

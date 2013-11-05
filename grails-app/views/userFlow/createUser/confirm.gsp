@@ -12,7 +12,6 @@
             <div class="round">
                 <fieldset class="flow">
 	                <legend>User Info</legend>
-		            <g:actionSubmit name="editUserInfo" value="Edit" />
 		            <table>
 	                    <tr><td>Email</td><td>${userData?.emailAddress}</td></tr>
 		                <tr><td>Password</td><td>****************</td></tr>
@@ -25,7 +24,6 @@
 	            <div class="round">
 	                <fieldset class="flow">
 		                <legend>Shipping Address</legend>
-			            <g:actionSubmit name="editShippingInfo" value="Edit" />
 			            <table>
 			                <tr><td>Street Address</td><td>${shippingData?.streetAddress1}</td></tr>
 			                <tr><td></td><td>${shippingData?.streetAddress2}</td></tr>
@@ -36,7 +34,6 @@
 		            </fieldset>
 		            <fieldset class="flow">
 			            <legend>Billing Address</legend>
-			            <g:actionSubmit name="editBillingInfo" value="Edit" />
 			            <table>
 			                <tr><td>Street Address</td><td>${billingData?.streetAddress1}</td></tr>
 			                <tr><td></td><td>${billingData?.streetAddress2}</td></tr>
