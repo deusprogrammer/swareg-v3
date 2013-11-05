@@ -22,6 +22,20 @@
 	    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
         <script>
+            function validate(selector, filter, message) {
+                if (!filter.test($(selector).val())) {
+                    $(selector).addClass("error");
+                    $(selector).tooltip({ show: { effect: "bounce", duration: 800 }});
+                    $(selector).tooltip({ position: {at: "right+105"}});
+                    $(selector).attr("title", message);
+                    $(selector).tooltip("open");
+                } else {
+                    $(selector).removeClass("error");
+                    $(selector).tooltip({content : ""});
+                    $(selector).tooltip("close");
+                }
+            }
+        
             $(function() {
                 $("#date").datepicker();
                 $("#startDate").datepicker();
@@ -63,6 +77,36 @@
                         $(this).tooltip({ show: { effect: "bounce", duration: 800 }});
                         $(this).tooltip({ position: {at: "right+105"}});
                         $(this).attr("title", "Malformed url");
+                        $(this).tooltip("open");
+                    } else {
+                        $(this).removeClass("error");
+                        $(this).tooltip({content : ""});
+                        $(this).tooltip("close");
+                    }
+                });
+
+                $(".price").blur(function() {
+                    var filter = /[0-9]+.[0-9]+/;
+                    if (!filter.test($(this).val())) {
+                        $(this).addClass("error");
+                        $(this).tooltip({ show: { effect: "bounce", duration: 800 }});
+                        $(this).tooltip({ position: {at: "right+105"}});
+                        $(this).attr("title", "Malformed price");
+                        $(this).tooltip("open");
+                    } else {
+                        $(this).removeClass("error");
+                        $(this).tooltip({content : ""});
+                        $(this).tooltip("close");
+                    }
+                });
+
+                $(".validFor").blur(function() {
+                    var filter = /[0-9]+ (year|month|day|hour|minute)+s*/;
+                    if (!filter.test($(this).val())) {
+                        $(this).addClass("error");
+                        $(this).tooltip({ show: { effect: "bounce", duration: 800 }});
+                        $(this).tooltip({ position: {at: "right+105"}});
+                        $(this).attr("title", "Invalid time period");
                         $(this).tooltip("open");
                     } else {
                         $(this).removeClass("error");
