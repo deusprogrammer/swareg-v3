@@ -1,12 +1,28 @@
+div#dropdown-menu {
+	position: absolute;
+	width: 150px;
+	display: none;
+}
+
+.selected {
+	background-color: blue;
+	color: white;
+}
+
 div#content {
+	width: 1200px;
 	vertical-align: top;
-	width: 1000px;
 	margin: auto;
 }
 
 div#badges {
+	display: inline-block;
 	height:210px;
 	overflow-y: scroll;
+}
+
+div#badges-menu {
+	height: 50px;
 }
 
 div#badges-container {
@@ -18,13 +34,22 @@ div#badges-container {
 }
 
 div#events {
-	margin: 0px 10px 0px 10px;
+	display: inline-block;
+	height:210px;
+	overflow-y: scroll;
+	vertical-align: top;
+}
+
+div#events-menu {
+	display: inline-block;
+	margin: 10px 0px;
+	vertical-align: top;
 }
 
 div#events-container {
 	display: inline-block;
 	float: right;
-	width: 200px;
+	width: 400px;
 	vertical-align: top;
 }
 
@@ -39,16 +64,19 @@ div.badge {
 }
 
 div.event {
-	display: inline;
 	border: 1px solid black;
 	text-align: center;
 	width: 200px;
 	border-radius:25px;
+	margin: 5px;
 	padding: 5px;
 }
 
 div.badge-image {
-	height: 150px;	
+	height: 150px;
+	font-size: 250%;
+	font-weight: bold;
+	vertical-align: text-center;
 }
 
 div.badge-text {

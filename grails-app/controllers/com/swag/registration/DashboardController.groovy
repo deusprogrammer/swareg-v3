@@ -13,14 +13,17 @@ class DashboardController {
 		List badges = Registration.list().findAll {
 			Registration it ->
 				it.user.emailAddress == springSecurityService.currentUser.emailAddress
+		}.sort {
+			Registration it ->
+				it.id
 		}
 		List events = Event.list().findAll {
 			Event it ->
 				it.user.emailAddress == springSecurityService.currentUser.emailAddress
+		}.sort {
+			Event it ->
+				it.id
 		}
-		
-		println "EVENTS: ${events}"
-		println "BADGES: ${badges}"
 		
 		return [badges: badges, events: events]
 	}
