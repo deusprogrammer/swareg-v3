@@ -1,0 +1,57 @@
+div#content {
+	vertical-align: top;
+	width: 1000px;
+	margin: auto;
+}
+
+div#badges {
+	height:210px;
+	overflow-y: scroll;
+}
+
+div#badges-container {
+	display: inline-block;
+	float: left;
+	width: 700px;
+	vertical-align: top;
+	margin: 0px 10px 0px 10px;
+}
+
+div#events {
+	margin: 0px 10px 0px 10px;
+}
+
+div#events-container {
+	display: inline-block;
+	float: right;
+	width: 200px;
+	vertical-align: top;
+}
+
+div.badge {
+	display: inline-block;
+	border: 1px solid black;
+	text-align: center;
+	height: 200px;
+	width: 150px;
+	margin: 5px;
+	border-radius:15px;
+}
+
+div.event {
+	display: inline;
+	border: 1px solid black;
+	text-align: center;
+	width: 200px;
+	border-radius:25px;
+	padding: 5px;
+}
+
+div.badge-image {
+	height: 150px;	
+}
+
+div.badge-text {
+	height: 50px;
+    float: bottom;  
+}

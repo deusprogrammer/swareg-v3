@@ -29,7 +29,7 @@ grails.project.dependency.resolution = {
         flatDir(
             name: 'myRepo',
             //dirs: "/home/mmain/flat_repo/"
-            dirs: "C:\\Users\\Michael\\repo\\"
+            dirs: "C:\\Users\\mmain\\repo\\"
         )
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
