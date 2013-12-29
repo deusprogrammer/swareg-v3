@@ -4,8 +4,41 @@ div#dropdown-menu {
 	display: none;
 }
 
+div#gift-modal {
+	text-align: center;
+	position: absolute;
+	width: 600px;
+	border: 1px solid black;
+	border-radius: 15px;
+	background-color: white;
+	display: none;
+	padding: 10px;
+}
+
+span#gift-span {
+	color: blue;
+	font-weight: normal;
+	font-size: 100%;
+}
+
+div#view-modal {
+	text-align: center;
+	position: absolute;
+	width: 600px;
+	border: 1px solid black;
+	border-radius: 15px;
+	background-color: white;
+	display: none;
+	padding: 10px;
+}
+
 .selected {
 	background-color: blue;
+	color: white;
+}
+
+.hard-selected {
+	background-color: green;
 	color: white;
 }
 

@@ -15,14 +15,15 @@ class DashboardController {
 				it.user.emailAddress == springSecurityService.currentUser.emailAddress
 		}.sort {
 			Registration it ->
-				it.id
+				//it.id
+				it.registrationLevel.name
 		}
 		List events = Event.list().findAll {
 			Event it ->
 				it.user.emailAddress == springSecurityService.currentUser.emailAddress
 		}.sort {
 			Event it ->
-				it.id
+				it.name
 		}
 		
 		return [badges: badges, events: events]
