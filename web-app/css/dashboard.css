@@ -75,7 +75,7 @@ div#badges-container {
 div#events {
 	display: inline-block;
 	height: 210px;
-	width: 300px;
+	width: 250px;
 	overflow-y: scroll;
 	vertical-align: top;
 }
