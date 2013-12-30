@@ -1,4 +1,9 @@
-div#dropdown-menu {
+div#login-view {
+	margin: auto;
+	width: 200px;
+}
+
+div.dropdown-menu {
 	position: absolute;
 	width: 150px;
 	display: none;
@@ -50,7 +55,8 @@ div#content {
 
 div#badges {
 	display: inline-block;
-	height:210px;
+	height: 210px;
+	width: 100%;
 	overflow-y: scroll;
 }
 
@@ -68,7 +74,8 @@ div#badges-container {
 
 div#events {
 	display: inline-block;
-	height:210px;
+	height: 210px;
+	width: 300px;
 	overflow-y: scroll;
 	vertical-align: top;
 }
@@ -86,9 +93,22 @@ div#events-container {
 	vertical-align: top;
 }
 
+div.gifted {
+	border: 1px solid whitesmoke;
+	color: whitesmoke;
+}
+
+div.received {
+	border: 1px solid pink;
+	color: pink;
+}
+
+div.owned {
+	border: 1px solid black;
+}
+
 div.badge {
 	display: inline-block;
-	border: 1px solid black;
 	text-align: center;
 	height: 200px;
 	width: 150px;
@@ -115,4 +135,8 @@ div.badge-image {
 div.badge-text {
 	height: 50px;
     float: bottom;  
+}
+
+div#details-view {
+	height: 200px;
 }
