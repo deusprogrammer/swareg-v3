@@ -41,6 +41,44 @@ class UserFlowController {
 
         // Email that password to the user's email address
     }
+	
+	def activate(Long id) {
+		User user = User.findByEmailAddress(id)
+		String token = params.token
+		
+		if (!user) {
+			response.setStatus(404)
+			return
+		}
+		
+		if (springSecurityService.encodePassword(token) != user.password) {
+			response.setStatus(403)
+			return
+		}
+		
+		return [user: user]
+	}
+	
+	def activateUser(Long id) {
+		User user = User.findByEmailAddress(id)
+		String token = params.token
+		
+		if (!params.password1 || !params.password2 || params.password1 != params.password2) {
+			flash.message = "Passwords don't match"
+			redirect(action: "activate", id: id, params: [token: token])
+		}
+		
+		if (!user) {
+			response.setStatus(404)
+			return
+		}
+		
+		user.enabled = true
+		user.password = params.password1
+		user.save(flush: true)
+		
+		redirect(uri: "/")
+	}
 
     def changePasswordFlow = {
         start {

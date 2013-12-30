@@ -37,7 +37,7 @@ class User implements Serializable {
     static hasMany = [registrations: Registration, events: Event]
 
     public String toString() {
-        return username
+        return emailAddress
     }
 
     static constraints = {

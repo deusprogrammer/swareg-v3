@@ -36,8 +36,8 @@ class DashboardController {
 		}
 		
 		print "OWNED:    ${badges}"
-		print "GIFTED:   ${gifted*.badge}"
-		print "RECEIVED: ${received*.badge}"
+		print "GIFTED:   ${gifted}"
+		print "RECEIVED: ${received}"
 		
 		return [badges: badges - gifted*.badge, gifted: gifted*.badge, received: received*.badge, events: events]
 	}
