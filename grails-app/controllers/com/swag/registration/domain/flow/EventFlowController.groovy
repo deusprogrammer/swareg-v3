@@ -116,7 +116,7 @@ class EventFlowController {
                     event.addToLevels(level)
                 }
                 event.save()
-                redirect (uri: "/")
+                redirect (controller: "dashboard", action: "index")
             }
             on ("success").to "end"
         }

@@ -1,5 +1,6 @@
 package com.swag.registration.domain.flow
 
+import com.swag.registration.security.Activation
 import com.swag.registration.security.Role
 import com.swag.registration.security.UserRole
 import com.swag.registration.security.User
@@ -20,7 +21,7 @@ class UserFlowController {
         } else {
             flash.message = "Username or password is incorrect!"
         }
-        redirect(uri: "/")
+        redirect(controller: "dashboard", action: "index")
     }
 
     def requestPasswordReset(long id) {
@@ -42,43 +43,98 @@ class UserFlowController {
         // Email that password to the user's email address
     }
 	
-	def activate(Long id) {
-		User user = User.findByEmailAddress(id)
-		String token = params.token
+	def activate(String id) {
+		Activation activation = Activation.findByToken(id)
+		User user = activation?.user
 		
-		if (!user) {
+		print "ACTIVATION: ${activation}"
+		print "USER:       ${user}"
+		
+		if (!activation || !user) {
+			print "UNABLE TO FIND ACTIVATION!"
 			response.setStatus(404)
-			return
+			redirect(uri: "/")
 		}
 		
-		if (springSecurityService.encodePassword(token) != user.password) {
-			response.setStatus(403)
-			return
-		}
-		
-		return [user: user]
+		return [user: user, token: id]
 	}
 	
-	def activateUser(Long id) {
-		User user = User.findByEmailAddress(id)
-		String token = params.token
+	def processActivation(String id) {
+		Activation activation = Activation.findByToken(id)
+		User user = activation?.user
+		
+		print "ACTIVATION: ${activation}"
+		print "USER:       ${user}"
+		
+		if (!activation || !user) {
+			print "UNABLE TO FIND ACTIVATION!"
+			response.setStatus(404)
+			redirect(uri: "/")
+		}
 		
 		if (!params.password1 || !params.password2 || params.password1 != params.password2) {
 			flash.message = "Passwords don't match"
-			redirect(action: "activate", id: id, params: [token: token])
+			redirect(action: "activate", id: id)
 		}
+			
+		activation.activate(params.password1)
+		springSecurityService.reauthenticate(user.username, params.password1)
 		
-		if (!user) {
-			response.setStatus(404)
-			return
-		}
-		
-		user.enabled = true
-		user.password = params.password1
-		user.save(flush: true)
-		
-		redirect(uri: "/")
+		redirect(controller: "dashboard", action: "index")
 	}
+	
+	/*
+	def activateFlow = {
+		start {
+			action {
+				flow.token = params.id
+				flow.activation = Activation.findByToken(flow.token)
+				
+				if (!flow.activation) {
+					return doesNotExist()
+				}
+				
+				print "TOKEN:      ${flow.token}"
+				print "ACTIVATION: ${flow.activation}"
+			}
+			on ("success").to "setPassword"
+			on ("doesNotExist").to "error"
+		}
+		
+		setPassword {
+			on ("next") {
+				flow.password1 = params.password1
+				flow.password2 = params.password2
+			}.to "processSetPassword"
+		}
+		
+		processSetPassword {
+			action {
+				User user = flow.activation.user
+
+				if (flow.password1 != flow.password2) {
+					flash.message = "Password and confirmation password don't match!"
+					return passwordMismatch()
+				} else {
+					flow.activation.activate(params.password1)
+					return success()
+				}
+			}
+			on ("passwordMismatch").to "setPassword"
+			on ("success").to "finish"
+		}
+		
+		error {
+			
+		}
+		
+		finish {
+			action {
+				redirect(controller: "dashboard", action: "index")
+			}
+		}
+	}
+	*/
 
     def changePasswordFlow = {
         start {

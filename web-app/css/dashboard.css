@@ -1,3 +1,7 @@
+.label {
+	font-weight: bold;
+}
+
 div#login-view {
 	margin: auto;
 	width: 200px;
@@ -26,15 +30,11 @@ span#gift-span {
 	font-size: 100%;
 }
 
-div#view-modal {
-	text-align: center;
-	position: absolute;
-	width: 600px;
+div#possessions-view {
+	display: block;
 	border: 1px solid black;
 	border-radius: 15px;
-	background-color: white;
-	display: none;
-	padding: 10px;
+	height: 300px;
 }
 
 .selected {
@@ -139,4 +139,10 @@ div.badge-text {
 
 div#details-view {
 	height: 200px;
+	width: 400px;
+	display: none;
+	border: 1px solid black;
+	border-radius: 15px;
+	padding: 5px;
+	margin: auto;
 }
