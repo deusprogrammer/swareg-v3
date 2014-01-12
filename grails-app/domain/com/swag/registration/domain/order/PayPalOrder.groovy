@@ -44,7 +44,7 @@ class PayPalOrder implements Serializable, Payable {
     public Double getSubtotal() {
         Double total = 0.0
         badges.each { RegistrationOrderItem badge ->
-            total += badge.price
+            total += badge.price * badge.quantity
         }
 
         return total

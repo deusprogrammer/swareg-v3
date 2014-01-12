@@ -1,10 +1,11 @@
 package com.swag.registration
 
+import com.swag.registration.email.RequestCredentialsMailSender
+
 class SetupUpdaterService {
 	def grailsApplication
 	
     def updateEmail(String username, String password) {
-		grailsApplication.config.grails.mail.username = username
-		grailsApplication.config.grails.mail.password = password
+		RequestCredentialsMailSender.overrideCreds(username, password)
     }
 }

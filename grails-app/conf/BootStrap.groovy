@@ -27,7 +27,7 @@ class BootStrap {
    def sessionFactory
 
    def init = { servletContext ->
-       if (ConfigHolder.getSwitch("swareg.setup")) {
+       if (!ConfigHolder.getSwitch("swareg.setup")) {
            ConfigHolder.setSwitch("payPal.debug", false)
            ConfigHolder.setSwitch("swareg.setup", false)
        }
