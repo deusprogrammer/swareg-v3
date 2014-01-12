@@ -164,7 +164,7 @@ class RegistrationFlowController {
                 // Get number in textfield and create an order object
                 PayPalOrder order = new PayPalOrder([event: flow.event])
                 params.levels.each { key, value ->
-                    if (key.isNumber()) {
+                    if (key.isNumber() && value.quantity && value.quantity > 0) {
                         println "${key} => ${value.quantity}"
                         order.addToBadges(new RegistrationOrderItem([
                             registrationLevel: RegistrationLevel.get(key.toLong()),

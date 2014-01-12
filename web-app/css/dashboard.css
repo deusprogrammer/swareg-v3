@@ -3,7 +3,6 @@
 }
 
 div#login-view {
-	margin: auto;
 	width: 200px;
 }
 
@@ -32,7 +31,6 @@ span#gift-span {
 
 div#possessions-view {
 	display: block;
-	border: 1px solid black;
 	border-radius: 15px;
 	height: 300px;
 }

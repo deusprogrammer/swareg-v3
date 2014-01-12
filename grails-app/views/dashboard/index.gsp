@@ -5,6 +5,7 @@
 	    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	    <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
+	    <meta name="layout" content="flow" />
 	    <script>
   			$(function() {
   	  			// Center modals
@@ -208,13 +209,6 @@
 			<button id="gift-send">Send</button><button id="gift-cancel">Cancel</button>
 		</div>
 		<div id="content">
-			<div id="banner">
-				<div style="background-color: lightblue; color: white;">
-					<sec:ifLoggedIn>
-			    		Welcome back <sec:username/>!  <g:link controller='logout'>Logout?</g:link>
-					</sec:ifLoggedIn>
-				</div>
-			</div>
 			<sec:ifNotLoggedIn>
 				<div id="login-view">
 					<g:form controller="userFlow">

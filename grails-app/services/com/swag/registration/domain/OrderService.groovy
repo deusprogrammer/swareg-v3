@@ -94,16 +94,21 @@ class OrderService {
         ])
 
         order.badges.each { RegistrationOrderItem badge ->
-            Double price = badge.price
-            Integer quantity = badge.quantity
-            String description = badge.description
-
-            transaction.addItem(new Item([
-                name: description,
-                price: price,
-                currency: currency,
-                quantity: quantity
-            ]))
+			if (badge && badge.quantity && badge.quantity > 0) {
+	            Double price = badge.price
+	            Integer quantity = badge.quantity
+	            String description = badge.description
+				print "*********BADGE:    ${badge}"
+				print "*********PRICE:    ${badge.price}"
+				print "*********QUANTITY: ${badge.quantity}"
+	
+	            transaction.addItem(new Item([
+	                name: description,
+	                price: price,
+	                currency: currency,
+	                quantity: quantity
+	            ]))
+			}
         }
 
         println "AMOUNT   ${transaction.amount}"

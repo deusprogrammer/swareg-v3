@@ -14,7 +14,6 @@
 				<tr><td class="label">Registration Level</td><td>${badge.registrationLevel.name}</td></tr>
 				<tr><td class="label">Description</td><td>${badge.registrationLevel.description}</td></tr>
 				<tr><td class="label">Order #</td><td>${badge.order.paymentId}</td></tr>
-				<tr><td class="label">Id</td><td>${badge.order.id}</td></tr>
 				<tr><td class="label">Operations</td><td></td></tr>
 			</tbody>
 		</table>
