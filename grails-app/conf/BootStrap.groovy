@@ -1,3 +1,4 @@
+import com.swag.registration.SetupUpdaterService
 import com.swag.registration.domain.ConfigHolder
 import com.swag.registration.security.Role
 import com.swag.registration.security.User
@@ -15,24 +16,26 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 class BootStrap {
-    def grailsApplication
+   def grailsApplication
 
    AclService aclService
    AclUtilService aclUtilService
    SpringSecurityService springSecurityService
+   SetupUpdaterService setupUpdaterService
 
    def objectIdentityRetrievalStrategy
    def sessionFactory
 
    def init = { servletContext ->
-       try {
-           new ConfigHolder(configKey: "payPal.clientId", configValue: "").save()
-           new ConfigHolder(configKey: "payPal.secret", configValue: "").save()
-           new ConfigHolder(configKey: "payPal.debug", configValue: "false").save()
-           new ConfigHolder(configKey: "swareg.setup", configValue: "false").save()
-       } catch (Exception e) {
-           println "ConfigHolder already initialized"
+       if (ConfigHolder.getSwitch("swareg.setup")) {
+           ConfigHolder.setSwitch("payPal.debug", false)
+           ConfigHolder.setSwitch("swareg.setup", false)
        }
+	   
+	   String emailAddress = ConfigHolder.getConfig("email.address")
+	   String emailPassword = ConfigHolder.getConfig("email.password")
+	   
+	   setupUpdaterService.updateEmail(emailAddress, emailPassword)
 
        createUsers()
        loginAsAdmin()

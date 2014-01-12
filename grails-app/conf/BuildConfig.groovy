@@ -42,24 +42,26 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         runtime 'mysql:mysql-connector-java:5.1.20'
-        compile "org.grails:grails-webflow:$grailsVersion"
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
+		build ':tomcat:7.0.47'
+		runtime ':hibernate:3.6.10.6'
+		compile ':scaffolding:2.0.0'
+		
         runtime ":resources:1.1.6"
 
         compile ":spring-security-core:1.2.7.3"
         compile ":spring-security-acl:1.1.1"
         compile ":jersey-request-builder:1.1.3"
-        compile ":grails-pay-pal-rest:1.0.2"
-
-        build ":tomcat:$grailsVersion"
+        compile ":grails-pay-pal-rest:1.0.3"
 
         compile ':cache:1.0.0'
-        compile ":mail:1.0.1"
-        compile ':webflow:2.0.0', {
-            exclude 'grails-webflow'
-        }
+        compile ":mail:1.0.1", {
+			excludes 'spring-test'
+		}
+        compile ':webflow:2.0.8.1', {
+			excludes 'javassist'
+		}
     }
 }

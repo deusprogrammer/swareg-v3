@@ -8,6 +8,11 @@ class EventController {
 
     EventSchedulerService eventSchedulerService
     EventService eventService
+	
+	// Return a css file with custom css defined
+	def css(Long id) {
+		render "Not implemented"
+	}
 
     def index() {
         redirect(action: "list")

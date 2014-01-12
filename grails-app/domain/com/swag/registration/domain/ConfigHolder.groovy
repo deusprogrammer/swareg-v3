@@ -13,11 +13,25 @@ class ConfigHolder implements Serializable {
     }
 
     public static void setConfig(String key, String value) {
-        ConfigHolder.findByConfigKey(key)?.configValue = value
+        ConfigHolder config = ConfigHolder.findByConfigKey(key)
+		if (config) {
+			config.configValue = value
+		} else {
+			config = new ConfigHolder(configKey: key, configValue: value)
+		}
+		
+		config.save()
     }
 
     public static void setSwitch(String key, Boolean value) {
-        ConfigHolder.findByConfigKey(key)?.configValue = (value ? "true" : "false")
+        ConfigHolder config = ConfigHolder.findByConfigKey(key)
+		if (config) {
+			config.configValue = (value ? "true" : "false")
+		} else {
+			config = new ConfigHolder(configKey: key, configValue: value ? "true" : "false")
+		}
+		
+		config.save()
     }
 
     static constraints = {

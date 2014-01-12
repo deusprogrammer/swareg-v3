@@ -45,6 +45,7 @@ class Event implements Serializable, Payable, Ownable {
     static mapping = {
         levels sort: 'price'
     }
+	
     @Override
     public Double getPrice() {
         return 0

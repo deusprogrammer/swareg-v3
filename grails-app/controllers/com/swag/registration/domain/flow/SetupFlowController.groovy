@@ -1,15 +1,18 @@
 package com.swag.registration.domain.flow
 
-import java.awt.FlowLayout;
+import java.awt.FlowLayout
 
-import com.sun.org.apache.xerces.internal.impl.xs.traversers.OneAttr;
+import com.sun.org.apache.xerces.internal.impl.xs.traversers.OneAttr
+import com.swag.registration.SetupUpdaterService
 import com.swag.registration.domain.ConfigHolder
 import com.swag.registration.security.User
 import grails.plugins.springsecurity.SpringSecurityService
 import grails.plugins.springsecurity.Secured
 
 class SetupFlowController {
+	SetupUpdaterService setupUpdaterService
     SpringSecurityService springSecurityService
+	def grailsApplication
 
     @Secured(['ROLE_GLOBAL'])
     def setupFlow = {
@@ -31,8 +34,16 @@ class SetupFlowController {
             on("next") {
                 ConfigHolder.setConfig("payPal.clientId", params.clientId)
                 ConfigHolder.setConfig("payPal.secret", params.secret)
-            }.to "changePassword"
+            }.to "setupEmail"
         }
+		
+		setupEmail {
+			on("next") {
+				ConfigHolder.setConfig("email.address", params.emailAddress)
+				ConfigHolder.setConfig("email.password", params.emailPassword)
+				setupUpdaterService.updateEmail(params.emailAddress, params.emailPassword)
+			}.to "changePassword"
+		}
 
         changePassword {
             on("set") {

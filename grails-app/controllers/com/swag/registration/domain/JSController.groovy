@@ -115,7 +115,6 @@ class JSController {
         registrationInstance.user = user
         registrationInstance.event = event
         registrationInstance.registrationLevel = regLevel
-        registrationInstance.receiptNumber = receiptNumber
         registrationInstance.paid = true
         if (!registrationInstance.save(flush: true)) {
             registrationInstance.errors.each {println it}

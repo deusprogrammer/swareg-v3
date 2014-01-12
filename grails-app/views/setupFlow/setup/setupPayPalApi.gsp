@@ -15,8 +15,8 @@
                 <fieldset class="flow">	                    
                     <legend>PayPal API Settings</legend>
 		            <table>
-		                <tr><td>ClientId</td><td><g:textField size="65" name="clientId" /></td></tr>
-		                <tr><td>Secret</td><td><g:textField size="65" name="secret" /></td></tr>
+		                <tr><td>ClientId</td><td><g:textField size="80" name="clientId" /></td></tr>
+		                <tr><td>Secret</td><td><g:textField size="80" name="secret" /></td></tr>
 		            </table>
 		            <g:submitButton name="next" value="Next"/>
 	            </fieldset>
