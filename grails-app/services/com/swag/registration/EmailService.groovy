@@ -7,6 +7,22 @@ import com.swag.registration.security.User
 
 class EmailService {
 	def grailsApplication
+	
+	def sendPasswordResetEmail(User user) {
+		try {
+			sendMail {
+				to user.emailAddress
+				subject "[SWAreG] Password Reset"
+				html(
+					view: "/emails/passwordReset",
+					model: [user: user]
+				)
+			}
+		 } catch (Exception e) {
+			 println e.message
+			 println "Failed to send email."
+		 }
+	}
 
     def sendOrderEmail(PayPalOrder ppo) {
 		try {

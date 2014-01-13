@@ -1,9 +1,11 @@
 eclipse.preferences.version=1
+encoding//.link_to_grails_plugins/hibernate-3.6.10.6/grails-app/i18n=UTF-8
+encoding//.link_to_grails_plugins/hibernate-3.6.10.6/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/mail-1.0.1/grails-app/i18n=UTF-8
 encoding//.link_to_grails_plugins/mail-1.0.1/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/mail-1.0.1/grails-app/i18n/messages_fr.properties=UTF-8
-encoding//.link_to_grails_plugins/pay-pal-rest-1.0.2/grails-app/i18n=UTF-8
-encoding//.link_to_grails_plugins/pay-pal-rest-1.0.2/grails-app/i18n/messages.properties=UTF-8
+encoding//.link_to_grails_plugins/pay-pal-rest-1.0.3/grails-app/i18n=UTF-8
+encoding//.link_to_grails_plugins/pay-pal-rest-1.0.3/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/resources-1.1.6/grails-app/i18n=UTF-8
 encoding//.link_to_grails_plugins/resources-1.1.6/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/spring-security-core-1.2.7.3/grails-app/i18n=UTF-8
