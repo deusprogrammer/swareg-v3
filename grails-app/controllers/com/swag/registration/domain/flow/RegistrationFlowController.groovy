@@ -234,6 +234,7 @@ class RegistrationFlowController {
 				flow.transaction = params.transaction
 				flow.payerId = params.PayerID
 				PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
+				flow.order = order
 				
 				if (!order) {
 					log.error("Unable to find a transaction with id ${flow.transaction}")
@@ -305,51 +306,6 @@ class RegistrationFlowController {
 			
 		}
 	}
-
-	/*
-    def completePayPal() {
-        PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
-
-        if (!order) {
-            log.error("Unable to find a transaction with id ${params.transactionId}")
-            flash.message = "Unable to find a transaction with id ${params.transactionId}"
-            return [order: order]
-        } else {
-            log.info("Found payment!")
-        }
-
-        Map paymentResults = orderService.executePayPalPayment(order, params.PayerID)
-
-        println "RESULTS: ${paymentResults}"
-
-        if (paymentResults["success"]) {
-            order.paymentCompleted = true
-            order.paymentStatus = paymentResults["status"]
-            order.transactionId = null
-            order.generateRegistrations()
-            order.save()
-
-            // Update user with shipping info returned from PayPal
-            User user = order.user
-            user.streetAddress1 = paymentResults["shipping"]["line1"]
-            user.streetAddress2 = paymentResults["shipping"]["line2"]
-            user.city = paymentResults["shipping"]["city"]
-            user.state = paymentResults["shipping"]["state"]
-            user.zipCode = paymentResults["shipping"]["zipCode"]
-            user.countryCode = paymentResults["shipping"]["countryCode"]
-            user.save()
-
-            return [order: order]
-        } else {
-            flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
-            return [order: order]
-        }
-    }
-
-    def processPayPal() {
-
-    }
-    */
 
     def cancelPayPal() {
 		chain(controller: "dashboard", action: "index")
