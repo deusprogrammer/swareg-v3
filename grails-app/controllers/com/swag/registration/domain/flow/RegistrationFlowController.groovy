@@ -199,7 +199,7 @@ class RegistrationFlowController {
                 String transactionId = order.transactionId
                 User user = conversation.user
 
-                String returnUrl = createLink(absolute: true, action: "completePayPal", params: [transaction: transactionId])
+                String returnUrl = createLink(absolute: true, action: "completeRegistration", params: [transaction: transactionId])
                 String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
 
                 Map paymentResults = orderService.payWithPayPal(order, returnUrl, cancelUrl)
@@ -241,52 +241,72 @@ class RegistrationFlowController {
 					error()
 				}
 			}
-			on ("success").to "confirmRegistration"
+			on ("success").to "confirmCR"
 			on ("error").to "errorCR"
 		}
 		
-		confirm {
-			on ("confirm").to "complete"
-			on ("cancel").to "cancel"
+		confirmCR {
+			on ("confirm").to "completeCR"
+			on ("cancel").to "cancelCR"
 		}
 		
-		complete {
-			PayPalOrder order = PayPalOrder.findByTransactionId(flow.transaction)
-			
-			Map paymentResults = orderService.executePayPalPayment(order, flow.payerId)
-	
-			println "RESULTS: ${paymentResults}"
-	
-			if (paymentResults["success"]) {
-				order.paymentCompleted = true
-				order.paymentStatus = paymentResults["status"]
-				order.transactionId = null
-				order.generateRegistrations()
-				order.save()
-	
-				// Update user with shipping info returned from PayPal
-				User user = order.user
-				user.streetAddress1 = paymentResults["shipping"]["line1"]
-				user.streetAddress2 = paymentResults["shipping"]["line2"]
-				user.city = paymentResults["shipping"]["city"]
-				user.state = paymentResults["shipping"]["state"]
-				user.zipCode = paymentResults["shipping"]["zipCode"]
-				user.countryCode = paymentResults["shipping"]["countryCode"]
-				user.save()
-			} else {
-				return error()
+		completeCR {
+			action {
+				PayPalOrder order = PayPalOrder.findByTransactionId(flow.transaction)
+				
+				Map paymentResults = orderService.executePayPalPayment(order, flow.payerId)
+		
+				println "RESULTS: ${paymentResults}"
+		
+				if (paymentResults["success"]) {
+					order.paymentCompleted = true
+					order.paymentStatus = paymentResults["status"]
+					order.transactionId = null
+					order.generateRegistrations()
+					order.save()
+		
+					// Update user with shipping info returned from PayPal
+					User user = order.user
+					user.streetAddress1 = paymentResults["shipping"]["line1"]
+					user.streetAddress2 = paymentResults["shipping"]["line2"]
+					user.city = paymentResults["shipping"]["city"]
+					user.state = paymentResults["shipping"]["state"]
+					user.zipCode = paymentResults["shipping"]["zipCode"]
+					user.countryCode = paymentResults["shipping"]["countryCode"]
+					user.save()
+				} else {
+					return error()
+				}
 			}
+			on ("success").to "finishCR"
+			on ("error").to "errorCR"
 		}
 		
-		cancel {
-			
+		cancelCR {
+			on ("confirm").to "goHomeCR"
 		}
 		
 		errorCR {
 			
 		}
+		
+		finishCR {
+			on ("confirm").to "goHomeCR"
+		}
+		
+		goHomeCR {
+			action {
+				redirect(controller: "dashboard", action: "index")
+			}
+			on ("success").to "endCR"
+		}
+		
+		endCR {
+			
+		}
 	}
 
+	/*
     def completePayPal() {
         PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
 
@@ -329,8 +349,9 @@ class RegistrationFlowController {
     def processPayPal() {
 
     }
+    */
 
     def cancelPayPal() {
-
+		chain(controller: "dashboard", action: "index")
     }
 }
