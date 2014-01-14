@@ -219,6 +219,7 @@
 		                <div class="event-button">
 		                <g:actionSubmit name="login" action="login" value="Login" />
 		                <g:actionSubmit name="newUser" action="createUser" value="New User" />
+		                <g:actionSubmit name="forgotPassword" action="resetPassword" value="Forgot Password" />
 		                </div>
 		            </g:form>
 	            </div>

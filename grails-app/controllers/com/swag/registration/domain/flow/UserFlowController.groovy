@@ -39,10 +39,14 @@ class UserFlowController {
 				User user = User.findByEmailAddress(flow.emailAddress)
 
 				if (user) {
-					PasswordReset pr = new PasswordReset(user: user)
-					pr.save(flush: true)
+					PasswordReset pr = PasswordReset.findByUser(user)
 					
-					println "TOKEN: ${pr.token}"
+					if (!pr) {
+						pr = new PasswordReset(user: user)
+						pr.save(flush: true)
+					}
+					
+					emailService.sendPasswordResetEmail(pr)
 				}
 			}
 			on ("error").to "userLookup"
@@ -50,6 +54,14 @@ class UserFlowController {
 		}
 		
 		finishRP {
+			action {
+				redirect(controller: "dashboard", action: "index")
+			}
+			on ("success").to "endRP"
+		}
+		
+		endRP {
+			
 		}
 	}
 
@@ -60,6 +72,7 @@ class UserFlowController {
 				println "PASSWORDRESETS: ${PasswordReset.list()}"
 				PasswordReset pr = PasswordReset.findByToken(flow.token)
 				if (!pr) {
+					println "SOMETHING FUCKED UP!"
 					error()
 				}
 			}
@@ -90,6 +103,10 @@ class UserFlowController {
 		}
 
 		errorNP {
+			action {
+				redirect(controller: "errors", action: "error404")
+			}
+			on ("success"). to "endNP"
 		}
 
 		finishNP {

@@ -2,24 +2,27 @@ package com.swag.registration
 
 import com.swag.registration.domain.Event
 import com.swag.registration.domain.Gift
+import com.swag.registration.domain.PasswordReset
 import com.swag.registration.domain.order.PayPalOrder
+import com.swag.registration.security.Activation
 import com.swag.registration.security.User
 
 class EmailService {
+	def g = new org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib()
 	def grailsApplication
 	
 	def isSetup() {
 		return grailsApplication.config.grails.mail.username != null && grailsApplication.config.grails.mail.password != null
 	}
 	
-	def sendPasswordResetEmail(User user) {
+	def sendPasswordResetEmail(PasswordReset pr) {
 		try {
 			sendMail {
-				to user.emailAddress
+				to pr.user.emailAddress
 				subject "[SWAreG] Password Reset"
 				html(
 					view: "/emails/passwordReset",
-					model: [user: user]
+					model: [url: g.createLink(controller: 'userFlow', action: 'setPassword', id: pr.token, absolute: true)]
 				)
 			}
 		 } catch (Exception e) {
@@ -61,9 +64,6 @@ class EmailService {
 	}
 	
 	def sendEventCreateEmail(Event event) {
-		println "TO:              ${event.user.emailAddress}"
-		println "FROM:            ${grailsApplication.config.grails.mail.username}"
-		println "PASSWORD:        ${grailsApplication.config.grails.mail.password}"
 		try {
 			sendMail {
 				to event.user.emailAddress
@@ -103,6 +103,22 @@ class EmailService {
 		 } catch (Exception e) {
  		 	println e.message
 		 	println "Failed to send email."
+		 }
+	}
+	
+	def sendOnsiteOrderEmail(Activation activation) {
+		try {
+			sendMail {
+				to activation.user.emailAddress
+				subject "[SWAreG] Onsite Registration Confirmation"
+				html(
+					view: "/emails/unregisteredOrder",
+					model: [activation: activation]
+				)
+			}
+		 } catch (Exception e) {
+			 println e.message
+			 println "Failed to send email."
 		 }
 	}
 }

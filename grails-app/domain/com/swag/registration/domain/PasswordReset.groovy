@@ -13,8 +13,4 @@ class PasswordReset implements Serializable {
     static constraints = {
 		user unique: true
     }
-	
-	def afterInsert() {
-		emailService.sendPasswordResetEmail(this)
-	}
 }

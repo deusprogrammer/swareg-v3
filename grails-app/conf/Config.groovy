@@ -63,6 +63,7 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         payPal.debug = true
+		// grails.serverURL = "http://localhost:8080/swareg"
     }
     production {
         grails.logging.jul.usebridge = false
