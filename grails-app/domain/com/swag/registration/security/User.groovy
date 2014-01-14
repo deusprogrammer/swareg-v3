@@ -1,10 +1,11 @@
 package com.swag.registration.security
 
 import com.swag.registration.domain.*
+import grails.plugins.springsecurity.SpringSecurityService
 
 class User implements Serializable {
     transient springSecurityService
-
+	
     // Spring Security variables
     String username
     String password
@@ -12,7 +13,6 @@ class User implements Serializable {
     boolean accountExpired = false
     boolean accountLocked = false
     boolean passwordExpired = false
-    String resetToken
 
     // Name
     String firstName
@@ -57,7 +57,6 @@ class User implements Serializable {
         gender nullable: true
         age nullable: true
         emailAddress email: true, unique: true
-        resetToken nullable: true
     }
 
     static mapping = {
