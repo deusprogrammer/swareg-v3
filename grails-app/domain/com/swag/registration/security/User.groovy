@@ -1,9 +1,11 @@
 package com.swag.registration.security
 
+import com.swag.registration.*
 import com.swag.registration.domain.*
 import grails.plugins.springsecurity.SpringSecurityService
 
 class User implements Serializable {
+	transient emailService
     transient springSecurityService
 	
     // Spring Security variables

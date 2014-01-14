@@ -8,6 +8,10 @@ import com.swag.registration.security.User
 class EmailService {
 	def grailsApplication
 	
+	def isSetup() {
+		return grailsApplication.config.grails.mail.username != null && grailsApplication.config.grails.mail.password != null
+	}
+	
 	def sendPasswordResetEmail(User user) {
 		try {
 			sendMail {

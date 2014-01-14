@@ -1,9 +1,11 @@
 package com.swag.registration.domain.flow
 
 import com.sun.org.apache.xerces.internal.impl.xs.traversers.OneAttr
+import com.swag.registration.EmailService
 import com.swag.registration.domain.*
 import com.swag.registration.domain.order.*
 import com.swag.registration.security.User
+import com.trinary.paypal.error.exception.PayPalException
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -12,6 +14,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 
 class RegistrationFlowController {
+	EmailService emailService
     OrderService orderService
     SpringSecurityService springSecurityService
 
@@ -202,7 +205,17 @@ class RegistrationFlowController {
                 String returnUrl = createLink(absolute: true, action: "completeRegistration", params: [transaction: transactionId])
                 String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
 
-                Map paymentResults = orderService.payWithPayPal(order, returnUrl, cancelUrl)
+				Map paymentResults
+				
+				try {
+					paymentResults = orderService.payWithPayPal(order, returnUrl, cancelUrl)
+				} catch (PayPalException e) {
+					flash.message = "${e.map.message}<br>Details:<br>${e.map.details ?: ''}"
+					return error()
+				} catch (Exception e) {
+					flash.message = "Unexpected error occured during PayPal transaction!  Please contact webmaster at swag.expo@gmail.com with exception message below.<br>Exception: ${e.message}"
+					return error()
+				}
 
                 if (paymentResults["success"]) {
                     order.user = user
@@ -211,8 +224,8 @@ class RegistrationFlowController {
                     println "Redirecting to ${paymentResults['redirectUrl']}"
                     redirect(url: paymentResults['redirectUrl'])
                 } else {
-                    flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
-                    return error()
+					flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
+					return error()
                 }
             }
             on ("success").to "end"
@@ -265,6 +278,8 @@ class RegistrationFlowController {
 					order.transactionId = null
 					order.generateRegistrations()
 					order.save()
+					
+					emailService.sendOrderEmail(order)
 		
 					// Update user with shipping info returned from PayPal
 					User user = order.user

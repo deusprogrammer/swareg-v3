@@ -1,9 +1,12 @@
 package com.swag.registration.domain
 
+import com.swag.registration.*
 import com.swag.registration.security.*
 import java.util.UUID
 
 class Event implements Serializable, Payable, Ownable {
+	transient emailService
+	
     String uuid = UUID.randomUUID().toString()
     String apiKey = UUID.randomUUID().toString()
     String name
@@ -45,6 +48,10 @@ class Event implements Serializable, Payable, Ownable {
     static mapping = {
         levels sort: 'price'
     }
+	
+	def afterInsert() {
+		emailService.sendEventCreateEmail(this)
+	}
 	
     @Override
     public Double getPrice() {

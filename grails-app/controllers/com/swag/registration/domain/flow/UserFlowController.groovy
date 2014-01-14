@@ -1,5 +1,6 @@
 package com.swag.registration.domain.flow
 
+import com.swag.registration.EmailService
 import com.swag.registration.domain.PasswordReset
 import com.swag.registration.security.Activation
 import com.swag.registration.security.Role
@@ -14,6 +15,7 @@ import org.apache.commons.lang.RandomStringUtils
 
 class UserFlowController {
 	SpringSecurityService springSecurityService
+	EmailService emailService
 
 	def login() {
 		User user = User.findByEmailAddress(params.emailAddress)
@@ -334,6 +336,7 @@ class UserFlowController {
 		finish {
 			action {
 				// Send email about user creation
+				emailService.sendUserCreateEmail(conversation.user)
 
 				if (flow.sub) {
 					success()
