@@ -27,38 +27,42 @@ class UserFlowController {
 
 	def resetPasswordFlow = {
 		start {
-			on ("success").to "resetPassword"
-		}
-
-		resetPassword {
 			on ("submit") {
 				flow.emailAddress = params.emailAddress
-			}.to "processResetPassword"
+			}.to "processResetPassword"		
 		}
 
-		processPasswordReset {
+		processResetPassword {
 			action {
 				User user = User.findByEmailAddress(flow.emailAddress)
 
 				if (user) {
-					new PasswordReset(user: user).save(flush: true)
+					PasswordReset pr = new PasswordReset(user: user)
+					pr.save(flush: true)
+					
+					println "TOKEN: ${pr.token}"
 				}
 			}
+			on ("error").to "userLookup"
+			on ("success").to "finishRP"
+		}
+		
+		finishRP {
 		}
 	}
 
 	def setPasswordFlow = {
 		start {
 			action {
-				PasswordReset pr = PasswordReset.findByToken(params.token)
+				flow.token = params.id
+				println "PASSWORDRESETS: ${PasswordReset.list()}"
+				PasswordReset pr = PasswordReset.findByToken(flow.token)
 				if (!pr) {
 					error()
 				}
-
-				flow.pr = pr
 			}
 			on("success").to "promptNewPassword"
-			on("error").to "notFoundPR"
+			on("error").to "errorNP"
 		}
 
 		promptNewPassword {
@@ -74,9 +78,10 @@ class UserFlowController {
 					return error()
 				}
 
-				flow.pr.user.password = flow.password1
-				flow.pr.user.save()
-				flow.pr.delete()
+				PasswordReset pr = PasswordReset.findByToken(flow.token)
+				pr.user.password = flow.password1
+				pr.user.save()
+				pr.delete()
 			}
 			on("success").to "finishNP"
 			on("error").to "promptNewPassword"
@@ -86,6 +91,13 @@ class UserFlowController {
 		}
 
 		finishNP {
+			action {
+				redirect(controller: "dashboard", action: "index")
+			}
+			on ("success").to "endNP"
+		}
+		
+		endNP {
 		}
 	}
 
