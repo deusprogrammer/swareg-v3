@@ -106,8 +106,6 @@ class UserController {
     def delete(Long id) {
         def userInstance = User.get(id)
 
-        userService.accessCheck(userInstance)
-
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
             redirect(action: "list")

@@ -3,39 +3,29 @@
         <meta name="layout" content="email">
     </head>
     <body>
-        <h3>Event Creation Confirmation</h3>
+        <h3>You Received a Gift!</h3>
         <div class="pretext">
-            <p>Thank you for creating an event with SWAreG.  Below is a summary of your event creation.  Please let us know if
-            we can assist you further.</p>
+            <p>You received a gift registration from ${gift.giver} for ${gift.badge.event}.  
+            Click on the button below to activate your account on SWAreG, and then login to
+            the dashboard to claim it!  See details about your badge below!
+            Please make sure you claim your badge as the gift will expire in 30 days and be returned
+            to ${gift.giver}.</p>
         </div>
         <div class="round">
 			<fieldset class="flow">
-		      <legend>Basic Info</legend>
-		      <table>
-		          <tr><td>Name</td><td>${event?.name}</td></tr>
-		          <tr><td>Year</td><td>${event?.year}</td></tr>
-		          <tr><td>Numeral</td><td>${event?.numeral}</td></tr>
-		          <tr><td>Home Page</td><td>${event?.homePage}</td></tr>
-		     </table>
-		     </fieldset>
-		     <fieldset class="flow">
-		     	<legend>Merchant Info</legend>
-		      	<table>
-		        	<tr><td>Pay Pal Email Address</td><td>${event?.merchantEmail}</td></tr>
-		          	<tr><td>Currency</td><td>${event?.currency}</td></tr>
-		          	<tr><td>Tax Rate</td><td>${event?.taxRate}</td></tr>
-		     	</table>
+		    	<legend>Badge Info</legend>
+		    		<table>
+		          		<tr><td>Badge Level</td><td>${gift.badge.registrationLevel.name}</td></tr>
+		          		<tr><td>Badge Description</td><td>${gift.badge.registrationLevel.description}</td></tr>
+		          		<tr><td>Event</td><td>${gift.badge.event}</td></tr>
+	          		</table>
 		     </fieldset>
 	    </div>
-	    <div class="round">
-	    	<fieldset class="flow">
-	        <legend>Registration Levels</legend>
-	        <table>
-	        	<g:each in="${event?.levels}" var="level">
-	            	<tr><td>${level?.name}</td><td>${String.format("%.2f",level?.price)} ${event?.currency}</td></tr>
-	         	</g:each>
-	     	</table>
-	    	</fieldset>
+        <div class="round">
+			<fieldset class="flow">
+		      <legend>Activate Account</legend>
+		      <a href="${url}"><button>Activate</button></a>
+		     </fieldset>
 	    </div>
     </body>
 </html>

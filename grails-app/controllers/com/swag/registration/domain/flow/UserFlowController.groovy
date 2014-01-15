@@ -1,6 +1,7 @@
 package com.swag.registration.domain.flow
 
 import com.swag.registration.EmailService
+import com.swag.registration.domain.Gift
 import com.swag.registration.domain.PasswordReset
 import com.swag.registration.security.Activation
 import com.swag.registration.security.Role
@@ -130,7 +131,8 @@ class UserFlowController {
 					return doesNotExist()
 				}
 
-				print "TOKEN:      ${flow.token}"
+				print "ACTIVATIONS: ${Activation.list()}"
+				print "TOKEN:       ${flow.token}"
 			}
 			on ("success").to "activate"
 			on ("doesNotExist").to "errorSP"
@@ -146,12 +148,24 @@ class UserFlowController {
 		processActivation {
 			action {
 				Activation activation = Activation.findByToken(flow.token)
+				Gift gift = Gift.findByActivation(activation)
+				long id = activation.user.id
 
 				if (flow.password1 != flow.password2) {
 					flash.message = "Password and confirmation password don't match!"
 					return passwordMismatch()
 				} else {
-					activation.activate(flow.password1)
+					User user = User.get(id)
+					user.enabled = true
+					user.password = flow.password1
+					if (!user.save(flush: true)) {
+						print "ERROR UPDATING USER.  ERRORS: ${activation.user.errors}"
+					}
+					
+					if (gift) {
+						gift.activation = null
+					}
+					activation.delete()
 					return success()
 				}
 			}

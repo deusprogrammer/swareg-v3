@@ -25,12 +25,7 @@ class Activation implements Serializable {
 	}
 	
 	public void activate(String password) {
-		user.enabled = true
-		user.password = password
-		if (!user.save(flush: true)) {
-			print "ERROR UPDATING USER.  ERRORS: ${user.errors}"
-		}
-		this.delete()
+
 	}
 
     static constraints = {

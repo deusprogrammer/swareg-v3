@@ -4,7 +4,7 @@ import com.swag.registration.*
 import com.swag.registration.security.*
 
 class Gift {
-	transient emailService
+	static transient emailService
 	
 	User giver
 	User receiver
@@ -24,14 +24,18 @@ class Gift {
 			
 			print "TOKEN: ${activation.token}"
 			user = activation.user
+		} else if (!user.enabled) {
+			activation = Activation.findByUser(user)
 		}
 		
 		Gift gift = new Gift(giver: badge.user, receiver: user, badge: badge, activation: activation, expires: new Date() + 30)
 		
-		if (!gift.save(flush: true)) {
+		if (!gift.save()) {
 			print gift.errors
 			return null
 		}
+		
+		emailService.sendGiftEmail(gift)
 		
 		return gift
 	}
@@ -63,8 +67,4 @@ class Gift {
     static constraints = {
 		activation nullable: true
     }
-	
-	def afterInsert() {
-		emailService.sendGiftEmail(this)
-	}
 }

@@ -3,6 +3,7 @@ package com.swag.registration.security
 import com.swag.registration.*
 import com.swag.registration.domain.*
 import grails.plugins.springsecurity.SpringSecurityService
+import java.security.MessageDigest
 
 class User implements Serializable {
 	transient emailService
@@ -70,12 +71,12 @@ class User implements Serializable {
     }
 
     def beforeInsert() {
-        encodePassword()
+        encodePassword2()
     }
 
     def beforeUpdate() {
         if (isDirty('password')) {
-            encodePassword()
+            encodePassword2()
         }
     }
 
@@ -86,4 +87,14 @@ class User implements Serializable {
     protected void encodePassword() {
         password = springSecurityService.encodePassword(password)
     }
+	
+	// Hard coding the necessary encoding to make hibernate and webflows happy
+	protected void encodePassword2() {
+		password = sha256Hash(password)
+	}
+	
+	// Hard coding the necessary encoding to make hibernate and webflows happy
+	protected static String sha256Hash(String value) {
+		return org.apache.commons.codec.digest.DigestUtils.sha256Hex(value) 
+	}
 }

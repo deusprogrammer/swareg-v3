@@ -81,7 +81,7 @@ class EmailService {
 	
 	def sendGiftEmail(Gift gift) {
 		try {
-			if (gift.receiver.enabled) {
+			if (!gift.activation) {
 				sendMail {
 					to gift.receiver.emailAddress
 					subject "[SWAreG] You Received a gift badge!  ${gift.badge.event}"
@@ -96,7 +96,7 @@ class EmailService {
 					subject "[SWAreG] You Received a gift badge!  ${gift.badge.event}"
 					html(
 						view: "/emails/unregisteredGift",
-						model: [gift: gift]
+						model: [gift: gift, url: g.createLink(controller: 'userFlow', action: 'activate', id: gift.activation.token, absolute: true)]
 					)
 				}
 			}
@@ -113,7 +113,7 @@ class EmailService {
 				subject "[SWAreG] Onsite Registration Confirmation"
 				html(
 					view: "/emails/unregisteredOrder",
-					model: [activation: activation]
+					model: [activation: activation, url: g.createLink(controller: 'userFlow', action: 'activate', id: activation.token, absolute: true)]
 				)
 			}
 		 } catch (Exception e) {
