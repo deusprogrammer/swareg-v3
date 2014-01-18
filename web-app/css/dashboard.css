@@ -117,6 +117,7 @@ div.badge {
 	width: 150px;
 	margin: 5px;
 	border-radius:15px;
+	background-color: #333333;
 }
 
 div.event {
@@ -126,6 +127,7 @@ div.event {
 	border-radius:25px;
 	margin: 5px;
 	padding: 5px;
+	background-color: #333333;
 }
 
 div.badge-image {
@@ -148,4 +150,5 @@ div#details-view {
 	border-radius: 15px;
 	padding: 5px;
 	margin: auto;
+	background-color: #333333;
 }

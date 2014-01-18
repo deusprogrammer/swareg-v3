@@ -43,14 +43,23 @@ class RegistrationLevel implements Serializable, EventChildObject {
     public Double getCurrentPrice() {
         def now = new Date()
         def price
-        PreRegistrationOffer offer = this.preRegOffers?.find{ PreRegistrationOffer offer -> offer.startDate <= now && offer.endDate >= now}
+        ArrayList<PreRegistrationOffer> offers = this.preRegOffers?.findAll{ PreRegistrationOffer offer -> offer.startDate <= now && offer.endDate >= now}
 
-        if (!offer) {
-            price = this.price
-        }
-        else {
-            price = offer.price
-        }
+		PreRegistrationOffer offer = null
+		
+		// Find lowest price
+		offers.each { PreRegistrationOffer it ->
+			if (!offer || it.price < offer.price) {
+				offer = it
+			}
+		}
+		
+		// If no offers found, then the price is the default
+		if (!offer) {
+			price = this.price
+		} else {
+			price = offer.price
+		}
 
         return price
     }

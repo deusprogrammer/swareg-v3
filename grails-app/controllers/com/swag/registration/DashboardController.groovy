@@ -1,10 +1,15 @@
 package com.swag.registration
+import java.text.SimpleDateFormat;
+
 import com.swag.registration.domain.*
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
+import java.text.SimpleDateFormat
 
 class DashboardController {
 	SpringSecurityService springSecurityService
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy")
 	
     def index() {
 		if (!springSecurityService.loggedIn) {
@@ -110,12 +115,61 @@ class DashboardController {
 	def viewBadge(Long id) {
 		Registration badge = Registration.get(id)
 		
+		if (!badge) {
+			response.setStatus(404)
+			return
+		}
+		
 		[badge: badge]
 	}
 	
 	def viewEvent(Long id) {
 		Event event = Event.get(id)
 		
+		if (!event) {
+			response.setStatus(404)
+			return
+		}
+		
+		event.levels.each { RegistrationLevel it ->
+			println "LEVEL: ${it}"
+			it.preRegOffers.each { PreRegistrationOffer offer ->
+				println "\tOFFER: ${offer}"
+			}
+		}
+		
 		[event: event]
+	}
+	
+	def addPreRegOffer(Long id) {
+		Event event = Event.get(id)
+		
+		if (!event) {
+			response.setStatus(404)
+			return
+		}
+		
+		[event: event]
+	}
+	
+	def savePreRegOffer() {
+		RegistrationLevel level = RegistrationLevel.get(params.tier)
+		
+		if (!level) {
+			response.setStatus(404)
+			return
+		}
+		
+		params.startDate = formatter.parse(params.startDate)
+		params.endDate   = formatter.parse(params.endDate)
+		
+		PreRegistrationOffer offer = new PreRegistrationOffer(params)
+		offer.registrationLevel = level
+		if (!offer.save(flush: true)) {
+			print "ERRORS SAVING PRE-REG OFFER!  ${offer.errors}"
+		}
+				
+		redirect(action: "index")
+		return
 	}
 }
