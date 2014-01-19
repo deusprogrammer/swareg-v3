@@ -2,12 +2,14 @@ package com.swag.registration
 import java.text.SimpleDateFormat;
 
 import com.swag.registration.domain.*
+import com.swag.registration.security.acl.*
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 import java.text.SimpleDateFormat
 
 class DashboardController {
 	SpringSecurityService springSecurityService
+	EventService eventService
 	
 	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy")
 	
@@ -115,7 +117,7 @@ class DashboardController {
 	def viewBadge(Long id) {
 		Registration badge = Registration.get(id)
 		
-		if (!badge) {
+		if (!badge || badge.user != springSecurityService.currentUser) {
 			response.setStatus(404)
 			return
 		}
@@ -126,7 +128,7 @@ class DashboardController {
 	def viewEvent(Long id) {
 		Event event = Event.get(id)
 		
-		if (!event) {
+		if (!event || event.user != springSecurityService.currentUser) {
 			response.setStatus(404)
 			return
 		}
@@ -148,7 +150,7 @@ class DashboardController {
 	def addPreRegOffer(Long id) {
 		Event event = Event.get(id)
 		
-		if (!event) {
+		if (!event || event.user != springSecurityService.currentUser) {
 			response.setStatus(404)
 			return
 		}
@@ -159,10 +161,12 @@ class DashboardController {
 	def savePreRegOffer() {
 		RegistrationLevel level = RegistrationLevel.get(params.tier)
 		
-		if (!level) {
+		if (!level || level.event.user != springSecurityService.currentUser) {
 			response.setStatus(404)
 			return
 		}
+		
+		// eventService.checkWrite(level)
 		
 		params.startDate = formatter.parse(params.startDate)
 		params.endDate   = formatter.parse(params.endDate)

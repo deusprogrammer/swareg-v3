@@ -36,8 +36,8 @@
 
               		$("div#details-view").hide().load("${createLink(action:'viewBadge')}/" + selected_badge, function() {
                 		$(this).fadeIn();
-                		$("div#details-menu").hide().fadeIn();
-            		}); 
+            		});
+              		$("div#details-menu").hide();
             		
     			    timeoutId = setTimeout(function() {
                 		switch(badge_ownership) {
@@ -78,42 +78,6 @@
             		$("div.dropdown-menu").hide();
                 	$(this).addClass("hard-selected");
                 });
-
-            	/*
-                $("div.badge").click(function(event) {
-            		selected_badge      = $(this).attr("badge-number");
-            		badge_ownership     = $(this).attr("badge-ownership");
-            		$previous_selection = $(this);
-
-              		$("div#details-view").hide().load("${createLink(action:'viewBadge')}/" + selected_badge, function() {
-                		$(this).fadeIn();
-            		});          	
-            		
-            		switch(badge_ownership) {
-            		case "gifted":
-                		console.log("GIFTED");
-            			$("div#gifted-dropdown-menu").css({
-                    		top:  event.clientY,
-                			left: event.clientX
-                    	}).fadeIn();
-                		break;
-            		case "owned":
-                		console.log("OWNED");
-            			$("div#owned-dropdown-menu").css({
-                    		top:  event.clientY,
-                			left: event.clientX
-                    	}).fadeIn();
-                		break;
-            		case "received":
-                		console.log("RECEIVED");
-            			$("div#received-dropdown-menu").css({
-                    		top:  event.clientY,
-                			left: event.clientX
-                    	}).fadeIn();
-                		break;
-            		}
-                });
-                */
 
             	$("div.event").click(function(event) {
                 	event_number = $(this).attr("event-number");
