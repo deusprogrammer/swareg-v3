@@ -7,14 +7,11 @@
 	    <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
 	</head>
 	<body>
-		<h3>${badge}</h3>
-		<table>
-			<tbody>
-				<tr><td class="label">Event</td><td>${badge.event}</td></tr>
-				<tr><td class="label">Registration Level</td><td>${badge.registrationLevel.name}</td></tr>
-				<tr><td class="label">Description</td><td>${badge.registrationLevel.description}</td></tr>
-				<tr><td class="label">Order #</td><td>${badge.order.paymentId}</td></tr>
-			</tbody>
-		</table>
+		<h3>Badge Menu</h3>
+		<ul>
+			<li>Gift</li>
+			<li>Ungift</li>
+			<li>Accept</li>
+		</ul>
 	</body>
 </html>

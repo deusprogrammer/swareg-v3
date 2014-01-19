@@ -8,6 +8,9 @@
 	    <meta name="layout" content="flow" />
 	    <script>
   			$(function() {
+				$("#details-view").hide();
+				$("#details-menu").hide();
+  	  			
   	  			// Center modals
 				centerElement("div#gift-modal");
 				centerElement("div#view-modal");
@@ -23,7 +26,6 @@
     			$("#gifted-menu").menu();
     			$("#received-menu").menu();
 
-
     			var timeoutId = 0;
 
     			$('div.badge').mousedown(function(event) {
@@ -34,6 +36,7 @@
 
               		$("div#details-view").hide().load("${createLink(action:'viewBadge')}/" + selected_badge, function() {
                 		$(this).fadeIn();
+                		$("div#details-menu").hide().fadeIn();
             		}); 
             		
     			    timeoutId = setTimeout(function() {
@@ -118,6 +121,9 @@
                 	$("div#details-view").hide().load("${createLink(action:'viewEvent')}/" + event_number, function() {
                     	$(this).fadeIn();
                     });
+                	$("div#details-menu").hide().load("${createLink(action:'eventMenu')}/" + event_number, function() {
+                    	$(this).fadeIn();
+                	});
                 });
         		
         		$(".dropdown-item").click(function() {
@@ -274,11 +280,15 @@
 									<div class="event mousable" event-number="${event.id}">${event}</div>
 								</g:each>
 							</div>
-							<a href="${createLink(controller: "eventFlow", action: "createEvent")}" title="New Event"><button style="height:210px;">+</button></a>
+							<a href="${createLink(controller: "eventFlow", action: "createEvent")}" title="New Event"><button style="height:110px;">+</button></a>
 						</div>
 					</div>
 				</div>
-				<div id="details-view">
+				<div id="details-container">
+					<div id="details-view">
+					</div>
+					<div id="details-menu">
+					</div>
 				</div>
 			</sec:ifLoggedIn>
 		</div>

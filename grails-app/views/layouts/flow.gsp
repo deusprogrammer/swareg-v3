@@ -139,7 +139,7 @@
 	            </div>
 	        </g:if>
 	        <div id="banner">
-	        	<img src="${resource(dir: 'images', file: 'Swag-Logo.png')}" width="400px"/>
+	        	<img src="${resource(dir: 'images', file: 'Swag-Logo.png')}" height="100px"/>
 	        </div>
 	        <div id="session">
 	            <sec:ifLoggedIn>

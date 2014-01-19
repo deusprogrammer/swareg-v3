@@ -141,6 +141,10 @@ class DashboardController {
 		[event: event]
 	}
 	
+	def eventMenu(Long id) {
+		[eventId: id]
+	}
+	
 	def addPreRegOffer(Long id) {
 		Event event = Event.get(id)
 		

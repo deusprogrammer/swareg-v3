@@ -26,7 +26,7 @@
 		<link>
 			<name>.link_to_grails_plugins</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/2.3.4/projects/swareg/plugins</locationURI>
+			<locationURI>GRAILS_ROOT/2.3.5/projects/swareg/plugins</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
