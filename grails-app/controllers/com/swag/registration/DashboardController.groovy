@@ -147,7 +147,8 @@ class DashboardController {
 		[eventId: id]
 	}
 	
-	def addPreRegOffer(Long id) {
+	def preRegOfferDash(Long id) {
+		print "ID: ${id}"
 		Event event = Event.get(id)
 		
 		if (!event || event.user != springSecurityService.currentUser) {
@@ -166,7 +167,7 @@ class DashboardController {
 			return
 		}
 		
-		// eventService.checkWrite(level)
+		eventService.checkWrite(level)
 		
 		params.startDate = formatter.parse(params.startDate)
 		params.endDate   = formatter.parse(params.endDate)
@@ -177,7 +178,31 @@ class DashboardController {
 			print "ERRORS SAVING PRE-REG OFFER!  ${offer.errors}"
 		}
 				
-		redirect(action: "index")
+		redirect(action: "preRegOfferDash", id: level.event.id)
 		return
+	}
+	
+	def deletePreRegOffer(Long id) {
+	    def offer = PreRegistrationOffer.get(id)
+
+        if (!offer) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'offer.label', default: 'PreRegistrationOffer'), id])
+            redirect(action: "preRegOfferDash", id: offer.registrationLevel.event.id)
+            return
+        }
+
+        eventService.checkDelete(offer)
+
+        try {
+            offer.delete(flush: true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'offer.label', default: 'PreRegistrationOffer'), id])
+            redirect(action: "preRegOfferDash", id: offer.registrationLevel.event.id)
+            return
+        }
+        catch (Exception e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'offer.label', default: 'PreRegistrationOffer'), id])
+            redirect(action: "preRegOfferDash", id: offer.registrationLevel.event.id)
+            return
+        }
 	}
 }
