@@ -176,6 +176,10 @@ fieldset.menu-set {
 	height: 100px;
 }
 
+td.highlighted {
+	color: red;
+}
+
 a.menu-link {
 	text-decoration: none;
 	color: white;

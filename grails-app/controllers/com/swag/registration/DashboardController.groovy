@@ -147,8 +147,64 @@ class DashboardController {
 		[eventId: id]
 	}
 	
+	def tierDash(Long id) {
+		Event event = Event.get(id)
+		
+		if (!event || event.user != springSecurityService.currentUser) {
+			response.setStatus(404)
+			return
+		}
+		
+		[event: event]
+	}
+	
+	def saveTier() {
+		Event event = Event.get(params.eventId)
+		
+		if (!event || event.user != springSecurityService.currentUser) {
+			response.setStatus(404)
+			return
+		}
+		
+		RegistrationLevel rl = new RegistrationLevel(params)
+		rl.event = event
+		
+		if (!rl.save()) {
+			flash.message = "Unable to save registration level!"
+		} else {
+			flash.message = "Registration level created successfully!"
+		}
+		
+		redirect(action: "tierDash", id: params.eventId)
+	}
+	
+	def deleteTier(Long id) {
+	   RegistrationLevel rl = RegistrationLevel.get(id)
+
+        if (!rl || rl.event.user != springSecurityService.currentUser) {
+        	println "Unable to delete tier"
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'rl.label', default: 'RegistrationLevel'), id])
+            redirect(action: "tierDash", id: rl.event.id)
+            return
+        }
+
+        eventService.checkDelete(rl)
+
+        try {
+            rl.delete(flush: true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'rl.label', default: 'RegistrationLevel'), id])
+            redirect(action: "tierDash", id: rl.event.id)
+            return
+        }
+        catch (Exception e) {
+        	println "Unable to delete tier!  ${e.message}"
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'rl.label', default: 'RegistrationLevel'), id])
+            redirect(action: "tierDash", id: rl.event.id)
+            return
+        }
+	}
+	
 	def preRegOfferDash(Long id) {
-		print "ID: ${id}"
 		Event event = Event.get(id)
 		
 		if (!event || event.user != springSecurityService.currentUser) {
@@ -183,7 +239,7 @@ class DashboardController {
 	}
 	
 	def deletePreRegOffer(Long id) {
-	    def offer = PreRegistrationOffer.get(id)
+	    PreRegistrationOffer offer = PreRegistrationOffer.get(id)
 
         if (!offer) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'offer.label', default: 'PreRegistrationOffer'), id])

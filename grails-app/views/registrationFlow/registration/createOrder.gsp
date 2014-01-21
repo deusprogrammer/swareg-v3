@@ -16,7 +16,7 @@
 	            <fieldset class="flow">
 		            <legend>Badge Levels</legend>
 		            <table>
-			            <g:each in="${event.levels}" var="level">
+			            <g:each in="${event.levels.findAll{!it.needAdmin}}" var="level">
 			                <tr><td>${level.name}</td><td>${String.format("%.2f",level.currentPrice)} ${level.event.currency.currencyCode}</td><td><g:field size="2" type="number" name="levels.${level.id}.quantity" /></td></tr>
 		                </g:each>
 	                </table>

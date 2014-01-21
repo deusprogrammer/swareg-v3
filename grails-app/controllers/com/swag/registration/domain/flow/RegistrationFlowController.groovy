@@ -169,10 +169,13 @@ class RegistrationFlowController {
                 params.levels.each { key, value ->
                     if (key.isNumber() && value.quantity && value.quantity > 0) {
                         println "${key} => ${value.quantity}"
-                        order.addToBadges(new RegistrationOrderItem([
-                            registrationLevel: RegistrationLevel.get(key.toLong()),
-                            quantity: value.quantity
-                        ]))
+						RegistrationLevel rl = RegistrationLevel.get(key.toLong())
+						if (!rl.needAdmin) {
+	                        order.addToBadges(new RegistrationOrderItem([
+	                            registrationLevel: rl,
+	                            quantity: value.quantity
+	                        ]))
+						}
                     }
                 }
 

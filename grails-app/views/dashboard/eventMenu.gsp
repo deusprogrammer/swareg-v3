@@ -16,7 +16,7 @@
 			</fieldset>
 			<fieldset class="menu-set" style="float: right;">
 				<legend>Tiers Menu</legend>
-				Add Tier<br/>
+				<g:link class="menu-link" action="tierDash" id="${eventId}">Add/Remove Tiers</g:link><br/>
 				<g:link class="menu-link" action="preRegOfferDash" id="${eventId}">Add/Remove Offers</g:link><br/>
 			</fieldset>
 		</div>
