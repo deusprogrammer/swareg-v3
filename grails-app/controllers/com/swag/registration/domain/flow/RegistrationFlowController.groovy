@@ -4,7 +4,9 @@ import com.sun.org.apache.xerces.internal.impl.xs.traversers.OneAttr
 import com.swag.registration.EmailService
 import com.swag.registration.domain.*
 import com.swag.registration.domain.order.*
+import com.swag.registration.security.Activation
 import com.swag.registration.security.User
+import com.swag.registration.security.acl.EventService
 import com.trinary.paypal.error.exception.PayPalException
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -14,6 +16,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 
 class RegistrationFlowController {
+	EventService eventService
 	EmailService emailService
     OrderService orderService
     SpringSecurityService springSecurityService
@@ -22,46 +25,60 @@ class RegistrationFlowController {
         start {
             action {
                 flow.eventId = params.id
-                flow.event = Event.findByUuid(flow.eventId)
+                Event event = Event.get(params.id)
+				flow.event = event
 
-                if (!flow.eventId || !flow.event) {
+                if (!event) {
                     return noEvent()
                 }
+				
+				println "IN START!"
+				println "EVENT: ${event}"
 
                 // Do checks on current user to see if they are admin on this event
+				/*
+				try {
+					eventService.checkAdmin(event)
+				} catch (Exception e) {
+					println "ACCESS FUCKING DENIED!"
+					println "EXCEPTION: ${e.message}"
+					return accessDenied()
+				}
+				*/
+				if (!event.user == springSecurityService.currentUser) {
+					println "ACCESS FUCKING DENIED!"
+					return accessDenied()
+				}
             }
-            on ("noEvent").to "handleError"
-            on ("accessDenied").to "handleError"
+            on ("noEvent").to "errorMR"
+            on ("accessDenied").to "errorMR"
             on ("success").to "createManualRegistration"
         }
 
         createManualRegistration {
-            on ("submit") {
+            on ("continue") {
                 flow.emailAddress = params.emailAddress
-                flow.regLevelId = params.regLevelId
+                flow.regLevelId = params.tier
             }.to "processManualRegistration"
         }
 
         processManualRegistration {
             action {
-                flow.regLevel = RegistrationLevel.get(flow.regLevelId)
+                RegistrationLevel regLevel = RegistrationLevel.get(flow.regLevelId)
+				Event event = Event.get(flow.eventId)
                 User user = User.findByEmailAddress(flow.emailAddress)
 
-                if (!flow.regLevel) {
+                if (!regLevel) {
                     flash.message = "Registration level not found!"
                     return error()
                 }
 
                 if (!user) {
-                    user = new User(emailAddress: flow.emailAddress, password: RandomStringUtils.random(16))
-                    if (!user.save(flush: true)) {
-                        flash.message = "User creation failed"
-                        flash.errors = user.errors
-                        return error()
-                    }
+					Activation activation = Activation.create(flow.emailAddress)
+                    user = activation.user
                 }
 
-                Registration reg = new Registration(registrationLevel: flow.regLevel, user: user, event: flow.event, paid: true)
+                Registration reg = new Registration(registrationLevel: regLevel, user: user, event: event, paid: true)
                 if (!reg.save(flush: true)) {
                     flash.message = "Registration failed!"
                     flash.errors = reg.errors
@@ -70,15 +87,21 @@ class RegistrationFlowController {
 
                 return success()
             }
-            on ("success").to "finish"
+            on ("success").to "finishMR"
             on ("error").to "createManualRegistration"
         }
 
-        finish {
-
+        finishMR {
+			action {
+				redirect(controller: "dashboard", action: "index")
+			}
         }
+		
+		endMR {
+			
+		}
 
-        handleError {
+        errorMR {
 
         }
     }

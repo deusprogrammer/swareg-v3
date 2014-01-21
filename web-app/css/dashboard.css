@@ -2,6 +2,28 @@
 	font-weight: bold;
 }
 
+.scrollable {
+	overflow-y: auto;
+}
+
+.padded td {
+	padding: 0px 10px 0px 10px;
+}
+
+div.message {
+	border: 2px solid;
+	position: absolute;
+	padding: 10px;
+	margin: auto;
+	background-color: white;
+	color: black;
+}
+
+div#dash-content {
+	width: 1000px;
+	margin: auto;
+}
+
 div#login-view {
 	width: 300px;
 	margin: auto;

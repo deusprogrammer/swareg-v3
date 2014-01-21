@@ -73,6 +73,33 @@ class EventService {
    Event get(long id) {
       return Event.get(id)
    }
+   
+   void checkWrite(Event event) {
+	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.WRITE) &&
+		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+		   throw new AccessDeniedException("Access exception occured")
+	   }
+   }
+
+   void checkRead(Event event) {
+	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.READ) &&
+		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+		   throw new AccessDeniedException("Access exception occured")
+	   }
+   }
+
+   void checkDelete(Event event) {
+	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.DELETE) &&
+		   !aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+		   throw new AccessDeniedException("Access exception occured")
+	   }
+   }
+
+   void checkAdmin(Event event) {
+	   if (!aclUtilService.hasPermission(springSecurityService.authentication, event, BasePermission.ADMINISTRATION)) {
+		   throw new AccessDeniedException("Access exception occured")
+	   }
+   }
 
    void checkWrite(EventChildObject object) {
        Event event = Event.get(object.owner.id)

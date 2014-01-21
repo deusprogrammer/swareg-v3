@@ -10,9 +10,9 @@
 		<div>
 			<fieldset class="menu-set" style="float: left;">
 				<legend>Registration Menu</legend>
-				Manual<br/>
-				View All<br/>
-				Export<br/>
+				<g:link class="menu-link" controller="registrationFlow" action="manualRegistration" id="${eventId}">Manual</g:link><br/>
+				<g:link class="menu-link" action="viewRegistrations" id="${eventId}">View All</g:link><br/>
+				<g:link class="menu-link" action="export" id="${eventId}">Export</g:link><br/>
 			</fieldset>
 			<fieldset class="menu-set" style="float: right;">
 				<legend>Tiers Menu</legend>

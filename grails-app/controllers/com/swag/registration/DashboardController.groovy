@@ -147,6 +147,19 @@ class DashboardController {
 		[eventId: id]
 	}
 	
+	def viewRegistrations(Long id) {
+		Event event = eventService.get(id)
+		
+		if (!event || event.user != springSecurityService.currentUser) {
+			response.setStatus(404)
+			return
+		}
+		
+		println "EVENT: ${event}"
+		
+		[event: event]
+	}
+	
 	def tierDash(Long id) {
 		Event event = Event.get(id)
 		

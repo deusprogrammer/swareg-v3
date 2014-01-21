@@ -42,6 +42,8 @@ div.message {
 	position: absolute;
 	padding: 10px;
 	margin: auto;
+	background-color: white;
+	color: black;
 }
 
 .centered {

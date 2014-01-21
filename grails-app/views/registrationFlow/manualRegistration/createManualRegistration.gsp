@@ -10,11 +10,31 @@
         <div class="pretext">
             <p>Enter an email address and choose a registration level.</p>
         </div>
-        <div class="round">
+        <div class="round" style="width:500px;">
             <g:form>
-                <label>Email Address:</label><g:textField id="emailAddress" name="emailAddress" />
-                <label>Registration: </label><g:select id="registrationLevel" name="regLevelId" from="${event.levels}" optionKey="id" required="" class="many-to-one"/>
-                <g:submitButton name="continue" value="Continue"/>
+            	<fieldset class="flow">
+            		<legend>Manual Registration</legend>
+            		<table>
+	            		<tbody>
+		                	<tr>
+		                		<td>
+		                			<label>Email Address:</label>
+		                		</td>
+		                		<td>
+		                			<g:textField id="emailAddress" name="emailAddress" />
+		                		</td>
+		                	</tr>
+		                	<tr>
+		                		<td>
+		                			<label>Registration:</label>
+		                		</td>
+		                		<td>
+		                			<g:select from="${event.levels.findAll{it.needAdmin}}" optionKey="id" name="tier" noSelection="${['null':'Select One...']}" />
+		                		</td>
+		                	</tr>
+	                	</tbody>
+                	</table>
+                	<g:submitButton name="continue" value="Continue"/>
             </g:form>
         </div>
     </body>
