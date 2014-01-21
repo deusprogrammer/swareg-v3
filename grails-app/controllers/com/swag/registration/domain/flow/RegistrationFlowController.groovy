@@ -95,6 +95,7 @@ class RegistrationFlowController {
 			action {
 				redirect(controller: "dashboard", action: "index")
 			}
+			on ("success").to "endMR"
         }
 		
 		endMR {

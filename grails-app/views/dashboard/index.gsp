@@ -207,7 +207,7 @@
 											${badge.event.year}
 										</div>
 										<div class="badge-text">
-											${badge.registrationLevel.name}
+											${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 4 ? badge.registrationLevel.name.size() - 1 : 4)]}
 										</div>
 									</div>
 								</g:each>
@@ -218,7 +218,7 @@
 											${badge.event.year}
 										</div>
 										<div class="badge-text">
-											${badge.registrationLevel.name}
+											${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 4 ? badge.registrationLevel.name.size() - 1 : 4)]}
 										</div>
 									</div>
 								</g:each>
@@ -229,7 +229,7 @@
 											${badge.event.year}
 										</div>
 										<div class="badge-text">
-											${badge.registrationLevel.name}
+											${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 4 ? badge.registrationLevel.name.size() - 1 : 4)]}
 										</div>
 									</div>
 								</g:each>
