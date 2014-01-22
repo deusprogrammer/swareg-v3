@@ -45,7 +45,7 @@
 		        <div class="round" style="height: 250px; width: 300px; float:right;">
 		        	<h3>Existing Tiers</h3>
 		        	<div style="height: 150px; overflow-y: scroll;">
-			        	<table>
+			        	<table class="padded">
 			        		<tbody>
 			        			<g:each in="${event.levels}" var="level">
 			        				<tr>

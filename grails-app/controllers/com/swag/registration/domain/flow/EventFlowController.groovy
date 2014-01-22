@@ -7,10 +7,12 @@ import com.swag.registration.domain.Event
 import com.swag.registration.domain.RegistrationLevel
 import com.swag.registration.security.User
 import com.swag.registration.security.acl.EventService
+import grails.plugin.simplecaptcha.SimpleCaptchaService
 import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 class EventFlowController {
+	SimpleCaptchaService simpleCaptchaService
     EventService eventService
     SpringSecurityService springSecurityService
 
@@ -101,24 +103,27 @@ class EventFlowController {
 
         finish {
             action {
+				boolean captchaValid = simpleCaptchaService.validateCaptcha(params.captcha)
+				
+				if (!captchaValid) {
+					flash.message = "Captcha invalid!"
+					return error()
+				}
+				
                 Event event = eventService.create(flow.eventData)
                 flow.eventData["registrationLevels"].each {
-                    /*
-                    RegistrationLevel level = new RegistrationLevel()
-                    level.name = it["name"]
-                    level.price = it["price"]
-                    level.description = it["description"]
-                    level.validFor = it["validFor"]
-                    level.save()
-                    */
                     RegistrationLevel level = new RegistrationLevel(it)
                     level.save()
                     event.addToLevels(level)
                 }
-                event.save()
+                if (!event.save()) {
+					flash.message = "Failed to save event!"
+					return error()
+				}
                 redirect (controller: "dashboard", action: "index")
             }
             on ("success").to "end"
+			on ("error").to "confirm"
         }
 
         end() {

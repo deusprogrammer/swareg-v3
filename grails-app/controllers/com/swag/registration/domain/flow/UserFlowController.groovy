@@ -7,7 +7,10 @@ import com.swag.registration.security.Activation
 import com.swag.registration.security.Role
 import com.swag.registration.security.UserRole
 import com.swag.registration.security.User
+
+import grails.plugin.simplecaptcha.SimpleCaptchaService
 import grails.plugins.springsecurity.SpringSecurityService
+
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.apache.commons.lang.RandomStringUtils
@@ -15,6 +18,7 @@ import org.apache.commons.lang.RandomStringUtils
 import org.apache.commons.lang.RandomStringUtils
 
 class UserFlowController {
+	SimpleCaptchaService simpleCaptchaService
 	SpringSecurityService springSecurityService
 	EmailService emailService
 
@@ -344,6 +348,13 @@ class UserFlowController {
 
 		saveUser {
 			action {
+				boolean captchaValid = simpleCaptchaService.validateCaptcha(params.captcha)
+				
+				if (!captchaValid) {
+					flash.message = "Captcha invalid!"
+					return error()
+				}
+				
 				User user = new User(flow.billingData + flow.userData)
 
 				if (!user.save()) {
@@ -352,12 +363,12 @@ class UserFlowController {
 					user.errors.each { errors += "\n${it}" }
 
 					flash.message = errors
-					error()
+					return error()
 				} else {
 					Role roleUser = Role.findByAuthority('ROLE_USER')
 					UserRole.create user, roleUser, true
 					conversation.user = user
-					success()
+					return success()
 				}
 			}
 			on ("success").to "finish"
@@ -380,7 +391,7 @@ class UserFlowController {
 		}
 
 		done {
-			action { redirect(uri: "/") }
+			action { redirect(controller: "dashboard", action: "index") }
 			on ("success").to "end"
 		}
 

@@ -43,6 +43,14 @@
 			            </table>
 		            </fieldset>
 	            </div>
+              	<div class="round">
+            		<fieldset class="flow">
+            			<legend>Captcha</legend>
+            			<img src="${createLink(controller: 'simpleCaptcha', action: 'captcha')}"/><br/>
+						<label for="captcha">Type the letters above in the box below:</label><br/>
+						<g:textField name="captcha"/>
+            		</fieldset>
+            	</div>
             </g:if>
             <br/>
             <div class="round">
