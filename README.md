@@ -25,18 +25,15 @@ In the near future we will be adding Social Networking features and a customizab
 	+ creating an application for a position
 	+ being accepted for a position
 	+ being declined for a position
-	
 + Allow event to set banner image.
 + Allow event to set color scheme.
 + Add file manager.
 + Integrate Grusaba.
 + Integrate Clogger.
-
 + Setup payment chaining.
 + Add views for events so you can add registrations to a cart and purchase them.
 + Close gift modal after clicking send.
 + Delete all old scaffolded views.
-
 + Clean up and consolidate CSS and views.
 	+ Make more use of classes in CSS.
 	+ Make more use of layouts and templates in views.
