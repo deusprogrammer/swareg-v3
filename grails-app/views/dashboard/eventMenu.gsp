@@ -12,19 +12,27 @@
 				<legend>Registration Menu</legend>
 				<g:link class="menu-link" controller="registrationFlow" action="manualRegistration" id="${eventId}">Manual</g:link><br/>
 				<g:link class="menu-link" action="viewRegistrations" id="${eventId}">View All</g:link><br/>
-				<g:link class="menu-link" action="export" id="${eventId}">Export</g:link><br/>
+				<g:link class="menu-link" action="export" id="${eventId}">Export</g:link>
 			</fieldset>
 			<fieldset class="menu-set" style="float: right;">
 				<legend>Tiers Menu</legend>
 				<g:link class="menu-link" action="tierDash" id="${eventId}">Add/Remove Tiers</g:link><br/>
-				<g:link class="menu-link" action="preRegOfferDash" id="${eventId}">Add/Remove Offers</g:link><br/>
+				<g:link class="menu-link" action="preRegOfferDash" id="${eventId}">Add/Remove Offers</g:link>
 			</fieldset>
 		</div>
 		<div>
-			<fieldset class="menu-set">
+			<fieldset class="menu-set" style="float: left;">
 				<legend>Staff Menu</legend>
-				Promote/Demote<br/>
-				Add/Remove<br/>
+				Manage Staff<br/>
+				Manage Applicants<br/>
+				Modify Mailing List
+			</fieldset>
+			<fieldset class="menu-set" style="float: right;">
+				<legend>Event Menu</legend>
+				Manage Event<br/>
+				Manage Files<br/>
+				Manage Forum<br/>
+				Manage Blog
 			</fieldset>
 		</div>
 	</body>

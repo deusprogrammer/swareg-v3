@@ -20,7 +20,7 @@ class Event implements Serializable, Payable, Ownable {
     String year = (1900 + new Date().getYear()).toString()
     Integer numeral = 1
 
-    static hasMany = [registrations: Registration, levels: RegistrationLevel, roles: Role]
+    static hasMany = [registrations: Registration, levels: RegistrationLevel, roles: Role, positions: StaffPosition]
     static belongsTo = [user: User]
 
     public String toString() {
@@ -51,6 +51,14 @@ class Event implements Serializable, Payable, Ownable {
 	
 	def afterInsert() {
 		emailService.sendEventCreateEmail(this)
+	}
+	
+	public ArrayList<User> getStaffList() {
+		positions.collect { StaffPosition p -> p.user }
+	}
+	
+	public boolean isUserStaff(User user) {
+		return user in this.staffList
 	}
 	
     @Override

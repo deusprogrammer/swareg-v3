@@ -37,7 +37,7 @@ class User implements Serializable {
     // Registration info
     boolean registrationComplete = true
 
-    static hasMany = [registrations: Registration, events: Event]
+    static hasMany = [registrations: Registration, events: Event, positions: StaffPosition]
 
     public String toString() {
         return emailAddress
