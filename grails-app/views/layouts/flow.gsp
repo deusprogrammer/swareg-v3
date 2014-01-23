@@ -143,7 +143,7 @@
 	        </div>
 	        <div id="session">
 	            <sec:ifLoggedIn>
-	                Welcome back <sec:username/>!  <g:link controller='logout'>Logout?</g:link>
+	                Welcome back <sec:username/>!  <g:link controller='userFlow' action="logout">Logout?</g:link>
 	            </sec:ifLoggedIn>
 	        </div>
 	        <div id="body-content">

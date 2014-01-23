@@ -132,19 +132,29 @@ class DashboardController {
 			response.setStatus(404)
 			return
 		}
-		
-		event.levels.each { RegistrationLevel it ->
-			println "LEVEL: ${it}"
-			it.preRegOffers.each { PreRegistrationOffer offer ->
-				println "\tOFFER: ${offer}"
-			}
-		}
-		
+				
 		[event: event]
 	}
 	
 	def eventMenu(Long id) {
 		[eventId: id]
+	}
+	
+	def manageStaff(Long id) {
+		Event event = Event.get(id)
+		
+		if (!event || event.user != springSecurityService.currentUser) {
+			response.setStatus(404)
+			return
+		}
+		
+		event.positions.each {
+			it.applicants.each {
+				println "APPLICATION ${it.user.emailAddress}"
+			}
+		}
+				
+		[event: event]
 	}
 	
 	def viewRegistrations(Long id) {

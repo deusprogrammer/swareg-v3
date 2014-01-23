@@ -31,6 +31,12 @@ class UserFlowController {
 		}
 		redirect(controller: "dashboard", action: "index")
 	}
+	
+	def logout() {
+		SecurityContextHolder.clearContext()
+		
+		chain(controller: "dashboard", action: "index")
+	}
 
 	def resetPasswordFlow = {
 		start {
@@ -391,7 +397,9 @@ class UserFlowController {
 		}
 
 		done {
-			action { redirect(controller: "dashboard", action: "index") }
+			action { 
+				redirect(controller: "dashboard", action: "index")
+			}
 			on ("success").to "end"
 		}
 

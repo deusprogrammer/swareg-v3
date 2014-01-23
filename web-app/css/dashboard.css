@@ -10,6 +10,59 @@
 	padding: 0px 10px 0px 10px;
 }
 
+.bbottom-cell tr {
+	outline: 1px solid white;
+}
+
+.centered {
+	text-align: center;
+	margin: auto;
+}
+
+.dash {
+	height: 250px;
+	min-width: 400px;
+}
+
+.dash-left {
+	height: 250px; 
+	min-width: 400px;
+	float: left;
+}
+
+.dash-right {
+	height: 250px;
+	min-width: 400px; 
+	float: right;
+}
+
+.dash-inner {
+	display: inline-block;
+	height: 200px;
+	min-width: 350px;
+}
+
+.selected {
+	background-color: blue;
+	color: white;
+}
+
+.hard-selected {
+	background-color: green;
+	color: white;
+}
+
+.round {
+    display: inline-block;
+    margin: 10px;
+    max-width: 800px;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #333333;
+    color: white;
+	border: 1px solid black;
+}
+
 div.message {
 	border: 2px solid;
 	position: absolute;
@@ -59,16 +112,6 @@ div#possessions-view {
 	display: block;
 	border-radius: 15px;
 	height: 200px;
-}
-
-.selected {
-	background-color: blue;
-	color: white;
-}
-
-.hard-selected {
-	background-color: green;
-	color: white;
 }
 
 div#content {
@@ -209,15 +252,4 @@ a.menu-link {
 
 a.menu-link:hover {
 	color: blue;
-}
-
-.round {
-    display: inline-block;
-    margin: 10px;
-    max-width: 800px;
-    padding: 10px;
-    border-radius: 25px;
-    background-color: #333333;
-    color: white;
-	border: 1px solid black;
 }

@@ -60,6 +60,15 @@ class SetupFlowController {
             on("error").to "changePassword"
         }
 
-        finish()
+        finish() {
+			action {
+				redirect(controller: "dashboard", action: "index")
+			}
+			on ("success").to "done"
+		}
+		
+		done() {
+			
+		}
     }
 }

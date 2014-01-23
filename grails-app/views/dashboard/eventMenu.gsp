@@ -23,8 +23,7 @@
 		<div>
 			<fieldset class="menu-set" style="float: left;">
 				<legend>Staff Menu</legend>
-				Manage Staff<br/>
-				Manage Applicants<br/>
+				<g:link class="menu-link" action="manageStaff" id="${eventId}">Manage Staff</g:link><br/>
 				Modify Mailing List
 			</fieldset>
 			<fieldset class="menu-set" style="float: right;">
