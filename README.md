@@ -5,10 +5,9 @@
 SWAreG is a centralized, cloud based Registration System written in Groovy/Grails.  It is designed to allow a user to create an event and then manage their staff, attendees and badge orders.
 
 SWAreG itself is the backend for a web service and a suite of onsite tools.  The onsite tools include:
-
-+An onsite registration tool.
-+A day of registration management tool.
-+A self-service kiosk.
++ An onsite registration tool.
++ A day of registration management tool.
++ A self-service kiosk.
 
 Each of the above mentioned tools can function without an active internet connection, only requiring a network connection once a day to sync with the back end.
 	
