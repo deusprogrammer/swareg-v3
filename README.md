@@ -14,12 +14,8 @@ Each of the above mentioned tools can function without an active internet connec
 In the near future we will be adding Social Networking features and a customizable forum for each event.
 
 ## TODO
-+ Finish position actions:
-	+ modify
-	+ assign
-	+ unassign
-+ Finish application actions:
-	+ decline
++ Add modify user
++ Add modify event
 + Add emails for:
 	+ being assigned a position
 	+ creating an application for a position
