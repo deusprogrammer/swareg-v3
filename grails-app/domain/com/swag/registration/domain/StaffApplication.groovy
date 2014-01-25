@@ -27,6 +27,12 @@ class StaffApplication implements EventChildObject {
 			this.save()
 		}
 	}
+	
+	public User decline() {
+		User declinedUser = user
+		this.delete()
+		return declinedUser
+	}
 
 	@Override
 	public Event getOwner() {

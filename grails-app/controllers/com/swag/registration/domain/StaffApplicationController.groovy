@@ -36,4 +36,14 @@ class StaffApplicationController {
 		
 		redirect(controller: "dashboard", action: "manageStaff", id: application.owner.id)
 	}
+	
+	def decline(Long id) {
+		StaffApplication application = StaffApplication.get(id)
+		
+		eventService.checkAdmin(application)
+		
+		application.decline()
+		
+		redirect(controller: "dashboard", action: "manageStaff", id: application.owner.id)
+	}
 }

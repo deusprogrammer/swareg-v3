@@ -1,5 +1,6 @@
 package com.swag.registration.domain
 
+import com.swag.registration.security.*
 import com.swag.registration.security.acl.EventService
 import grails.plugins.springsecurity.SpringSecurityService
 import grails.plugins.springsecurity.Secured
@@ -124,5 +125,76 @@ class StaffPositionController {
 		}
 		
 		[position: position]
+	}
+	
+	def assign(Long id) {
+		StaffPosition position = StaffPosition.get(id)
+		
+		if (!position) {
+			response.setStatus(404)
+			return
+		}
+		
+		[position: position]
+	}
+	
+	def doAssign(Long id) {
+		String email = params.emailAddress
+		StaffPosition position = StaffPosition.get(id)
+		
+		if (!position) {
+			response.setStatus(404)
+			return
+		}
+		
+		eventService.checkAdmin(position)
+		
+		User user = User.findByEmailAddress(email)
+		
+		if (!user) {
+			Activation activation = Activation.create(user)
+			user = activation.user
+		}
+		
+		if (!position.assign(user)) {
+			flash.message = "Unable to unassign position!"
+		}
+		
+		redirect(controller: "dashboard", action: "manageStaff", id: position.event.id)
+	}
+	
+	def unassign(Long id) {
+		StaffPosition position = StaffPosition.get(id)
+		
+		if (!position) {
+			response.setStatus(404)
+			return
+		}
+		
+		eventService.checkAdmin(position)
+		
+		if (!position.unassign()) {
+			flash.message = "Unable to unassign position!"
+		}
+		
+		redirect(controller: "dashboard", action: "manageStaff", id: position.event.id)
+	}
+	
+	def delete(Long id) {
+		StaffPosition position = StaffPosition.get(id)
+		Event event = position.event
+		
+		if (!position) {
+			response.setStatus(404)
+			return
+		}
+		
+		eventService.checkAdmin(position)
+		
+		if (!position.delete()) {
+			flash.message = "Unable to delete position!"
+		}
+		
+		redirect(controller: "dashboard", action: "manageStaff", id: event.id)
 	}
 }
