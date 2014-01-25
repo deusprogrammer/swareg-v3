@@ -1,5 +1,4 @@
 import org.springframework.security.access.AccessDeniedException
-import org.springframework.security.acls.model.NotFoundException
 
 class UrlMappings {
 
@@ -14,7 +13,5 @@ class UrlMappings {
       "404"(controller: "errors", action: "error404")
       "500"(controller: "errors", action: "error403",
             exception: AccessDeniedException)
-      "500"(controller: "errors", action: "error404",
-            exception: NotFoundException)
    }
 }

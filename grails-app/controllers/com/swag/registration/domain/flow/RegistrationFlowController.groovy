@@ -35,18 +35,11 @@ class RegistrationFlowController {
 				println "IN START!"
 				println "EVENT: ${event}"
 
-                // Do checks on current user to see if they are admin on this event
-				/*
 				try {
 					eventService.checkAdmin(event)
 				} catch (Exception e) {
 					println "ACCESS FUCKING DENIED!"
 					println "EXCEPTION: ${e.message}"
-					return accessDenied()
-				}
-				*/
-				if (!event.user == springSecurityService.currentUser) {
-					println "ACCESS FUCKING DENIED!"
 					return accessDenied()
 				}
             }

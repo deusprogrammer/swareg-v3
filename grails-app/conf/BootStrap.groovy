@@ -4,26 +4,17 @@ import com.swag.registration.security.Role
 import com.swag.registration.security.User
 import com.swag.registration.security.UserRole
 import grails.plugins.springsecurity.SpringSecurityService
-import static org.springframework.security.acls.domain.BasePermission.ADMINISTRATION
-import static org.springframework.security.acls.domain.BasePermission.DELETE
-import static org.springframework.security.acls.domain.BasePermission.READ
-import static org.springframework.security.acls.domain.BasePermission.WRITE
 
-import org.grails.plugins.springsecurity.service.acl.AclService
-import org.grails.plugins.springsecurity.service.acl.AclUtilService
-import org.springframework.security.authentication. UsernamePasswordAuthenticationToken
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 class BootStrap {
    def grailsApplication
 
-   AclService aclService
-   AclUtilService aclUtilService
    SpringSecurityService springSecurityService
    SetupUpdaterService setupUpdaterService
 
-   def objectIdentityRetrievalStrategy
    def sessionFactory
 
    def init = { servletContext ->

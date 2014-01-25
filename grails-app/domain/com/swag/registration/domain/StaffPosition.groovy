@@ -2,7 +2,7 @@ package com.swag.registration.domain
 
 import com.swag.registration.security.User
 
-class StaffPosition implements EventChildObject {
+class StaffPosition implements EventChildObject, Serializable {
 	User user
 	String title
 	String description

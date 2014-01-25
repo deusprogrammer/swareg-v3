@@ -24,7 +24,7 @@
 				                <tr>
 				                   <td class="label">Badge Tier</td>
 				                   <td>
-				                       <g:select from="${event.levels}" optionKey="id" name="tier" noSelection="${['null':'Select One...']}" />
+				                       <g:select from="${event.levels.findAll {!it.needAdmin}}" optionKey="id" name="tier" noSelection="${['null':'Select One...']}" />
 				                   </td>
 				                </tr>
 				                <tr>
@@ -46,7 +46,7 @@
 		        	<div style="height: 150px; overflow-y: scroll;">
 			        	<table>
 			        		<tbody>
-			        			<g:each in="${event.levels}" var="level">
+			        			<g:each in="${event.levels.findAll {!it.needAdmin}}" var="level">
 			        				<tr><td>${level.name}</td><td></td><td></td></tr>
 			        				<g:each in="${level.preRegOffers.sort{it.startDate}}" var="offer">
 			        					<tr><td></td><td>${offer}</td><td><g:link action="deletePreRegOffer" id="${offer.id}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link></td></tr>

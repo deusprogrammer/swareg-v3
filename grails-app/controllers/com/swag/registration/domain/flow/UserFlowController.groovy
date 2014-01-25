@@ -359,8 +359,8 @@ class UserFlowController {
 		saveUser {
 			action {
 				boolean captchaValid = simpleCaptchaService.validateCaptcha(params.captcha)
-				
-				if (!captchaValid) {
+
+				if (!captchaValid && !flow.sub) {
 					flash.message = "Captcha invalid!"
 					return error()
 				}
