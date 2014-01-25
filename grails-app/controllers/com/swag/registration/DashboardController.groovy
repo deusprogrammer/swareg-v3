@@ -28,7 +28,7 @@ class DashboardController {
 		}
 		List events = Event.list().findAll {
 			Event it ->
-				it.user.emailAddress == springSecurityService.currentUser.emailAddress
+				it.userIsStaff()
 		}.sort {
 			Event it ->
 				it.name
@@ -42,6 +42,11 @@ class DashboardController {
 				it.badge.registrationLevel.name
 		}
 		
+		Event.list().each { Event it ->
+			println "${it} => ${it.userIsStaff()}"
+		}
+		
+		print "EVENTS:   ${springSecurityService.currentUser.events}"
 		print "OWNED:    ${badges}"
 		print "GIFTED:   ${gifted}"
 		print "RECEIVED: ${received}"
@@ -128,10 +133,12 @@ class DashboardController {
 	def viewEvent(Long id) {
 		Event event = Event.get(id)
 		
-		if (!event || event.user != springSecurityService.currentUser) {
+		if (!event) {
 			response.setStatus(404)
 			return
 		}
+		
+		eventService.checkRead(event)
 				
 		[event: event]
 	}
@@ -143,27 +150,25 @@ class DashboardController {
 	def manageStaff(Long id) {
 		Event event = Event.get(id)
 		
-		if (!event || event.user != springSecurityService.currentUser) {
+		if (!event) {
 			response.setStatus(404)
 			return
 		}
 		
-		event.positions.each {
-			it.applicants.each {
-				println "APPLICATION ${it.user.emailAddress}"
-			}
-		}
+		eventService.checkAdmin(event)
 				
 		[event: event]
 	}
 	
 	def viewRegistrations(Long id) {
-		Event event = eventService.get(id)
+		Event event = Event.get(id)
 		
-		if (!event || event.user != springSecurityService.currentUser) {
+		if (!event) {
 			response.setStatus(404)
 			return
 		}
+		
+		eventService.checkRead(event)
 		
 		println "EVENT: ${event}"
 		
@@ -173,10 +178,12 @@ class DashboardController {
 	def tierDash(Long id) {
 		Event event = Event.get(id)
 		
-		if (!event || event.user != springSecurityService.currentUser) {
+		if (!event) {
 			response.setStatus(404)
 			return
 		}
+		
+		eventService.checkAdmin(event)
 		
 		[event: event]
 	}
@@ -184,10 +191,12 @@ class DashboardController {
 	def saveTier() {
 		Event event = Event.get(params.eventId)
 		
-		if (!event || event.user != springSecurityService.currentUser) {
+		if (!event) {
 			response.setStatus(404)
 			return
 		}
+		
+		eventService.checkAdmin(event)
 		
 		RegistrationLevel rl = new RegistrationLevel(params)
 		rl.event = event
@@ -204,14 +213,14 @@ class DashboardController {
 	def deleteTier(Long id) {
 	   RegistrationLevel rl = RegistrationLevel.get(id)
 
-        if (!rl || rl.event.user != springSecurityService.currentUser) {
+        if (!rl) {
         	println "Unable to delete tier"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rl.label', default: 'RegistrationLevel'), id])
             redirect(action: "tierDash", id: rl.event.id)
             return
         }
 
-        eventService.checkDelete(rl)
+        eventService.checkAdmin(rl)
 
         try {
             rl.delete(flush: true)
@@ -230,10 +239,12 @@ class DashboardController {
 	def preRegOfferDash(Long id) {
 		Event event = Event.get(id)
 		
-		if (!event || event.user != springSecurityService.currentUser) {
+		if (!event) {
 			response.setStatus(404)
 			return
 		}
+		
+		eventService.checkAdmin(event)
 		
 		[event: event]
 	}
@@ -241,12 +252,12 @@ class DashboardController {
 	def savePreRegOffer() {
 		RegistrationLevel level = RegistrationLevel.get(params.tier)
 		
-		if (!level || level.event.user != springSecurityService.currentUser) {
+		if (!level) {
 			response.setStatus(404)
 			return
 		}
 		
-		eventService.checkWrite(level)
+		eventService.checkAdmin(level)
 		
 		params.startDate = formatter.parse(params.startDate)
 		params.endDate   = formatter.parse(params.endDate)
@@ -270,7 +281,7 @@ class DashboardController {
             return
         }
 
-        eventService.checkDelete(offer)
+        eventService.checkAdmin(offer)
 
         try {
             offer.delete(flush: true)

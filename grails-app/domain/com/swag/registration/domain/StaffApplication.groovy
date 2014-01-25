@@ -19,11 +19,9 @@ class StaffApplication implements EventChildObject {
 	
 	public void approve(User approvedBy) {
 		if (position.available) {
-			this.position.user = user
-			this.position.available = false
+			position.assign(this.user)
 			this.approvedBy = approvedBy
 			this.approvedOn = new Date()
-			this.position.save()
 			this.save()
 		}
 	}

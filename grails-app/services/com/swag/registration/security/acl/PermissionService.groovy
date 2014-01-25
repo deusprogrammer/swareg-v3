@@ -20,8 +20,8 @@ class PermissionService {
       addPermission ownable, username, aclPermissionFactory.buildFromMask(permission)
    }
 
-   @PreAuthorize("hasPermission(#ownable, admin)")
    @Transactional
+   @PreAuthorize("hasPermission(#ownable, admin)")
    void addPermission(Ownable ownable, String username, Permission permission) {
       aclUtilService.addPermission ownable, username, permission
    }
@@ -34,7 +34,7 @@ class PermissionService {
       // Remove all permissions associated with this particular
       // recipient (string equality to KISS)
       acl.entries.eachWithIndex { entry, i ->
-         if (entry.sid.equals(recipient) && entry.permission.equals(permission)) {
+         if (entry.sid.equals(username) && entry.permission.equals(permission)) {
             acl.deleteAce i
          }
       }

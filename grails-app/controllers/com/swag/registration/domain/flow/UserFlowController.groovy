@@ -152,6 +152,8 @@ class UserFlowController {
 			on ("next") {
 				flow.password1 = params.password1
 				flow.password2 = params.password2
+				flow.firstName = params.firstName
+				flow.lastName  = params.lastName
 			}.to "processActivation"
 		}
 
@@ -166,8 +168,10 @@ class UserFlowController {
 					return passwordMismatch()
 				} else {
 					User user = User.get(id)
-					user.enabled = true
-					user.password = flow.password1
+					user.enabled   = true
+					user.password  = flow.password1
+					user.firstName = flow.firstName
+					user.lastName  = flow.lastName
 					if (!user.save(flush: true)) {
 						print "ERROR UPDATING USER.  ERRORS: ${activation.user.errors}"
 					}

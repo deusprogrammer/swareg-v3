@@ -1,6 +1,10 @@
 package com.swag.registration.security
 
+import com.swag.registration.*
+
 class Activation implements Serializable {
+	static transient emailService
+	
 	User user
 	String token
 	
@@ -21,7 +25,14 @@ class Activation implements Serializable {
 	}
 	
 	public static Activation create(User user) {
-		return new Activation(user: user, token: UUID.randomUUID().toString())
+		Activation activation = new Activation(user: user, token: UUID.randomUUID().toString())
+		if(!activation.save(flush: true)) {
+			return null
+		}
+		
+		emailService.sendOnsiteOrderEmail(activation)
+		
+		return activation
 	}
 	
 	public void activate(String password) {

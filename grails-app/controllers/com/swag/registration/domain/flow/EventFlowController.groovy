@@ -3,6 +3,7 @@ package com.swag.registration.domain.flow
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 
+import com.swag.registration.EmailService
 import com.swag.registration.domain.Event
 import com.swag.registration.domain.RegistrationLevel
 import com.swag.registration.security.User
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 class EventFlowController {
 	SimpleCaptchaService simpleCaptchaService
     EventService eventService
+	EmailService emailService
     SpringSecurityService springSecurityService
 
     def index() {
@@ -110,16 +112,24 @@ class EventFlowController {
 					return error()
 				}
 				
-                Event event = eventService.create(flow.eventData)
-                flow.eventData["registrationLevels"].each {
-                    RegistrationLevel level = new RegistrationLevel(it)
-                    level.save()
-                    event.addToLevels(level)
-                }
-                if (!event.save()) {
+                Event event = new Event(flow.eventData)
+				event.user = springSecurityService.currentUser
+                if (!event.save(flush: true)) {
 					flash.message = "Failed to save event!"
 					return error()
 				}
+				
+                flow.eventData["registrationLevels"].each {
+                    RegistrationLevel level = new RegistrationLevel(it)
+                    level.event = event
+                    if (!level.save()) {
+						flash.message = "Failed to save level!"
+						return error()
+					}
+                }
+				
+				emailService.sendEventCreateEmail(event)
+
                 redirect (controller: "dashboard", action: "index")
             }
             on ("success").to "end"

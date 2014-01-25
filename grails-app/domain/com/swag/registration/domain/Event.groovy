@@ -6,6 +6,7 @@ import java.util.UUID
 
 class Event implements Serializable, Payable, Ownable {
 	transient emailService
+	transient springSecurityService
 	
     String uuid = UUID.randomUUID().toString()
     String apiKey = UUID.randomUUID().toString()
@@ -49,16 +50,73 @@ class Event implements Serializable, Payable, Ownable {
         levels sort: 'price'
     }
 	
-	def afterInsert() {
-		emailService.sendEventCreateEmail(this)
-	}
-	
 	public ArrayList<User> getStaffList() {
-		positions.collect { StaffPosition p -> p.user }
+		positions.collect {	StaffPosition p -> 
+			p.user 
+		}
 	}
 	
-	public boolean isUserStaff(User user) {
-		return user in this.staffList
+	public boolean userIsStaff(User u = null) {
+		if (!u) {
+			u = springSecurityService.currentUser
+		}
+		return u in this.staffList || userIsOwner(u)
+	}
+	
+	public boolean userHasRead(User u = null) {
+		if (!u) {
+			u = springSecurityService.currentUser
+		}
+		return positions.find { StaffPosition p ->
+			p.user?.id == u.id &&
+			(
+				p.unpackPermissions()["read"] ||
+				p.unpackPermissions()["admin"]
+			)
+		} != null || userIsOwner(u)
+	}
+	
+	public boolean userHasWrite(User u = null) {
+		if (!u) {
+			u = springSecurityService.currentUser
+		}
+		return positions.find { StaffPosition p ->
+			p.user?.id == u.id &&
+			(
+				p.unpackPermissions()["write"] ||
+				p.unpackPermissions()["admin"]
+			)
+		} != null || userIsOwner(u)
+	}
+	
+	public boolean userHasDelete(User u = null) {
+		if (!u) {
+			u = springSecurityService.currentUser
+		}
+		return positions.find { StaffPosition p ->
+			p.user?.id == u.id &&
+			(
+				p.unpackPermissions()["delete"] ||
+				p.unpackPermissions()["admin"]
+			)
+		} != null || userIsOwner(u)
+	}
+	
+	public boolean userHasAdmin(User u = null) {
+		if (!u) {
+			u = springSecurityService.currentUser
+		}
+		positions.find { StaffPosition p ->
+			p.user?.id == u.id &&
+			p.unpackPermissions()["admin"]
+		} != null || userIsOwner(u)
+	}
+	
+	public boolean userIsOwner(User u = null) {
+		if (!u) {
+			u = springSecurityService.currentUser
+		}
+		return u.id == user.id
 	}
 	
     @Override

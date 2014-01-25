@@ -20,9 +20,6 @@ class Gift {
 		
 		if (!user) {
 			activation = Activation.create(emailAddress)
-			activation.save()
-			
-			print "TOKEN: ${activation.token}"
 			user = activation.user
 		} else if (!user.enabled) {
 			activation = Activation.findByUser(user)

@@ -1,5 +1,6 @@
 package com.swag.registration.domain
 
+import com.swag.registration.EmailService
 import com.swag.registration.security.*
 import com.swag.registration.security.acl.EventService
 import grails.plugins.springsecurity.SpringSecurityService
@@ -8,6 +9,7 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_USER'])
 class StaffPositionController {
 	EventService eventService
+	EmailService emailService
 	SpringSecurityService springSecurityService
 	
 	def create(Long id) {
@@ -58,29 +60,7 @@ class StaffPositionController {
 		}
 		
 		eventService.checkAdmin(position)
-		
-		Map permissions = [:]
-		List bits = []
-		
-		Byte mask = 0x01
-		
-		Byte p = position.permissions
-		
-		4.times {
-			bits.add(0)
-		}
-		
-		Integer i = 0
-		while (p > 0) {
-			Byte b = p & mask
-			bits.set(i, b)
-			p = p >> 1
-			i++
-		}
-		
-		permissions["read"]  = bits.get(0) == 1
-		permissions["write"] = bits.get(1) == 1
-		permissions["admin"] = bits.get(2) == 1
+		Map permissions = position.unpackPermissions()
 		
 		[event: position.event, position: position, permissions: permissions]
 	}
@@ -114,6 +94,8 @@ class StaffPositionController {
 			redirect(action: "modify", id: id)
 			return
 		}
+		
+		position.updatePermissions()
 		
 		redirect(controller: "dashboard", action: "manageStaff", id: position.event.id)
 	}
@@ -169,10 +151,13 @@ class StaffPositionController {
 		eventService.checkAdmin(position)
 		
 		User user = User.findByEmailAddress(email)
+		Activation activation
 		
 		if (!user) {
-			Activation activation = Activation.create(user)
+			activation = Activation.create(email)
 			user = activation.user
+		} else if (!user.enabled) {
+			activation = Activation.findByUser(user)
 		}
 		
 		if (!position.assign(user)) {
