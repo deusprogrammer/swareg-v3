@@ -9,16 +9,22 @@
 	</head>
 	<body>
 		<div id="content">
-			<h1 class="centered">Application for ${position.title} for ${event}</h1>
+			<h1 class="centered">Modify Position ${position?.title} for ${event}</h1>
 			<div class="pretext">
-				<p>Simply tell us in the provided box below who you are, and why you feel you are a perfect fit for this position.</p>
-				<p>If you are approved you will receive a confirmation email.  If we turn down your application you will also receive a similar email.</p>
+				<p>Please fill out the required details below.</p>
+				<p>The permissions fields indicate what access they have to the event.  Some actions
+				such as this one require admin permissions to act on.  Take care when assigning permissions.</p>
 			</div>
-
 			<fieldset class="round">
-				<legend>Message</legend>
-				<g:form action="process" id="${position.id}">
-					<g:textArea name="message" /><br/>
+				<legend>Position</legend>
+				<g:form action="update" id="${position?.id}">
+					<table>
+						<tr><td>Title</td><td><g:textField name="title" value="${position?.title}" /></td></tr>
+						<tr><td>Description</td><td><g:textField name="description" value="${position?.description}" /></td></tr>
+						<tr><td>Read</td><td><g:checkBox name="read" value="${permissions?.read}" /></td></tr>
+						<tr><td>Write</td><td><g:checkBox name="write" value="${permissions?.write}" /></td></tr>
+						<tr><td>Admin</td><td><g:checkBox name="admin" value="${permissions?.admin}" /></td></tr>
+					</table>
 					<g:submitButton name="submit" value="Apply"/>
 				</g:form>
 			</fieldset>

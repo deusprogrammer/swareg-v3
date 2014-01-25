@@ -45,8 +45,6 @@ class StaffPositionController {
 			redirect(action: "create")
 			return
 		}
-		
-		// Apply permissions mask using springSecurityAclService
 				
 		redirect(controller: "dashboard", action: "manageStaff", id: position.event.id)
 	}
@@ -61,9 +59,30 @@ class StaffPositionController {
 		
 		eventService.checkAdmin(position)
 		
-		// Unpack permissions mask
+		Map permissions = [:]
+		List bits = []
 		
-		[position: position]
+		Byte mask = 0x01
+		
+		Byte p = position.permissions
+		
+		4.times {
+			bits.add(0)
+		}
+		
+		Integer i = 0
+		while (p > 0) {
+			Byte b = p & mask
+			bits.set(i, b)
+			p = p >> 1
+			i++
+		}
+		
+		permissions["read"]  = bits.get(0) == 1
+		permissions["write"] = bits.get(1) == 1
+		permissions["admin"] = bits.get(2) == 1
+		
+		[event: position.event, position: position, permissions: permissions]
 	}
 	
 	def update(Long id) {
