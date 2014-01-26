@@ -37,6 +37,39 @@ class UserFlowController {
 		
 		chain(controller: "dashboard", action: "index")
 	}
+	
+	def edit(Long id) {
+		User user
+		if (!id) {
+			user = springSecurityService.currentUser
+		} else {
+			user = User.get(id)
+		}
+		
+		if (springSecurityService.currentUser != user) {
+			response.setStatus(403)
+			return
+		}
+		
+		[user: user]
+	}
+	
+	def update(Long id) {
+		User user = User.get(id)
+		
+		if (springSecurityService.currentUser != user) {
+			response.setStatus(403)
+			return
+		}
+		
+		user.properties = params
+		
+		if (!user.save(flush: true)) {
+			flash.message = "Unable to update user."
+		}
+		
+		redirect(controller: "dashboard", action: "index")
+	}
 
 	def resetPasswordFlow = {
 		start {
