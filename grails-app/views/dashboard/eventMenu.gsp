@@ -28,7 +28,7 @@
 			</fieldset>
 			<fieldset class="menu-set" style="float: right;">
 				<legend>Event Menu</legend>
-				Manage Event<br/>
+				<g:link class="menu-link" controller="event" action="edit" id="${eventId}">Manage Event</g:link><br/>
 				Manage Files<br/>
 				Manage Forum<br/>
 				Manage Blog

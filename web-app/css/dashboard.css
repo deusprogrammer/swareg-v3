@@ -126,7 +126,7 @@ div#badges {
 	display: inline-block;
 	height: 110px;
 	width: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 div#badges-menu {
@@ -145,7 +145,7 @@ div#events {
 	display: inline-block;
 	height: 110px;
 	width: 250px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	vertical-align: top;
 }
 

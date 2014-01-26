@@ -68,7 +68,11 @@ class UserFlowController {
 			flash.message = "Unable to update user."
 		}
 		
-		redirect(controller: "dashboard", action: "index")
+		redirect(action: "edit")
+	}
+	
+	def uploadAvatar(Long id) {
+		
 	}
 
 	def resetPasswordFlow = {

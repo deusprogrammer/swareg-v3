@@ -8,7 +8,6 @@
 	    <meta name="layout" content="flow" />
 	    <script>
   			$(function() {
-				$("#details-view").hide();
 				$("#details-menu").hide();
   	  			
   	  			// Center modals
@@ -250,6 +249,11 @@
 				</div>
 				<div id="details-container">
 					<div id="details-view">
+						<h4>Instructions</h4>
+						<div style="margin-left: 10px;">
+							<p>Click on an event or a badge to see it's details in this modal and show any relevant menus.</p>
+							<p>Click and hold on a badge to bring up a drop down menu for gifting and accepting badges.</p>
+						</div>
 					</div>
 					<div id="details-menu">
 					</div>

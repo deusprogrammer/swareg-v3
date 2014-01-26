@@ -12,7 +12,6 @@
 			<tbody>
 				<tr><td class="label">Event</td><td>${badge.event}</td></tr>
 				<tr><td class="label">Registration Level</td><td>${badge.registrationLevel.name}</td></tr>
-				<tr><td class="label">Description</td><td>${badge.registrationLevel.description}</td></tr>
 				<tr><td class="label">Order #</td><td>${badge.order?.paymentId ?: "None"}</td></tr>
 			</tbody>
 		</table>

@@ -139,11 +139,13 @@
 	            </div>
 	        </g:if>
 	        <div id="banner">
-	        	<img src="${resource(dir: 'images', file: 'Swag-Logo.png')}" height="100px"/>
+	        	<img src="${resource(dir: 'images', file: 'Swag-Logo.png')}" height="75px"/>
 	        </div>
 	        <div id="session">
 	            <sec:ifLoggedIn>
-	                Welcome back <g:link class="menu-link" controller="userFlow" action="edit" id="${}"><sec:username/></g:link>!  <g:link controller='userFlow' action="logout">Logout?</g:link>
+	            	<table>
+	                	<tr><td><g:gravatar size="50" /></td><td style="vertical-align: middle;"><g:link class="menu-link" controller="userFlow" action="edit"><sec:username/></g:link>|<g:link controller='userFlow' action="logout">Logout</g:link></td></tr>
+	                </table>
 	            </sec:ifLoggedIn>
 	        </div>
 	        <div id="body-content">

@@ -40,4 +40,36 @@ class EventController {
 		
 		render(view: "showPositions", model: [event: event, positions: positions])
 	}
+	
+	def edit(Long id) {
+		Event event = Event.get(id)
+		
+		if (!event) {
+			response.setStatus(404)
+			return
+		}
+		
+		eventService.checkAdmin(event)
+		
+		[event: event]
+	}
+	
+	def update(Long id) {
+		Event event = Event.get(id)
+		
+		if (!event) {
+			response.setStatus(403)
+			return
+		}
+		
+		eventService.checkAdmin(event)
+		
+		event.properties = params
+		
+		if (!event.save(flush: true)) {
+			flash.message = "Unable to update event."
+		}
+		
+		redirect(action: "edit")
+	}
 }

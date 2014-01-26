@@ -52,6 +52,7 @@ grails.project.dependency.resolution = {
 		
         runtime ":resources:1.1.6"
 
+		compile ":avatar:0.6.3"
         compile ":spring-security-core:1.2.7.3"
         compile ":jersey-request-builder:1.1.3"
         compile ":grails-pay-pal-rest:1.0.3"

@@ -15,9 +15,9 @@ class Event implements Serializable, Payable, Ownable {
     String merchantEmail
     Currency currency = Currency.USD
     Double taxRate = 0.0825
+	
+	String logoUrl
 
-    Integer expectedAttendanceMin = 1000
-    Integer expectedAttendanceMax = 3000
     String year = (1900 + new Date().getYear()).toString()
     Integer numeral = 1
 
@@ -40,8 +40,7 @@ class Event implements Serializable, Payable, Ownable {
         homePage nullable: true
         merchantEmail nullable: true
         currency nullable: true
-        expectedAttendanceMin nullable: true
-        expectedAttendanceMax nullable: true
+		logoUrl nullable: true
         uuid nullable: true
         apiKey nullable: true
     }

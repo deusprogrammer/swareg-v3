@@ -61,3 +61,12 @@ div.message {
     background-color: #333333;
 	border: 1px solid black;
 }
+
+a.menu-link {
+	text-decoration: none;
+	color: white;
+}
+
+a.menu-link:hover {
+	color: blue;
+}
