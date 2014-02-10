@@ -1,6 +1,36 @@
+.debug {
+	border: 1px solid;
+}
+
+.red {
+	border-color: red;
+}
+
+.green {
+	border-color: green;
+}
+
+.blue {
+	border-color: blue;
+}
+
 body {
 	background-color: #181818;
 	color: white;
+}
+
+div#dash-content {
+	width: 80%;
+	height: 100%;
+	margin: auto;
+}
+
+div#content {
+	width: 90%;
+	height: 600px;
+	vertical-align: top;
+	margin: auto;
+	padding: 10px;
 }
 
 .top {
@@ -116,6 +146,11 @@ body {
 	color: white;
 }
 
+.search {
+	width: 400px;
+	height: 150px;
+}
+
 .inner {
 	margin: auto;
 	position: relative;
@@ -177,11 +212,6 @@ a.menu-link:hover {
 	color: white;
 }
 
-div#dash-content {
-	width: 1000px;
-	margin: auto;
-}
-
 div#login-view {
 	width: 300px;
 	margin: auto;
@@ -217,14 +247,6 @@ div#possessions-view {
 	display: block;
 	border-radius: 15px;
 	height: 200px;
-}
-
-div#content {
-	width: 90%;
-	height: 450px;
-	vertical-align: top;
-	margin: auto;
-	padding: 10px;
 }
 
 div#badges {
