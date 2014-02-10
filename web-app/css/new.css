@@ -7,6 +7,10 @@ body {
 	vertical-align: top;
 }
 
+.middle {
+	vertical-align: middle;
+}
+
 .centered {
 	margin: auto;
 }
@@ -20,7 +24,7 @@ body {
 }
 
 .short {
-	height: 200px;
+	height: 300px;
 }
 
 .tall {
@@ -45,6 +49,23 @@ body {
 
 .wide-scaled {
 	width: 75%;
+}
+
+.fill-x {
+	width: 100%;
+}
+
+.fill-y {
+	height: 100%;
+}
+
+.add > div:first-child {
+	width: 85%;
+	vertical-align: top;
+}
+
+.add > div:last-child {
+	vertical-align: top;
 }
 
 .side-by-side {
@@ -96,7 +117,21 @@ body {
 	position: relative;
 	top: 10px;
 	left: 5px;
-	width: 93%;
+	width: 90%;
+	height: 93%;
+}
+
+.inner-x {
+	margin: auto;
+	position: relative;
+	left: 5px;
+	width: 90%;
+}
+
+.inner-y {
+	margin: auto;
+	position: relative;
+	top: 10px;
 	height: 93%;
 }
 
