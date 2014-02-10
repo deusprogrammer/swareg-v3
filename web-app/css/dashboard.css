@@ -4,6 +4,7 @@
 
 .scrollable {
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .padded td {
@@ -127,6 +128,7 @@ div#badges {
 	height: 110px;
 	width: 100%;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 div#badges-menu {
@@ -146,6 +148,7 @@ div#events {
 	height: 110px;
 	width: 250px;
 	overflow-y: auto;
+	overflow-x: hidden;
 	vertical-align: top;
 }
 
