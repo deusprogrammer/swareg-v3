@@ -1,11 +1,11 @@
 <html>
     <head>
-        <link rel="stylesheet" href="${resource(dir: 'css', file: 'dashboard.css')}" type="text/css">
+        <link rel="stylesheet" href="${resource(dir: 'css', file: 'new.css')}" type="text/css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
-        <meta name="layout" content="flow" />
+        <meta name="layout" content="new" />
         <script>
 			$(function() {
 			  $( ".datepicker" ).datepicker();
@@ -14,37 +14,39 @@
     </head>
     <body>
     	<div id="content">
-   			<center><h1>Registration Tiers</h1></center>
+   			<h1 class="center-text">Registration Tiers</h1>
     		<div id="dash-content">
-		    	<div class="round" style="height: 250px; float: left;">
-			        <h3>Add Registration Tier for ${event}</h3>
-			        <g:form action="saveTier">
-			        	<g:hiddenField name="eventId" value="${event.id}" />
-				        <table>
-				            <tbody>
-				                <tr>
-				                   <td class="label">Name</td><td><g:textField name="name" /></td>
-				                </tr>
-	   			                <tr>
-				                   <td class="label">Description</td><td><g:textField name="description" /></td>
-				                </tr>
-				                <tr>
-				                   <td class="label">Price</td><td><g:textField name="price" /></td>
-				                </tr>
-				                <tr>
-				                   <td class="label">Valid For</td><td><g:textField name="validFor" /></td>
-				                </tr>
-	   			                <tr>
-				                   <td class="label">Need Admin?</td><td><g:checkBox name="needAdmin" /></td>
-				                </tr>
-				            </tbody>
-				        </table>
-				        <g:submitButton name="submit" value="Submit" />
-			        </g:form>
+		    	<div class="dash small-scaled short left rounded">
+		    		<span class="legend">New Tier</span>
+		    		<div class="inner">
+				        <g:form action="saveTier">
+				        	<g:hiddenField name="eventId" value="${event.id}" />
+					        <table>
+					            <tbody>
+					                <tr>
+					                   <td class="label">Name</td><td><g:textField name="name" /></td>
+					                </tr>
+		   			                <tr>
+					                   <td class="label">Description</td><td><g:textField name="description" /></td>
+					                </tr>
+					                <tr>
+					                   <td class="label">Price</td><td><g:textField name="price" /></td>
+					                </tr>
+					                <tr>
+					                   <td class="label">Valid For</td><td><g:textField name="validFor" /></td>
+					                </tr>
+		   			                <tr>
+					                   <td class="label">Need Admin?</td><td><g:checkBox name="needAdmin" /></td>
+					                </tr>
+					            </tbody>
+					        </table>
+					        <g:submitButton name="submit" value="Submit" />
+				        </g:form>
+			        </div>
 		        </div>
-		        <div class="round" style="height: 250px; width: 300px; float:right;">
-		        	<h3>Existing Tiers</h3>
-		        	<div style="height: 150px; overflow-y: scroll;">
+		        <div class="dash small-scaled short right rounded">
+		        	<span class="legend">Existing Tiers</span>
+		        	<div class="inner scrollable">
 			        	<table class="padded">
 			        		<tbody>
 			        			<g:each in="${event.levels}" var="level">

@@ -11,6 +11,10 @@ body {
 	vertical-align: middle;
 }
 
+.center-text {
+	text-align: center;
+}
+
 .centered {
 	margin: auto;
 }
