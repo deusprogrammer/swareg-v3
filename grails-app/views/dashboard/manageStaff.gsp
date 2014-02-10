@@ -9,7 +9,7 @@
 	</head>
 	<body>
     	<div id="content">
-    		<h1 class="centered">Manage Staff for ${event}</h1>
+    		<h1 class="center-text">Manage Staff for ${event}</h1>
     		<div id="dash-content">
 		    	<div class="dash small-scaled short left rounded">
 		    		<span class="legend">Positions</span>

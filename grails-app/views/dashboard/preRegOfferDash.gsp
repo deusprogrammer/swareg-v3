@@ -1,11 +1,11 @@
 <html>
     <head>
-        <link rel="stylesheet" href="${resource(dir: 'css', file: 'dashboard.css')}" type="text/css">
+        <link rel="stylesheet" href="${resource(dir: 'css', file: 'new.css')}" type="text/css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
-        <meta name="layout" content="flow" />
+        <meta name="layout" content="new" />
         <script>
 			$(function() {
 			  $( ".datepicker" ).datepicker();
@@ -14,36 +14,38 @@
     </head>
     <body>
     	<div id="content">
-    		<center><h1>Pre Registration Offers</h1></center>
+    		<h1 class="center-text">Pre Registration Offers</h1>
     		<div id="dash-content">
-		    	<div class="round" style="height: 250px; float: left;">
-			        <h3>Add Pre Registration Offer for ${event}</h3>
-			        <g:form action="savePreRegOffer">
-				        <table>
-				            <tbody>
-				                <tr>
-				                   <td class="label">Badge Tier</td>
-				                   <td>
-				                       <g:select from="${event.levels.findAll {!it.needAdmin}}" optionKey="id" name="tier" noSelection="${['null':'Select One...']}" />
-				                   </td>
-				                </tr>
-				                <tr>
-				                   <td class="label">Price</td><td><g:textField name="price" /></td>
-				                </tr>
-				                <tr>
-				                   <td class="label">Start Date</td><td><input type="text" class="datepicker" name="startDate" /></td>
-			                    </tr>
-				                <tr>
-				                   <td class="label">End Date</td><td><input type="text" class="datepicker" name="endDate" /></td>
-				                </tr>
-				            </tbody>
-				        </table>
-				        <g:submitButton name="submit" value="Submit" />
-			        </g:form>
+		    	<div class="dash small-scaled short left rounded">
+			        <span class="legend">New Offer</span>
+			        <div class="inner">
+				        <g:form action="savePreRegOffer">
+					        <table>
+					            <tbody>
+					                <tr>
+					                   <td class="label">Badge Tier</td>
+					                   <td>
+					                       <g:select from="${event.levels.findAll {!it.needAdmin}}" optionKey="id" name="tier" noSelection="${['null':'Select One...']}" />
+					                   </td>
+					                </tr>
+					                <tr>
+					                   <td class="label">Price</td><td><g:textField name="price" /></td>
+					                </tr>
+					                <tr>
+					                   <td class="label">Start Date</td><td><input type="text" class="datepicker" name="startDate" /></td>
+				                    </tr>
+					                <tr>
+					                   <td class="label">End Date</td><td><input type="text" class="datepicker" name="endDate" /></td>
+					                </tr>
+					            </tbody>
+					        </table>
+					        <g:submitButton name="submit" value="Submit" />
+				        </g:form>
+			        </div>
 		        </div>
-		        <div class="round" style="height: 250px; float:right;">
-		        	<h3>Existing Offers</h3>
-		        	<div style="height: 150px; overflow-y: scroll;">
+		        <div class="dash small-scaled short right rounded">
+			        <span class="legend">Existing Offers</span>
+			        <div class="inner scrollable">
 			        	<table>
 			        		<tbody>
 			        			<g:each in="${event.levels.findAll {!it.needAdmin}}" var="level">
