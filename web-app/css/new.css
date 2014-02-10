@@ -1,0 +1,304 @@
+body {
+	background-color: #181818;
+	color: white;
+}
+
+.top {
+	vertical-align: top;
+}
+
+.centered {
+	margin: auto;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.short {
+	height: 200px;
+}
+
+.tall {
+	height: 600px;
+}
+
+.short-scaled {
+	height: 49%;
+}
+
+.skinny-scaled {
+	width: 25%;
+}
+
+.small-scaled {
+	width: 45%;
+}
+
+.medium-scaled {
+	width: 70%;
+}
+
+.wide-scaled {
+	width: 75%;
+}
+
+.side-by-side {
+	display: inline-block;
+}
+
+.stacked {
+	display: block;
+}
+
+.spaced {
+	margin: 0px 0px 10px 0px;
+}
+
+.rounded {
+	border-radius: 15px;
+}
+
+.container {
+	position: relative;
+	padding: 10px;
+	overflow: hidden;
+}
+
+.menu-set {
+	background-color: #333333;
+	width: 150px;
+	height: 100px;
+}
+
+.dash {
+	position: relative;
+	background-color: #333333;
+	color: white;
+}
+
+.dash p {
+}
+
+.dash > .legend {
+	position: absolute;
+	top: -10px;
+	left: 15px;
+	color: white;
+}
+
+.inner {
+	margin: auto;
+	position: relative;
+	top: 10px;
+	left: 5px;
+	width: 93%;
+	height: 93%;
+}
+
+.scrollable {
+	overflow-x: none;
+	overflow-y: auto;
+}
+
+.hidden {
+	display: none;
+}
+
+a.menu-link {
+	text-decoration: none;
+	color: white;
+}
+
+a.menu-link:hover {
+	color: blue;
+}
+
+/* DASHBOARD CSS*/
+.label {
+	font-weight: bold;
+}
+
+.unselected {
+	background-color: #333333;
+	color: white;
+}
+
+.selected {
+	background-color: blue;
+	color: white;
+}
+
+.hard-selected {
+	background-color: green;
+	color: white;
+}
+
+div#dash-content {
+	width: 1000px;
+	margin: auto;
+}
+
+div#login-view {
+	width: 300px;
+	margin: auto;
+	padding: 20px;
+	background-color: #333333;
+	border-radius: 25px;
+}
+
+div.dropdown-menu {
+	position: absolute;
+	width: 150px;
+	display: none;
+}
+
+div#gift-modal {
+	text-align: center;
+	position: absolute;
+	width: 600px;
+	border: 1px solid black;
+	border-radius: 15px;
+	background-color: white;
+	display: none;
+	padding: 10px;
+}
+
+span#gift-span {
+	color: blue;
+	font-weight: normal;
+	font-size: 100%;
+}
+
+div#possessions-view {
+	display: block;
+	border-radius: 15px;
+	height: 200px;
+}
+
+div#content {
+	width: 90%;
+	height: 450px;
+	vertical-align: top;
+	margin: auto;
+	padding: 10px;
+}
+
+div#badges {
+	display: inline-block;
+	height: 110px;
+	width: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+div#badges-menu {
+	height: 50px;
+}
+
+div#badges-container {
+	display: inline-block;
+	float: left;
+	width: 45%;
+	vertical-align: top;
+	margin: 0px 10px 0px 10px;
+}
+
+div#events {
+	display: inline-block;
+	height: 110px;
+	width: 250px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	vertical-align: top;
+}
+
+div#events-menu {
+	display: inline-block;
+	margin: 10px 0px;
+	vertical-align: top;
+}
+
+div#events-container {
+	display: inline-block;
+	float: right;
+	width: 30%;
+	vertical-align: top;
+}
+
+div.gifted {
+	border: 1px solid whitesmoke;
+	color: whitesmoke;
+}
+
+div.received {
+	border: 1px solid pink;
+	color: pink;
+}
+
+div.owned {
+	border: 1px solid black;
+}
+
+div.badge {
+	display: inline-block;
+	text-align: center;
+	height: 100px;
+	width: 75px;
+	margin: 5px;
+	border-radius:15px;
+}
+
+div.event {
+	border: 1px solid black;
+	text-align: center;
+	width: 200px;
+	border-radius:25px;
+	margin: 5px;
+	padding: 5px;
+}
+
+div.badge-image {
+	height: 75px;
+	font-weight: bold;
+	vertical-align: text-center;
+}
+
+div.badge-text {
+	height: 25px;
+    float: bottom;  
+}
+
+div#details-container {
+	height: 250px;
+	width: 800px;
+	border-radius: 15px;
+	margin: auto;
+}
+
+div#details-view {
+	height: 200px;
+	width: 400px;
+	display: inline-block;
+	border: 1px solid black;
+	border-radius: 15px;
+	padding: 5px;
+	background-color: #333333;
+	float: left;
+}
+
+div#details-menu {
+	height: 200px;
+	width: 325px;
+	display: inline-block;
+	padding: 5px;
+	float: right;
+}
+
+td.highlighted {
+	color: red;
+}

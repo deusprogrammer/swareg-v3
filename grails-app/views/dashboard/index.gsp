@@ -1,11 +1,11 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="${resource(dir: 'css', file: 'dashboard.css')}" type="text/css">
+		<link rel="stylesheet" href="${resource(dir: 'css', file: 'new.css')}" type="text/css">
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 	    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	    <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
-	    <meta name="layout" content="flow" />
+	    <meta name="layout" content="new" />
 	    <script>
   			$(function() {
 				$("#details-menu").hide();
@@ -69,11 +69,18 @@
     			
     			$("div.mousable").mouseover(function() {
         			$("div.mousable").removeClass("selected");
+        			$("div.mousable").addClass("unselected");
 	        		$(this).addClass("selected");
+        		});
+
+    			$("div.mousable").mouseout(function() {
+        			$("div.mousable").removeClass("selected");
+        			$("div.mousable").addClass("unselected");
         		});
 
             	$("div.mousable").mousedown(function() {
             		$("div.mousable").removeClass("hard-selected");
+            		$("div.mousable").addClass("unselected");
             		$("div.dropdown-menu").hide();
                 	$(this).addClass("hard-selected");
                 });
@@ -200,7 +207,7 @@
 						<div id="badges-inner">
 							<div id="badges">
 								<g:each in="${received}" var="badge">
-									<div class="mousable badge received" badge-ownership="received" badge-number="${badge.id}" badge-data="${badge}">
+									<div class="mousable badge unselected received" badge-ownership="received" badge-number="${badge.id}" badge-data="${badge}">
 										<div class="badge-image">
 											${badge.event.name}<br />
 											${badge.event.year}
@@ -211,7 +218,7 @@
 									</div>
 								</g:each>
 								<g:each in="${badges}" var="badge">
-									<div class="mousable badge owned" badge-ownership="owned" badge-number="${badge.id}" badge-data="${badge}">
+									<div class="mousable badge unselected owned" badge-ownership="owned" badge-number="${badge.id}" badge-data="${badge}">
 										<div class="badge-image">
 											${badge.event.name}<br />
 											${badge.event.year}
@@ -222,7 +229,7 @@
 									</div>
 								</g:each>
 								<g:each in="${gifted}" var="badge">
-									<div class="mousable badge gifted" badge-ownership="gifted" badge-number="${badge.id}" badge-data="${badge}">
+									<div class="mousable badge unselected gifted" badge-ownership="gifted" badge-number="${badge.id}" badge-data="${badge}">
 										<div class="badge-image">
 											${badge.event.name}<br />
 											${badge.event.year}
@@ -240,7 +247,7 @@
 						<div id="events-inner">
 							<div id="events">
 								<g:each in="${events}" var="event">
-									<div class="event mousable" event-number="${event.id}">${event}</div>
+									<div class="event mousable unselected" event-number="${event.id}">${event}</div>
 								</g:each>
 							</div>
 							<a href="${createLink(controller: "eventFlow", action: "createEvent")}" title="New Event"><button style="height:110px;">+</button></a>
@@ -248,9 +255,9 @@
 					</div>
 				</div>
 				<div id="details-container">
-					<div id="details-view">
-						<h4>Instructions</h4>
-						<div style="margin-left: 10px;">
+					<div id="details-view" class="dash">
+						<span class="legend">Instructions</span>
+						<div class="inner scrollable">
 							<p>Click on an event or a badge to see it's details in this modal and show any relevant menus.</p>
 							<p>Click and hold on a badge to bring up a drop down menu for gifting and accepting badges.</p>
 						</div>
