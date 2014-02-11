@@ -1,18 +1,21 @@
 <html>
     <head>
-        <meta name="layout" content="flow">
+    	<link rel="stylesheet" href="${resource(dir: 'css', file: 'new.css')}" type="text/css">
+        <meta name="layout" content="new">
         <title>Registration:Manual-Registration</title>
     </head>
     <body>
-        <h3>Assign a User to ${position.title} for ${position.event}</h3>
-        <div class="pretext">
-            <p>Enter an email address of a user you want to assign to this position.</p>
+        <h3 class="center-text">Assign a User to ${position.title} for ${position.event}</h3>
+        <div class="dash small-scaled shortest spaced">
+        	<div class="inner">
+            	<p>Enter an email address of a user you want to assign to this position.</p>
+            </div>
         </div>
-        <div class="round" style="width:500px;">
-            <g:form action="doAssign" id="${position.id}">
-            	<fieldset class="flow">
-            		<legend>Assign to Position</legend>
-            		<table>
+        <div class="dash skinny-scaled shorter rounded spaced">
+        	<span class="legend">Assign to Position</span>
+        	<div class="inner">
+	            <g:form action="doAssign" id="${position.id}">
+	           		<table>
 	            		<tbody>
 		                	<tr>
 		                		<td>
@@ -23,10 +26,10 @@
 		                		</td>
 		                	</tr>
 	                	</tbody>
-                	</table>
-                	<g:submitButton name="assign" value="Assign"/>
-                </fieldset>
-            </g:form>
+	               	</table>
+	               	<g:submitButton name="assign" value="Assign"/>
+	            </g:form>
+            </div>
         </div>
     </body>
 </html>

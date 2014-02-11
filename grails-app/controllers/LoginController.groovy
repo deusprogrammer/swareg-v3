@@ -40,7 +40,6 @@ class LoginController {
      * Show the login page.
      */
     def auth = {
-
         def config = SpringSecurityUtils.securityConfig
 
         if (springSecurityService.isLoggedIn()) {

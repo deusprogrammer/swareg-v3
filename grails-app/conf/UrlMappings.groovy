@@ -7,7 +7,7 @@ class UrlMappings {
          constraints {}
       }
 
-      "/"(view:"/index")
+      "/"(controller: "dashboard")
 
       "403"(controller: "errors", action: "error403")
       "404"(controller: "errors", action: "error404")

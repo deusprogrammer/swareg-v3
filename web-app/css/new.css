@@ -57,6 +57,14 @@ div#content {
 	float: right;
 }
 
+.shortest {
+	height: 100px;
+}
+
+.shorter {
+	height: 150px;
+}
+
 .short {
 	height: 300px;
 }
@@ -83,6 +91,9 @@ div#content {
 
 .wide-scaled {
 	width: 75%;
+}
+
+.large {
 }
 
 .fill-x {
@@ -157,7 +168,7 @@ div#content {
 	top: 10px;
 	left: 5px;
 	width: 90%;
-	height: 93%;
+	height: 90%;
 }
 
 .inner-x {
