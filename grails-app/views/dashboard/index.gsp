@@ -186,7 +186,8 @@
 		</div>
 		<div id="content">
 			<sec:ifNotLoggedIn>
-				<div id="login-view">
+				<div id="login-view" class="dash">
+					<span class="legend">Login</span>
 					<g:form controller="userFlow">
 		                <table>
 		                <tr><td>Email Address</td><td><g:textField name="emailAddress" /></td></tr>
