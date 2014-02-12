@@ -1,17 +1,20 @@
 <html>
     <head>
-        <meta name="layout" content="flow">
+        <meta name="layout" content="new">
         <title>User:Data</title>
     </head>
     <body>
         <h3>User Information</h3>
-        <div class="pretext">
-            <p>Let's begin.  Please enter your user information.  All information is required.</p>
+        
+       	<div class="dash skinny-scaled shortest spaced">
+        	<div class="inner">
+            	<p>Let's begin.  Please enter your user information.  All information is required.</p>
+            </div>
         </div>
-        <div class="round">
-	        <g:form>
-	            <fieldset class="flow">
-		            <legend>User Data</legend>
+        <div class="dash rounded skinny-scaled spaced">
+        	<span class="legend">User Data</span>
+        	<div class="inner-x">
+				<g:form>
 		            <table>
 		                <g:if test="${isRegistration}">
 			                 <tr><td>Email</td><td><g:textField class="email" name="emailAddress" value="${userData?.emailAddress}" readonly="readonly" /></td></tr>
@@ -25,8 +28,8 @@
 			            <tr><td>Last Name</td><td><g:textField name="lastName" value="${userData?.lastName}"/></td></tr>
 		            </table>
 		            <g:submitButton name="next" value="Next"/>
-	            </fieldset>
-	        </g:form>
+	        	</g:form>
+	        </div>
         </div>
     </body>
 </html>

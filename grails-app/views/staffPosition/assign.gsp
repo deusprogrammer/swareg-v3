@@ -1,6 +1,5 @@
 <html>
     <head>
-    	<link rel="stylesheet" href="${resource(dir: 'css', file: 'new.css')}" type="text/css">
         <meta name="layout" content="new">
         <title>Registration:Manual-Registration</title>
     </head>
@@ -11,9 +10,9 @@
             	<p>Enter an email address of a user you want to assign to this position.</p>
             </div>
         </div>
-        <div class="dash skinny-scaled shorter rounded spaced">
+        <div class="dash skinny-scaled rounded spaced">
         	<span class="legend">Assign to Position</span>
-        	<div class="inner">
+        	<div class="inner-x">
 	            <g:form action="doAssign" id="${position.id}">
 	           		<table>
 	            		<tbody>

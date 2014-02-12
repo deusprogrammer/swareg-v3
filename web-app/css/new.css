@@ -58,11 +58,11 @@ div#content {
 }
 
 .shortest {
-	height: 100px;
+	height: 150px;
 }
 
 .shorter {
-	height: 150px;
+	height: 250px;
 }
 
 .short {
@@ -105,7 +105,7 @@ div#content {
 }
 
 .add > div:first-child {
-	width: 85%;
+	width: 80%;
 	vertical-align: top;
 }
 
@@ -165,8 +165,7 @@ div#content {
 .inner {
 	margin: auto;
 	position: relative;
-	top: 10px;
-	left: 5px;
+	padding: 15px;
 	width: 90%;
 	height: 90%;
 }
@@ -174,15 +173,15 @@ div#content {
 .inner-x {
 	margin: auto;
 	position: relative;
-	left: 5px;
+	padding: 15px;
 	width: 90%;
 }
 
 .inner-y {
 	margin: auto;
 	position: relative;
-	top: 10px;
-	height: 93%;
+	padding: 15px;
+	height: 90%;
 }
 
 .scrollable {
@@ -201,6 +200,18 @@ a.menu-link {
 
 a.menu-link:hover {
 	color: blue;
+}
+
+table.pairs tr > td:first-child {
+	font-weight: bold;
+}
+
+table.padded td {
+	padding: 0px 5px 0px 5px;
+}
+
+table.lined td {
+	border-bottom: 1px solid white;
 }
 
 /* DASHBOARD CSS*/

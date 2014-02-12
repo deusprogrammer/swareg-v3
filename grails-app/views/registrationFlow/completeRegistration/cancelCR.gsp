@@ -5,16 +5,13 @@
     </head>
     <body>
         <h3>Purchase Canceled!</h3>
-        <div class="pretext">
-            <p>Your purchase has been cancelled successfully!  Your PayPal account has not been charged.</p>
-        </div>
-        <div class="round">
-	        <g:form>
-	            <fieldset class="flow">
-		            <legend>Confirm</legend>
+        <div class="dash skinny-scaled shortest spaced">
+        	<div class="inner">
+            	<p>Your purchase has been cancelled successfully!  Your PayPal account has not been charged.</p>
+            	<g:form>
 		            <g:submitButton name="confirm" value="Okay"/>
-	            </fieldset>
-	        </g:form>
+		        </g:form>
+            </div>
         </div>
-    </body>
+	</body>
 </html>

@@ -10,15 +10,15 @@
 	<body>
 		<div id="content">
 			<h1 class="center-text">Create Position for ${event}</h1>
-			<div class="dash small-scaled shorter spaced">
+			<div class="dash small-scaled shortest spaced">
 				<p>Please fill out the required details below.</p>
 				<p>The permissions fields indicate what access they have to the event.  Some actions
 				such as this one require admin permissions to act on.  Take care when assigning permissions.</p>
 			</div>
 
-			<div class="dash rounded wide-scaled short side-by-side spaced">
+			<div class="dash rounded wide-scaled side-by-side spaced">
 				<span class="legend">Position</span>
-				<div class="inner">
+				<div class="inner-x">
 					<g:form action="save">
 						<table>
 							<g:hiddenField name="event.id" value="${event.id}" />

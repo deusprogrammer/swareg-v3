@@ -1,18 +1,20 @@
 <html>
     <head>
-        <meta name="layout" content="flow">
+        <meta name="layout" content="new">
         <title>User:Shipping</title>
     </head>
     <body>
         <h3>Shipping Data</h3>
-        <div class="pretext">
-            <p>Please enter your shipping address.</p>
+		<div class="dash skinny-scaled shortest spaced">
+        	<div class="inner">
+            	<p>Please enter your shipping address.</p>
+            </div>
         </div>
-        <div class="round">
-	        <g:form>
-	           <fieldset class="flow">
-	                <legend>Shipping Address</legend>
-		            <table>
+        <div class="dash rounded skinny-scaled spaced">
+        	<span class="legend">Shipping Address</span>
+        	<div class="inner-x">
+		        <g:form>
+		            <table class="pairs">
 		                <tr><td>Street Address</td><td><g:textField name="streetAddress1" value="${flow?.shippingData?.streetAddress1}"/></td></tr>
 		                <tr><td></td><td><g:textField name="streetAddress2" value="${flow?.shippingData?.streetAddress2}"/></td></tr>
 		                <tr><td>City</td><td><g:textField name="city" value="${flow?.shippingData?.city}"/></td></tr>
@@ -21,8 +23,8 @@
 		            </table>
 		            <g:submitButton name="back" value="Back"/>
                     <g:submitButton name="next" value="Next"/>
-                </fieldset>
-	        </g:form>
+		        </g:form>
+	        </div>
         </div>
     </body>
 </html>

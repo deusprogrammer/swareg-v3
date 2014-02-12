@@ -1,20 +1,20 @@
-<%@ page import="com.swag.registration.domain.Registration" %>
-<%@ page import="com.swag.registration.domain.RegistrationLevel" %>
 <html>
     <head>
-        <meta name="layout" content="flow">
+        <meta name="layout" content="new">
         <title>Registration:Manual-Registration</title>
     </head>
     <body>
         <h3>Choose Registration Level</h3>
-        <div class="pretext">
-            <p>Enter an email address and choose a registration level.</p>
+        <div class="dash skinny-scaled shortest spaced">
+        	<div class="inner">
+            	<p>Enter an email address and choose a registration level.</p>
+            </div>
         </div>
-        <div class="round" style="width:500px;">
-            <g:form>
-            	<fieldset class="flow">
-            		<legend>Manual Registration</legend>
-            		<table>
+        <div class="dash rounded skinny-scaled spaced">
+        	<span class="legend">Manual Registration</span>
+        	<div class="inner-x">
+				<g:form>
+            		<table class="pairs">
 	            		<tbody>
 		                	<tr>
 		                		<td>
@@ -35,7 +35,8 @@
 	                	</tbody>
                 	</table>
                 	<g:submitButton name="continue" value="Continue"/>
-            </g:form>
+            	</g:form>
+	        </div>
         </div>
     </body>
 </html>

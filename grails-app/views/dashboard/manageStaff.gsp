@@ -15,7 +15,7 @@
 		    		<span class="legend">Positions</span>
 		    		<div class="inner add">
 				    	<div class="inner-y scrollable side-by-side">
-							<table>
+							<table class="padded lined">
 								<g:each in="${event.positions.sort { it.title}}" var="position">
 									<g:if test="${position.available}">
 										<tr>
@@ -57,7 +57,7 @@
 		        <div class="dash small-scaled short right rounded">
 		        	<span class="legend">Applications</span>
 		        	<div class="inner scrollable">
-						<table class="padded">
+						<table class="padded lined">
 							<g:each in="${event.positions.sort {it.title}}" var="position">
 								<g:if test="${position.available}">
 									<g:each in="${position.applicants.sort {it.user.lastName}}" var="applicant">

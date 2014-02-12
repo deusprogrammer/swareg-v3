@@ -1,23 +1,25 @@
 <html>
     <head>
-        <meta name="layout" content="flow">
+        <meta name="layout" content="new">
         <title>Registration:Login</title>
     </head>
     <body>
         <h3>Register for ${event}</h3>
-        <div class="pretext">
-            <p>Please enter your email address.  If you have registered using our system previously, you can login and avoid creating a new user.</p>
+        <div class="dash skinny-scaled shortest spaced">
+        	<div class="inner">
+            	<p>Please enter your email address.  If you have registered using our system previously, you can login and avoid creating a new user.</p>
+            </div>
         </div>
-        <div class="round">
-	        <g:form>
-                <fieldset class="flow">
-                    <legend>Email Check</legend>
-		            <table>
+        <div class="dash rounded skinny-scaled spaced">
+        	<span class="legend">Email Check</span>
+        	<div class="inner-x">
+		        <g:form>
+		            <table class="pairs">
 		               <tr><td>Email Address</td><td><g:textField class="email" name="emailAddress" placeHolder="user@domain.com" /></td></tr>
 		            </table>
 			        <g:submitButton name="continue" value="Continue" />
-		        </fieldset>
-	        </g:form>
+		        </g:form>
+	        </div>
         </div>
     </body>
 </html>
