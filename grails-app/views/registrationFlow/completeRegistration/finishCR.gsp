@@ -5,8 +5,8 @@
     </head>
     <body>
         <h3>Thank You!</h3>
-        <div class="dash skinny-scaled shortest spaced">
-        	<div class="inner">
+        <div class="dash skinny-scaled spaced">
+        	<div class="inner-x">
 	            <g:if test="${order && order.paymentCompleted}">
 	                <p>Thank you for your purchase.  Your receipt number is ${order.paymentId}.  You will be receiving an email from us soon with a copy of this receipt and your account information.</p>
 	            </g:if>
