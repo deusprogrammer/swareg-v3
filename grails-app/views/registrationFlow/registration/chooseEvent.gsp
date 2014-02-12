@@ -1,7 +1,7 @@
 <%@ page import="com.swag.registration.domain.Event" %>
 <html>
     <head>
-        <meta name="layout" content="new">
+        <meta name="layout" content="flow">
         <title>Registration:Choose-Event</title>
     </head>
     <body>

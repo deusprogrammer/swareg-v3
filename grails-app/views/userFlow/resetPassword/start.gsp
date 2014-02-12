@@ -1,6 +1,6 @@
 <html>
     <head>
-        <meta name="layout" content="new">
+        <meta name="layout" content="flow">
         <title>Reset Password</title>
     </head>
     <body>
