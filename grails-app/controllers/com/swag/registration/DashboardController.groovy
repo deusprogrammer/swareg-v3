@@ -123,7 +123,7 @@ class DashboardController {
 		Registration badge = Registration.get(id)
 		
 		if (!badge || badge.user != springSecurityService.currentUser) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -134,7 +134,7 @@ class DashboardController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -151,7 +151,7 @@ class DashboardController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -164,7 +164,7 @@ class DashboardController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -179,7 +179,7 @@ class DashboardController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -192,7 +192,7 @@ class DashboardController {
 		Event event = Event.get(params.eventId)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -240,7 +240,7 @@ class DashboardController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -253,7 +253,7 @@ class DashboardController {
 		RegistrationLevel level = RegistrationLevel.get(params.tier)
 		
 		if (!level) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		

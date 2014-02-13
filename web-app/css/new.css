@@ -193,6 +193,16 @@ div#content {
 	display: none;
 }
 
+.silly > h1, 
+.silly > h2, 
+.silly > h3, 
+.silly > h4, 
+.silly > h5, 
+.silly > h6 {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	color: #FFD1DC;
+}
+
 a.menu-link {
 	text-decoration: none;
 	color: white;

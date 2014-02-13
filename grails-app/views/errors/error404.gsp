@@ -1,10 +1,12 @@
 <html>
-<head>
-<title>Not Found</title>
-<meta name='layout' content='main' />
-</head>
-<body>
-<h1>Not Found</h1>
-<p>We're sorry, but that page doesn't exist.</p>
-</body>
+	<head>
+		<title>Not Found</title>
+		<meta name='layout' content='new' />
+	</head>
+	<body>
+		<div class="center-text silly">
+			<h1>Such 404.  Much Not Found.  Wow!</h1>
+			<img src="${resource(dir: 'images', file: 'doge.png')}"/>
+		</div>
+	</body>
 </html>

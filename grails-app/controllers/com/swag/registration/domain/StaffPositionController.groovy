@@ -16,7 +16,7 @@ class StaffPositionController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -55,7 +55,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -69,7 +69,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -104,7 +104,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -115,7 +115,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -132,7 +132,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -144,7 +144,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -171,7 +171,7 @@ class StaffPositionController {
 		StaffPosition position = StaffPosition.get(id)
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -189,7 +189,7 @@ class StaffPositionController {
 		Event event = position.event
 		
 		if (!position) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		

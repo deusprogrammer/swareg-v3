@@ -13,7 +13,7 @@ class StaffApplicationController {
 		StaffApplication application = StaffApplication.get(id)
 		
 		if (!application) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -26,7 +26,7 @@ class StaffApplicationController {
 		StaffApplication application = StaffApplication.get(id)
 		
 		if (!application) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		

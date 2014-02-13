@@ -17,7 +17,7 @@ class EventController {
 		Event event = Event.findByUuid(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -30,7 +30,7 @@ class EventController {
 		println "UUID: ${id}"
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
@@ -45,7 +45,7 @@ class EventController {
 		Event event = Event.get(id)
 		
 		if (!event) {
-			response.setStatus(404)
+			response.sendError(404)
 			return
 		}
 		
