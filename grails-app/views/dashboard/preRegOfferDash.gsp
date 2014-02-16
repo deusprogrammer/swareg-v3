@@ -29,7 +29,7 @@
 					                   </td>
 					                </tr>
 					                <tr>
-					                   <td class="label">Price</td><td><g:textField name="price" /></td>
+					                   <td class="label">Price</td><td><g:textField class="price" name="price" placeholder="0.00" /></td>
 					                </tr>
 					                <tr>
 					                   <td class="label">Start Date</td><td><input type="text" class="datepicker" name="startDate" /></td>

@@ -95,8 +95,6 @@ class StaffPositionController {
 			return
 		}
 		
-		position.updatePermissions()
-		
 		redirect(controller: "dashboard", action: "manageStaff", id: position.event.id)
 	}
 	

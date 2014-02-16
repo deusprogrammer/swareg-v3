@@ -24,16 +24,16 @@
 					        <table>
 					            <tbody>
 					                <tr>
-					                   <td class="label">Name</td><td><g:textField name="name" /></td>
+					                   <td class="label">Name</td><td><g:textField name="name" placeholder="Tier Name" /></td>
 					                </tr>
 		   			                <tr>
-					                   <td class="label">Description</td><td><g:textField name="description" /></td>
+					                   <td class="label">Description</td><td><g:textField name="description" placeholder="Tier Description" /></td>
 					                </tr>
 					                <tr>
-					                   <td class="label">Price</td><td><g:textField name="price" /></td>
+					                   <td class="label">Price</td><td><g:textField class="price" name="price" placeholder="0.00" /></td>
 					                </tr>
 					                <tr>
-					                   <td class="label">Valid For</td><td><g:textField name="validFor" /></td>
+					                   <td class="label">Valid For</td><td><g:textField name="validFor" placeholder="1 year" /></td>
 					                </tr>
 		   			                <tr>
 					                   <td class="label">Need Admin?</td><td><g:checkBox name="needAdmin" /></td>

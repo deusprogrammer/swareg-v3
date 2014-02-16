@@ -27,7 +27,7 @@ div#dash-content {
 
 div#content {
 	width: 90%;
-	height: 600px;
+	height: 400px;
 	vertical-align: top;
 	margin: auto;
 	padding: 10px;
@@ -105,7 +105,7 @@ div#content {
 }
 
 .add > div:first-child {
-	width: 80%;
+	width: 70%;
 	vertical-align: top;
 }
 
@@ -267,6 +267,8 @@ div#gift-modal {
 	background-color: white;
 	display: none;
 	padding: 10px;
+	z-index: 999;
+	color: black;
 }
 
 span#gift-span {

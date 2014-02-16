@@ -15,10 +15,10 @@
         	<div class="inner-x">
 		        <g:form>
 		            <table class="pairs">
-		                <tr><td>Event Name</td><td><g:textField name="name" value="${eventData?.name}"/></td></tr>
-		                <tr><td>Year</td><td><g:textField name="year" value="${eventData?.year}"/></td></tr>
-		                <tr><td>Numeral</td><td><g:textField name="numeral" value="${eventData?.numeral}"/></td></tr>
-		                <tr><td>Home Page</td><td><g:textField class="url" name="homePage" value="${eventData?.homePage}"/></td></tr>
+		                <tr><td>Event Name</td><td><g:textField name="name" value="${eventData?.name}" placeholder="Convention Name" /></td></tr>
+		                <tr><td>Year</td><td><g:textField name="year" value="${eventData?.year}" placeholder="2014"/></td></tr>
+		                <tr><td>Numeral</td><td><g:textField name="numeral" class="numeric" value="${eventData?.numeral}" placeholder="1" /></td></tr>
+		                <tr><td>Home Page</td><td><g:textField class="url" name="homePage" value="${eventData?.homePage}" placeholder="http://hostname.com"/></td></tr>
 		            </table>
 		            <g:submitButton name="next" value="Next"/>
 		        </g:form>

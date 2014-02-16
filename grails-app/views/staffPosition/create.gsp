@@ -16,18 +16,19 @@
 				such as this one require admin permissions to act on.  Take care when assigning permissions.</p>
 			</div>
 
-			<div class="dash rounded wide-scaled side-by-side spaced">
+			<div class="dash rounded wider-scaled side-by-side spaced">
 				<span class="legend">Position</span>
 				<div class="inner-x">
 					<g:form action="save">
 						<table>
 							<g:hiddenField name="event.id" value="${event.id}" />
 							<tr><td>Title</td><td><g:textField size="30" name="title" /></td></tr>
-							<tr><td>Description</td><td><g:textArea cols="100" rows="10" name="description" /></td></tr>
+							<tr><td>Description</td><td><g:textArea cols="50" rows="10" name="description" /></td></tr>
 							<tr><td>Read</td><td><g:checkBox name="read" /></td></tr>
-							<tr><td>Write</td><td><g:checkBox name="write" /></td><td><g:submitButton name="submit" value="Create"/></td></tr>
+							<tr><td>Write</td><td><g:checkBox name="write" /></td></tr>
 							<tr><td>Admin</td><td><g:checkBox name="admin" /></td></tr>
 						</table>
+						<g:submitButton name="submit" value="Create"/>
 					</g:form>
 				</div>
 			</div>

@@ -5,8 +5,8 @@
     </head>
     <body>
         <h3>User Activation</h3>
-       	<div class="dash skinny-scaled shortest spaced">
-        	<div class="inner">
+       	<div class="dash small-scaled spaced">
+        	<div class="inner-x">
             	<p>You have either registered at a convention using an email address, offered a position by a convention, or you were gifted a badge by another user.  Let's set your account.</p>
             	<p>Once you have activated your account, you can accept any gifted registrations and update your user information if you want.  Giving us more information isn't required, but it assists us in mailing out badges if the convention you are attending ships them out early.</p>
             </div>

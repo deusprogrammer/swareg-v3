@@ -15,10 +15,10 @@
         	<div class="inner-x">
 		        <g:form>
 		            <table class="pairs">
-		                <tr><td>Name</td><td><g:textField name="name"/></td></tr>
-		                <tr><td>Description</td><td><g:textField name="description"/></td></tr>
-		                <tr><td>Base Price</td><td><g:textField name="price" pattern="[0-9]+\\.[0-9]{2}"/></td></tr>
-		                <tr><td>Valid For</td><td><g:textField name="validFor"/></td></tr>
+		                <tr><td>Name</td><td><g:textField name="name" placeholder="Tier Name" /></td></tr>
+		                <tr><td>Description</td><td><g:textField name="description" placeholder="Tier Description" /></td></tr>
+		                <tr><td>Base Price</td><td><g:textField class="price" name="price" pattern="[0-9]+\\.[0-9]{2}" placeholder="0.00" /></td></tr>
+		                <tr><td>Valid For</td><td><g:textField class="validFor" name="validFor" placeholder="1 year"/></td></tr>
 		            </table>
 		            <g:submitButton name="addAnother" value="Add Another"/>
 		            <g:submitButton name="done" value="Done"/>

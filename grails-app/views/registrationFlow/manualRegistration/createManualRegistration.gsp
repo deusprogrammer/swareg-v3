@@ -10,7 +10,7 @@
             	<p>Enter an email address and choose a registration level.</p>
             </div>
         </div>
-        <div class="dash rounded skinny-scaled spaced">
+        <div class="dash rounded wide-scaled spaced">
         	<span class="legend">Manual Registration</span>
         	<div class="inner-x">
 				<g:form>
