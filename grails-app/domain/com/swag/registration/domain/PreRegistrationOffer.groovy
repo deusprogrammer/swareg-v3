@@ -30,7 +30,7 @@ class PreRegistrationOffer implements Serializable, EventChildObject {
     static belongsTo = [registrationLevel: RegistrationLevel]
 
     static constraints = {
-    }
+    }
 
     @Override
     public Event getOwner() {

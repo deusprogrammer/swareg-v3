@@ -14,6 +14,10 @@
 	border-color: blue;
 }
 
+.error {
+	border-color: red;
+}
+
 body {
 	background-color: #181818;
 	color: white;
@@ -165,7 +169,7 @@ div#content {
 .inner {
 	margin: auto;
 	position: relative;
-	padding: 15px;
+	padding: 5px;
 	width: 90%;
 	height: 90%;
 }
@@ -173,14 +177,14 @@ div#content {
 .inner-x {
 	margin: auto;
 	position: relative;
-	padding: 15px;
+	padding: 5px;
 	width: 90%;
 }
 
 .inner-y {
 	margin: auto;
 	position: relative;
-	padding: 15px;
+	padding: 5px;
 	height: 90%;
 }
 
@@ -279,7 +283,6 @@ span#gift-span {
 
 div#possessions-view {
 	display: block;
-	border-radius: 15px;
 	height: 200px;
 }
 
@@ -340,10 +343,11 @@ div.owned {
 }
 
 div.badge {
+	position: relative;
 	display: inline-block;
 	text-align: center;
-	height: 100px;
-	width: 75px;
+	height: 95px;
+	width: 85px;
 	margin: 5px;
 	border-radius:15px;
 }
@@ -358,26 +362,25 @@ div.event {
 }
 
 div.badge-image {
-	height: 75px;
+	height: 75%;
 	font-weight: bold;
-	vertical-align: text-center;
+	font-size: 10pt;
 }
 
 div.badge-text {
-	height: 25px;
-    float: bottom;  
+	height: 25%;
 }
 
 div#details-container {
 	height: 250px;
-	width: 800px;
+	width: 1000px;
 	border-radius: 15px;
 	margin: auto;
 }
 
 div#details-view {
 	height: 200px;
-	width: 400px;
+	width: 600px;
 	display: inline-block;
 	border: 1px solid black;
 	border-radius: 15px;

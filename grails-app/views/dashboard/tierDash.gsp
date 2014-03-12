@@ -58,7 +58,7 @@
 			        						<td>${level.name}</td>
 			        					</g:else>
 			        					<td>
-			        						<g:link action="deleteTier" id="${level.id}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link>
+			        						<g:link class="menu-link" action="myTier" id="${level.id}">Modify</g:link>
 			        					</td>
 			        				</tr>
 			        			</g:each>

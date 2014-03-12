@@ -13,8 +13,8 @@
 			<div class="inner-x">
 				<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 			        <table>
-		                <tr><td>Email Address</td><td><input type='text' class='text_' name='j_username' id='username'/></td></tr>
-		                <tr><td>Password</td><td><input type='password' class='text_' name='j_password' id='password'/></td></tr>
+		                <tr><td>Email Address</td><td><input type='text' class='text_' name='j_username' id='username' placeholder="user@domain.com" /></td></tr>
+		                <tr><td>Password</td><td><input type='password' class='text_' name='j_password' id='password' placeholder="password" /></td></tr>
 	                </table>
 		
 					<p id="remember_me_holder">

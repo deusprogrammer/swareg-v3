@@ -63,7 +63,7 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         payPal.debug = true
-		// grails.serverURL = "http://localhost:8080/swareg"
+        // grails.serverURL = "http://localhost:8080/swareg"
     }
     production {
         grails.logging.jul.usebridge = false
@@ -116,8 +116,8 @@ grails {
     mail {
         host = "smtp.gmail.com"
         port = 465
-		username = ""
-		password = ""
+        username = ""
+        password = ""
         //username = "swag.expo@gmail.com"
         //password = "madg3armustp4y!"
         props = ["mail.smtp.auth":"true",

@@ -9,7 +9,7 @@
 	<body>
 		<span class="legend">${event}</span>
 		<div class="inner scrollable">
-			<table>
+			<table class="padded">
 				<tbody>
 					<tr><td class="label">Event</td><td>${event.name}</td></tr>
 					<tr><td class="label">Year</td><td>${event.year}</td></tr>

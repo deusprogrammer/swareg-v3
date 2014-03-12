@@ -33,16 +33,6 @@
 			            </table>
 					</div>
 				</div>
-	        	<div class="dash rounded skinny-scaled shortest side-by-side top">
-		        	<span class="legend">Badge Tiers</span>
-		        	<div class="inner scrollable">
-			            <table>
-			                <g:each in="${eventData?.registrationLevels}" var="level">
-			                    <tr><td>${level?.name}</td><td>${String.format("%.2f",level?.price)} ${eventData?.currency}</td></tr>
-			                </g:each>
-			            </table>
-		            </div>
-				</div>
 			</div>
 	        <div class="dash rounded skinny-scaled spaced">
 	        	<span class="legend">Captcha</span>

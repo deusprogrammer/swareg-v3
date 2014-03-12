@@ -5,9 +5,9 @@ import com.swag.registration.security.*
 import java.util.UUID
 
 class Event implements Serializable, Payable, Ownable {
-	transient emailService
-	transient springSecurityService
-	
+    transient emailService
+    transient springSecurityService
+    
     String uuid = UUID.randomUUID().toString()
     String apiKey = UUID.randomUUID().toString()
     String name
@@ -15,8 +15,8 @@ class Event implements Serializable, Payable, Ownable {
     String merchantEmail
     Currency currency = Currency.USD
     Double taxRate = 0.0825
-	
-	String logoUrl
+    
+    String logoUrl
 
     String year = (1900 + new Date().getYear()).toString()
     Integer numeral = 1
@@ -40,7 +40,7 @@ class Event implements Serializable, Payable, Ownable {
         homePage nullable: true
         merchantEmail nullable: true
         currency nullable: true
-		logoUrl nullable: true
+        logoUrl nullable: true
         uuid nullable: true
         apiKey nullable: true
     }
@@ -48,76 +48,76 @@ class Event implements Serializable, Payable, Ownable {
     static mapping = {
         levels sort: 'price'
     }
-	
-	public ArrayList<User> getStaffList() {
-		positions.collect {	StaffPosition p -> 
-			p.user 
-		}
-	}
-	
-	public boolean userIsStaff(User u = null) {
-		if (!u) {
-			u = springSecurityService.currentUser
-		}
-		return u in this.staffList || userIsOwner(u)
-	}
-	
-	public boolean userHasRead(User u = null) {
-		if (!u) {
-			u = springSecurityService.currentUser
-		}
-		return positions.find { StaffPosition p ->
-			p.user?.id == u.id &&
-			(
-				p.unpackPermissions()["read"] ||
-				p.unpackPermissions()["admin"]
-			)
-		} != null || userIsOwner(u)
-	}
-	
-	public boolean userHasWrite(User u = null) {
-		if (!u) {
-			u = springSecurityService.currentUser
-		}
-		return positions.find { StaffPosition p ->
-			p.user?.id == u.id &&
-			(
-				p.unpackPermissions()["write"] ||
-				p.unpackPermissions()["admin"]
-			)
-		} != null || userIsOwner(u)
-	}
-	
-	public boolean userHasDelete(User u = null) {
-		if (!u) {
-			u = springSecurityService.currentUser
-		}
-		return positions.find { StaffPosition p ->
-			p.user?.id == u.id &&
-			(
-				p.unpackPermissions()["delete"] ||
-				p.unpackPermissions()["admin"]
-			)
-		} != null || userIsOwner(u)
-	}
-	
-	public boolean userHasAdmin(User u = null) {
-		if (!u) {
-			u = springSecurityService.currentUser
-		}
-		positions.find { StaffPosition p ->
-			p.user?.id == u.id &&
-			p.unpackPermissions()["admin"]
-		} != null || userIsOwner(u)
-	}
-	
-	public boolean userIsOwner(User u = null) {
-		if (!u) {
-			u = springSecurityService.currentUser
-		}
-		return u.id == user.id
-	}
-	
+    
+    public ArrayList<User> getStaffList() {
+        positions.collect {    StaffPosition p -> 
+            p.user 
+        }
+    }
+    
+    public boolean userIsStaff(User u = null) {
+        if (!u) {
+            u = springSecurityService.currentUser
+        }
+        return u in this.staffList || userIsOwner(u)
+    }
+    
+    public boolean userHasRead(User u = null) {
+        if (!u) {
+            u = springSecurityService.currentUser
+        }
+        return positions.find { StaffPosition p ->
+            p.user?.id == u.id &&
+            (
+                p.unpackPermissions()["read"] ||
+                p.unpackPermissions()["admin"]
+            )
+        } != null || userIsOwner(u)
+    }
+    
+    public boolean userHasWrite(User u = null) {
+        if (!u) {
+            u = springSecurityService.currentUser
+        }
+        return positions.find { StaffPosition p ->
+            p.user?.id == u.id &&
+            (
+                p.unpackPermissions()["write"] ||
+                p.unpackPermissions()["admin"]
+            )
+        } != null || userIsOwner(u)
+    }
+    
+    public boolean userHasDelete(User u = null) {
+        if (!u) {
+            u = springSecurityService.currentUser
+        }
+        return positions.find { StaffPosition p ->
+            p.user?.id == u.id &&
+            (
+                p.unpackPermissions()["delete"] ||
+                p.unpackPermissions()["admin"]
+            )
+        } != null || userIsOwner(u)
+    }
+    
+    public boolean userHasAdmin(User u = null) {
+        if (!u) {
+            u = springSecurityService.currentUser
+        }
+        positions.find { StaffPosition p ->
+            p.user?.id == u.id &&
+            p.unpackPermissions()["admin"]
+        } != null || userIsOwner(u)
+    }
+    
+    public boolean userIsOwner(User u = null) {
+        if (!u) {
+            u = springSecurityService.currentUser
+        }
+        return u.id == user.id
+    }
+    
     @Override
     public Double getPrice() {
         return 0

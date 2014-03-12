@@ -30,7 +30,7 @@ grails.project.dependency.resolution = {
             name: 'myRepo',
             //dirs: "/home/mmain/flat_repo/"
             dirs: "C:\\Users\\mmain\\repo\\"
-			//dirs: "C:\\Users\\Michael\\repo\\"
+            //dirs: "C:\\Users\\Michael\\repo\\"
         )
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
@@ -46,24 +46,24 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-		build ':tomcat:7.0.47'
-		runtime ':hibernate:3.6.10.6'
-		compile ':scaffolding:2.0.0'
-		
+        build ':tomcat:7.0.47'
+        runtime ':hibernate:3.6.10.6'
+        compile ':scaffolding:2.0.0'
+        
         runtime ":resources:1.1.6"
 
-		compile ":avatar:0.6.3"
+        compile ":avatar:0.6.3"
         compile ":spring-security-core:1.2.7.3"
         compile ":jersey-request-builder:1.1.3"
         compile ":grails-pay-pal-rest:1.0.3"
-		compile ":simple-captcha:0.9.9"
+        compile ":simple-captcha:0.9.9"
 
         compile ':cache:1.0.0'
         compile ":mail:1.0.1", {
-			excludes 'spring-test'
-		}
+            excludes 'spring-test'
+        }
         compile ':webflow:2.0.8.1', {
-			excludes 'javassist'
-		}
+            excludes 'javassist'
+        }
     }
 }

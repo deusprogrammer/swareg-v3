@@ -190,13 +190,13 @@
 					<span class="legend">Login</span>
 					<g:form controller="userFlow">
 		                <table>
-		                <tr><td>Email Address</td><td><g:textField name="emailAddress" /></td></tr>
-		                <tr><td>Password</td><td><g:passwordField name="password" /></td></tr>
+		                <tr><td>Email Address</td><td><g:textField name="emailAddress" placeholder="user@domain.com" /></td></tr>
+		                <tr><td>Password</td><td><g:passwordField name="password" placeholder="password" /></td></tr>
 		                </table>
 		                <div class="event-button">
-		                <g:actionSubmit name="login" action="login" value="Login" />
-		                <g:actionSubmit name="newUser" action="createUser" value="New User" />
-		                <g:actionSubmit name="forgotPassword" action="resetPassword" value="Forgot Password" />
+			                <g:actionSubmit name="login" action="login" value="Login" />
+			                <g:actionSubmit name="newUser" action="createUser" value="New User" />
+			                <g:actionSubmit name="forgotPassword" action="resetPassword" value="Forgot Password" />
 		                </div>
 		            </g:form>
 	            </div>
@@ -205,38 +205,42 @@
 				<div id="possessions-view">
 					<div id="badges-container">
 						<h3>Your Badges</h3>
-						<div id="badges-inner">
+						<div id="inner scrollable">
 							<div id="badges">
 								<g:each in="${received}" var="badge">
 									<div class="mousable badge unselected received" badge-ownership="received" badge-number="${badge.id}" badge-data="${badge}">
-										<div class="badge-image">
-											${badge.event.name}<br />
-											${badge.event.year}
-										</div>
-										<div class="badge-text">
-											${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 4 ? badge.registrationLevel.name.size() - 1 : 4)]}
+									    <div class="inner">
+											<div class="badge-image">
+												GIFT
+											</div>
+											<div class="badge-text">
+	                                            ${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 5 ? badge.registrationLevel.name.size() - 1 : 4)]}
+										    </div>
 										</div>
 									</div>
 								</g:each>
 								<g:each in="${badges}" var="badge">
 									<div class="mousable badge unselected owned" badge-ownership="owned" badge-number="${badge.id}" badge-data="${badge}">
-										<div class="badge-image">
-											${badge.event.name}<br />
-											${badge.event.year}
-										</div>
-										<div class="badge-text">
-											${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 4 ? badge.registrationLevel.name.size() - 1 : 4)]}
+									    <div class="inner">
+											<div class="badge-image">
+												${badge.event.name}<br />
+												${badge.event.year}
+											</div>
+											<div class="badge-text">
+												${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 5 ? badge.registrationLevel.name.size() - 1 : 4)]}
+											</div>
 										</div>
 									</div>
 								</g:each>
 								<g:each in="${gifted}" var="badge">
 									<div class="mousable badge unselected gifted" badge-ownership="gifted" badge-number="${badge.id}" badge-data="${badge}">
-										<div class="badge-image">
-											${badge.event.name}<br />
-											${badge.event.year}
-										</div>
-										<div class="badge-text">
-											${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 4 ? badge.registrationLevel.name.size() - 1 : 4)]}
+									    <div class="inner">
+											<div class="badge-image">
+												PENDING
+											</div>
+											<div class="badge-text">
+											    ${badge.registrationLevel.name[0..(badge.registrationLevel.name.size() < 5 ? badge.registrationLevel.name.size() - 1 : 4)]}
+											</div>
 										</div>
 									</div>
 								</g:each>
@@ -245,10 +249,10 @@
 					</div>
 					<div id="events-container">
 						<h3>Your Events</h3>
-						<div id="events-inner">
+						<div id="inner scrollable">
 							<div id="events">
 								<g:each in="${events}" var="event">
-									<div class="event mousable unselected" event-number="${event.id}">${event}</div>
+									<div class="event mousable unselected" event-number="${event.id}">${event.name[0..(event.name.size() < 16 ? event.name.size() - 1 : 15)]} ${event.year}</div>
 								</g:each>
 							</div>
 							<a href="${createLink(controller: "eventFlow", action: "createEvent")}" title="New Event"><button style="height:110px;">+</button></a>

@@ -10,9 +10,9 @@ import grails.plugins.springsecurity.SpringSecurityService
 import grails.plugins.springsecurity.Secured
 
 class SetupFlowController {
-	SetupUpdaterService setupUpdaterService
+    SetupUpdaterService setupUpdaterService
     SpringSecurityService springSecurityService
-	def grailsApplication
+    def grailsApplication
 
     @Secured(['ROLE_GLOBAL'])
     def setupFlow = {
@@ -36,14 +36,14 @@ class SetupFlowController {
                 ConfigHolder.setConfig("payPal.secret", params.secret)
             }.to "setupEmail"
         }
-		
-		setupEmail {
-			on("next") {
-				ConfigHolder.setConfig("email.address", params.emailAddress)
-				ConfigHolder.setConfig("email.password", params.emailPassword)
-				setupUpdaterService.updateEmail(params.emailAddress, params.emailPassword)
-			}.to "changePassword"
-		}
+        
+        setupEmail {
+            on("next") {
+                ConfigHolder.setConfig("email.address", params.emailAddress)
+                ConfigHolder.setConfig("email.password", params.emailPassword)
+                setupUpdaterService.updateEmail(params.emailAddress, params.emailPassword)
+            }.to "changePassword"
+        }
 
         changePassword {
             on("set") {
@@ -61,14 +61,14 @@ class SetupFlowController {
         }
 
         finish() {
-			action {
-				redirect(controller: "dashboard", action: "index")
-			}
-			on ("success").to "done"
-		}
-		
-		done() {
-			
-		}
+            action {
+                redirect(controller: "dashboard", action: "index")
+            }
+            on ("success").to "done"
+        }
+        
+        done() {
+            
+        }
     }
 }

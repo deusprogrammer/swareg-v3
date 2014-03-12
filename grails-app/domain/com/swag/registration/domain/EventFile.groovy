@@ -1,7 +1,7 @@
 package com.swag.registration.domain
 
 class EventFile {
-	String path
+    String path
 
     static constraints = {
     }

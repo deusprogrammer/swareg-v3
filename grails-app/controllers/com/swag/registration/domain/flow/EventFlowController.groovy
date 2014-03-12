@@ -13,9 +13,9 @@ import grails.plugins.springsecurity.SpringSecurityService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 class EventFlowController {
-	SimpleCaptchaService simpleCaptchaService
+    SimpleCaptchaService simpleCaptchaService
     EventService eventService
-	EmailService emailService
+    EmailService emailService
     SpringSecurityService springSecurityService
 
     def index() {
@@ -82,17 +82,8 @@ class EventFlowController {
                 flow.eventData["currency"] = params.currency
                 flow.eventData["taxRate"] = params.taxRate
                 session["flow"] = flow
-            }.to "registrationLevel"
-            on ("error").to "merchantInfo"
-        }
-
-        registrationLevel {
-            on ("addAnother") {
-                flow.eventData["registrationLevels"] += [name: params.name, description: params.description, price: params.price.toDouble(), validFor: params.validFor]
-            }.to "registrationLevel"
-            on ("done") {
-                flow.eventData["registrationLevels"] += [name: params.name, description: params.description, price: params.price.toDouble(), validFor: params.validFor]
             }.to "confirm"
+            on ("error").to "merchantInfo"
         }
 
         confirm {
@@ -105,35 +96,26 @@ class EventFlowController {
 
         finish {
             action {
-				boolean captchaValid = simpleCaptchaService.validateCaptcha(params.captcha)
-				
-				if (!captchaValid) {
-					flash.message = "Captcha invalid!"
-					return error()
-				}
-				
-                Event event = new Event(flow.eventData)
-				event.user = springSecurityService.currentUser
-                if (!event.save(flush: true)) {
-					flash.message = "Failed to save event!"
-					return error()
-				}
-				
-                flow.eventData["registrationLevels"].each {
-                    RegistrationLevel level = new RegistrationLevel(it)
-                    level.event = event
-                    if (!level.save()) {
-						flash.message = "Failed to save level!"
-						return error()
-					}
+                boolean captchaValid = simpleCaptchaService.validateCaptcha(params.captcha)
+                
+                if (!captchaValid) {
+                    flash.message = "Captcha invalid!"
+                    return error()
                 }
-				
-				emailService.sendEventCreateEmail(event)
+                
+                Event event = new Event(flow.eventData)
+                event.user = springSecurityService.currentUser
+                if (!event.save(flush: true)) {
+                    flash.message = "Failed to save event!"
+                    return error()
+                }
+                
+                emailService.sendEventCreateEmail(event)
 
                 redirect (controller: "dashboard", action: "index")
             }
             on ("success").to "end"
-			on ("error").to "confirm"
+            on ("error").to "confirm"
         }
 
         end() {

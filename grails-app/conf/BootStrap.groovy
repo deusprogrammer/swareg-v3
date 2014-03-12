@@ -22,11 +22,11 @@ class BootStrap {
            ConfigHolder.setSwitch("payPal.debug", false)
            ConfigHolder.setSwitch("swareg.setup", false)
        }
-	   
-	   String emailAddress = ConfigHolder.getConfig("email.address")
-	   String emailPassword = ConfigHolder.getConfig("email.password")
-	   
-	   setupUpdaterService.updateEmail(emailAddress, emailPassword)
+       
+       String emailAddress = ConfigHolder.getConfig("email.address")
+       String emailPassword = ConfigHolder.getConfig("email.password")
+       
+       setupUpdaterService.updateEmail(emailAddress, emailPassword)
 
        createUsers()
        loginAsAdmin()

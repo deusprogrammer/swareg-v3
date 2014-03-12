@@ -16,7 +16,7 @@ class RegistrationLevel implements Serializable, EventChildObject {
 
     String toString() {
         //return "${event}[${name}] (${String.format("%.2f",currentPrice)} ${event.currency})"
-		return "${event}[${name}]"
+        return "${event}[${name}]"
     }
     
     public Registration generateRegistration(User user, PayPalOrder order) {
@@ -46,21 +46,21 @@ class RegistrationLevel implements Serializable, EventChildObject {
         def price
         ArrayList<PreRegistrationOffer> offers = this.preRegOffers?.findAll{ PreRegistrationOffer offer -> offer.startDate <= now && offer.endDate >= now}
 
-		PreRegistrationOffer offer = null
-		
-		// Find lowest price
-		offers.each { PreRegistrationOffer it ->
-			if (!offer || it.price < offer.price) {
-				offer = it
-			}
-		}
-		
-		// If no offers found, then the price is the default
-		if (!offer) {
-			price = this.price
-		} else {
-			price = offer.price
-		}
+        PreRegistrationOffer offer = null
+        
+        // Find lowest price
+        offers.each { PreRegistrationOffer it ->
+            if (!offer || it.price < offer.price) {
+                offer = it
+            }
+        }
+        
+        // If no offers found, then the price is the default
+        if (!offer) {
+            price = this.price
+        } else {
+            price = offer.price
+        }
 
         return price
     }
@@ -72,7 +72,7 @@ class RegistrationLevel implements Serializable, EventChildObject {
     static constraints = {
     }
 
-    static mapping = {sort "price"}
+    static mapping = {sort "price"}
 
     @Override
     public Event getOwner() {

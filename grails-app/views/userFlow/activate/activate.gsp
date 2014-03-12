@@ -18,8 +18,8 @@
 		            <table class="pairs">
 			            <tr><td>Password</td><td><g:passwordField name="password1" class="password" /></td></tr>
 			            <tr><td></td><td><g:passwordField name="password2" class="password-confirm" /></td></tr>
-			            <tr><td>First Name</td><td><g:textField name="firstName" /></td></tr>
-			            <tr><td>Last Name</td><td><g:textField name="lastName" /></td></tr>
+			            <tr><td>First Name</td><td><g:textField name="firstName" placeholder="John" /></td></tr>
+			            <tr><td>Last Name</td><td><g:textField name="lastName" placeholder="Doe" /></td></tr>
 		            </table>
 		            <g:submitButton name="next" value="Next"/>
 		        </g:form>

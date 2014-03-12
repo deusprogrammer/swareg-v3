@@ -7,13 +7,14 @@
 	    <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
 	</head>
 	<body>
-		<span class="legend">${badge}</span>
+		<span class="legend">${badge.event}</span>
 		<div class="inner scrollable">
-		<table>
-			<tbody>
-				<tr><td class="label">Registration Level</td><td>${badge.registrationLevel.name}</td></tr>
-				<tr><td class="label">Order #</td><td>${badge.order?.paymentId ?: "None"}</td></tr>
-			</tbody>
-		</table>
+			<table class="padded">
+				<tbody>
+					<tr><td class="label">Registration Level</td><td>${badge.registrationLevel.name}</td></tr>
+					<tr><td class="label">Order #</td><td>${badge.order?.paymentId ?: "None"}</td></tr>
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>

@@ -16,8 +16,8 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 
 class RegistrationFlowController {
-	EventService eventService
-	EmailService emailService
+    EventService eventService
+    EmailService emailService
     OrderService orderService
     SpringSecurityService springSecurityService
 
@@ -26,22 +26,21 @@ class RegistrationFlowController {
             action {
                 flow.eventId = params.id
                 Event event = Event.get(params.id)
-				flow.event = event
+                flow.event = event
 
                 if (!event) {
                     return noEvent()
                 }
-				
-				println "IN START!"
-				println "EVENT: ${event}"
+                
+                println "IN START!"
+                println "EVENT: ${event}"
 
-				try {
-					eventService.checkAdmin(event)
-				} catch (Exception e) {
-					println "ACCESS FUCKING DENIED!"
-					println "EXCEPTION: ${e.message}"
-					return accessDenied()
-				}
+                try {
+                    eventService.checkAdmin(event)
+                } catch (Exception e) {
+                    println "EXCEPTION: ${e.message}"
+                    return accessDenied()
+                }
             }
             on ("noEvent").to "errorMR"
             on ("accessDenied").to "errorMR"
@@ -58,7 +57,7 @@ class RegistrationFlowController {
         processManualRegistration {
             action {
                 RegistrationLevel regLevel = RegistrationLevel.get(flow.regLevelId)
-				Event event = Event.get(flow.eventId)
+                Event event = Event.get(flow.eventId)
                 User user = User.findByEmailAddress(flow.emailAddress)
 
                 if (!regLevel) {
@@ -67,7 +66,7 @@ class RegistrationFlowController {
                 }
 
                 if (!user) {
-					Activation activation = Activation.create(flow.emailAddress)
+                    Activation activation = Activation.create(flow.emailAddress)
                     user = activation.user
                 }
 
@@ -85,15 +84,15 @@ class RegistrationFlowController {
         }
 
         finishMR {
-			action {
-				redirect(controller: "dashboard", action: "index")
-			}
-			on ("success").to "endMR"
+            action {
+                redirect(controller: "dashboard", action: "index")
+            }
+            on ("success").to "endMR"
         }
-		
-		endMR {
-			
-		}
+        
+        endMR {
+            
+        }
 
         errorMR {
 
@@ -186,13 +185,13 @@ class RegistrationFlowController {
                 params.levels.each { key, value ->
                     if (key.isNumber() && value.quantity && value.quantity > 0) {
                         println "${key} => ${value.quantity}"
-						RegistrationLevel rl = RegistrationLevel.get(key.toLong())
-						if (!rl.needAdmin) {
-	                        order.addToBadges(new RegistrationOrderItem([
-	                            registrationLevel: rl,
-	                            quantity: value.quantity
-	                        ]))
-						}
+                        RegistrationLevel rl = RegistrationLevel.get(key.toLong())
+                        if (!rl.needAdmin) {
+                            order.addToBadges(new RegistrationOrderItem([
+                                registrationLevel: rl,
+                                quantity: value.quantity
+                            ]))
+                        }
                     }
                 }
 
@@ -225,17 +224,17 @@ class RegistrationFlowController {
                 String returnUrl = createLink(absolute: true, action: "completeRegistration", params: [transaction: transactionId])
                 String cancelUrl = createLink(absolute: true, action: "cancelPayPal")
 
-				Map paymentResults
-				
-				try {
-					paymentResults = orderService.payWithPayPal(order, returnUrl, cancelUrl)
-				} catch (PayPalException e) {
-					flash.message = "${e.map.message}<br>Details:<br>${e.map.details ?: ''}"
-					return error()
-				} catch (Exception e) {
-					flash.message = "Unexpected error occured during PayPal transaction!  Please contact webmaster at swag.expo@gmail.com with exception message below.<br>Exception: ${e.message}"
-					return error()
-				}
+                Map paymentResults
+                
+                try {
+                    paymentResults = orderService.payWithPayPal(order, returnUrl, cancelUrl)
+                } catch (PayPalException e) {
+                    flash.message = "${e.map.message}<br>Details:<br>${e.map.details ?: ''}"
+                    return error()
+                } catch (Exception e) {
+                    flash.message = "Unexpected error occured during PayPal transaction!  Please contact webmaster at swag.expo@gmail.com with exception message below.<br>Exception: ${e.message}"
+                    return error()
+                }
 
                 if (paymentResults["success"]) {
                     order.user = user
@@ -244,8 +243,8 @@ class RegistrationFlowController {
                     println "Redirecting to ${paymentResults['redirectUrl']}"
                     redirect(url: paymentResults['redirectUrl'])
                 } else {
-					flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
-					return error()
+                    flash.message = "${paymentResults['error']['message']}<br>Details:<br>${paymentResults['error']['details'] ?: ''}"
+                    return error()
                 }
             }
             on ("success").to "end"
@@ -260,89 +259,90 @@ class RegistrationFlowController {
 
         }
     }
-	
-	def completeRegistrationFlow = {
-		start {
-			action {
-				flow.transaction = params.transaction
-				flow.payerId = params.PayerID
-				PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
-				flow.order = order
-				
-				if (!order) {
-					log.error("Unable to find a transaction with id ${flow.transaction}")
-					flash.message = "Unable to find a transaction with id ${flow.transaction}"
-					error()
-				}
-			}
-			on ("success").to "confirmCR"
-			on ("error").to "errorCR"
-		}
-		
-		confirmCR {
-			on ("confirm").to "completeCR"
-			on ("cancel").to "cancelCR"
-		}
-		
-		completeCR {
-			action {
-				PayPalOrder order = PayPalOrder.findByTransactionId(flow.transaction)
-				
-				Map paymentResults = orderService.executePayPalPayment(order, flow.payerId)
-		
-				println "RESULTS: ${paymentResults}"
-		
-				if (paymentResults["success"]) {
-					order.paymentCompleted = true
-					order.paymentStatus = paymentResults["status"]
-					order.transactionId = null
-					order.generateRegistrations()
-					order.save()
-					
-					emailService.sendOrderEmail(order)
-		
-					// Update user with shipping info returned from PayPal
-					User user = order.user
-					user.streetAddress1 = paymentResults["shipping"]["line1"]
-					user.streetAddress2 = paymentResults["shipping"]["line2"]
-					user.city = paymentResults["shipping"]["city"]
-					user.state = paymentResults["shipping"]["state"]
-					user.zipCode = paymentResults["shipping"]["zipCode"]
-					user.countryCode = paymentResults["shipping"]["countryCode"]
-					user.save()
-				} else {
-					return error()
-				}
-			}
-			on ("success").to "finishCR"
-			on ("error").to "errorCR"
-		}
-		
-		cancelCR {
-			on ("confirm").to "goHomeCR"
-		}
-		
-		errorCR {
-			
-		}
-		
-		finishCR {
-			on ("confirm").to "goHomeCR"
-		}
-		
-		goHomeCR {
-			action {
-				redirect(controller: "dashboard", action: "index")
-			}
-			on ("success").to "endCR"
-		}
-		
-		endCR {
-			
-		}
-	}
+    
+    def completeRegistrationFlow = {
+        start {
+            action {
+                flow.transaction = params.transaction
+                flow.payerId = params.PayerID
+                PayPalOrder order = PayPalOrder.findByTransactionId(params.transaction)
+                flow.order = order
+                
+                if (!order) {
+                    log.error("Unable to find a transaction with id ${flow.transaction}")
+                    flash.message = "Unable to find a transaction with id ${flow.transaction}"
+                    error()
+                }
+            }
+            on ("success").to "confirmCR"
+            on ("error").to "errorCR"
+        }
+        
+        confirmCR {
+            on ("confirm").to "completeCR"
+            on ("cancel").to "cancelCR"
+        }
+        
+        completeCR {
+            action {
+                //PayPalOrder order = PayPalOrder.findByTransactionId(flow.transaction)
+                PayPalOrder order = flow.order
+                
+                Map paymentResults = orderService.executePayPalPayment(order, flow.payerId)
+        
+                println "RESULTS: ${paymentResults}"
+        
+                if (paymentResults["success"]) {
+                    order.paymentCompleted = true
+                    order.paymentStatus = paymentResults["status"]
+                    order.transactionId = null
+                    order.generateRegistrations()
+                    order.save()
+                    
+                    emailService.sendOrderEmail(order)
+        
+                    // Update user with shipping info returned from PayPal
+                    User user = order.user
+                    user.streetAddress1 = paymentResults["shipping"]["line1"]
+                    user.streetAddress2 = paymentResults["shipping"]["line2"]
+                    user.city = paymentResults["shipping"]["city"]
+                    user.state = paymentResults["shipping"]["state"]
+                    user.zipCode = paymentResults["shipping"]["zipCode"]
+                    user.countryCode = paymentResults["shipping"]["countryCode"]
+                    user.save()
+                } else {
+                    return error()
+                }
+            }
+            on ("success").to "finishCR"
+            on ("error").to "errorCR"
+        }
+        
+        cancelCR {
+            on ("confirm").to "goHomeCR"
+        }
+        
+        errorCR {
+            
+        }
+        
+        finishCR {
+            on ("confirm").to "goHomeCR"
+        }
+        
+        goHomeCR {
+            action {
+                redirect(controller: "dashboard", action: "index")
+            }
+            on ("success").to "endCR"
+        }
+        
+        endCR {
+            
+        }
+    }
 
     def cancelPayPal() {
-		chain(controller: "dashboard", action: "index")
+        chain(controller: "dashboard", action: "index")
     }
 }
