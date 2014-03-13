@@ -4,8 +4,11 @@ class PreRegistrationOffer implements Serializable, EventChildObject {
     Date startDate
     Date endDate
     Double price
+	
+	static belongsTo = [registrationLevel: RegistrationLevel]
 
-    def stringFormatterService
+	static constraints = {
+	}
 
     String toString() {
         return "[${startDate.format('MM/dd/yy')}" + " to " + "${endDate.format('MM/dd/yy')}]" + " (${asMoney(price)})"
@@ -25,11 +28,6 @@ class PreRegistrationOffer implements Serializable, EventChildObject {
         }
 
         return "\$" + whole + "." + fraction
-    }
-
-    static belongsTo = [registrationLevel: RegistrationLevel]
-
-    static constraints = {
     }
 
     @Override

@@ -37,12 +37,13 @@ class Event implements Serializable, Payable, Ownable {
     }
 
     static constraints = {
-        homePage nullable: true
-        merchantEmail nullable: true
+        homePage nullable: true, url: true
+        merchantEmail nullable: true, email: true
         currency nullable: true
         logoUrl nullable: true
         uuid nullable: true
         apiKey nullable: true
+		//taxRate max: 1.0
     }
 
     static mapping = {

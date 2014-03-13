@@ -1,12 +1,17 @@
 package com.swag.registration.domain
 
+import org.springframework.context.MessageSource
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.validation.FieldError
+import com.swag.registration.ValidationService
 import com.swag.registration.security.acl.EventService
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 
 class EventController {
     EventService eventService
+	ValidationService validationService
+	MessageSource messageSource
     
     // Return a css file with custom css defined
     def css(Long id) {

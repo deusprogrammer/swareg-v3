@@ -13,6 +13,12 @@ class RegistrationLevel implements Serializable, EventChildObject {
 
     static hasMany = [preRegOffers: PreRegistrationOffer]
     static belongsTo = [event: Event]
+	
+	static constraints = {
+		validFor matches: /^[0-9]+ (year|month|day|hour|minute)+s*$/
+	}
+
+	static mapping = {sort "price"}
 
     String toString() {
         //return "${event}[${name}] (${String.format("%.2f",currentPrice)} ${event.currency})"
@@ -68,11 +74,6 @@ class RegistrationLevel implements Serializable, EventChildObject {
     public String getCurrentPriceString() {
         return "${currentPrice}${event.currency.escapeCode}"
     }
-
-    static constraints = {
-    }
-
-    static mapping = {sort "price"}
 
     @Override
     public Event getOwner() {
