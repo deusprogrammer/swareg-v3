@@ -14,7 +14,7 @@
         <div class="dash rounded skinny-scaled spaced">
         	<span class="legend">User Data</span>
         	<div class="inner-x">
-				<g:form>
+				<g:form class="validate-me" model="user">
 		            <table>
 		                <g:if test="${isRegistration}">
 			                 <tr><td>Email</td><td><g:textField class="email" name="emailAddress" value="${userData?.emailAddress}" placeholder="user@domain.com" readonly="readonly" /></td></tr>

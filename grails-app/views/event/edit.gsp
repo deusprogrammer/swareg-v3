@@ -12,7 +12,7 @@
             		<div class="dash short rounded side-by-side top">
 		            	<span class="legend">Event Details</span>
 		            	<div class="inner">
-					        <g:form action="update" id="${event.id}">
+					        <g:form class="validate-me" model="event" action="update" id="${event.id}">
 					            <table>
 						            <tr><td>Name</td><td><g:textField name="name" value="${event?.name}" /></td></tr>
 						            <tr><td>Year</td><td><g:textField name="year" value="${event?.year}"/></td></tr>
@@ -26,7 +26,7 @@
  		            <div class="dash short rounded side-by-side top">
 		            	<span class="legend">Skin</span>
 		            	<div class="inner">
-				        	<g:form action="update" id="${event.id}">
+				        	<g:form class="validate-me" model="event" action="update" id="${event.id}">
 					            <table>
 						            <tr><td>Logo URL</td><td><g:textField class="name" id="logo-field" name="logoUrl" value="${event?.logoUrl}" /></td></tr>
 					            </table>
@@ -37,7 +37,7 @@
 	            	<div class="dash short rounded side-by-side top">
 		            	<span class="legend">Merchant Info</span>
 		            	<div class="inner">
-			        		<g:form action="update" id="${event.id}">
+			        		<g:form class="validate-me" model="event" action="update" id="${event.id}">
 					            <table>
 						            <tr><td>Merchant Email</td><td><g:textField name="merchantEmail" value="${event?.merchantEmail}" /></td></tr>
 						            <tr><td>Currency</td><td><g:textField name="address2" value="${event?.currency}"/></td></tr>

@@ -28,7 +28,11 @@ function validateForm() {
 	var jsonObject = {};
 	var result = false;
 
-	$(".validate-me input").each(function () {
+	$(".validate-me input")
+	.not(".validate-me input[type=submit]")
+    .not(".validate-me input[type=button]")
+    .not(".ignore")
+    .each(function () {
 		if ( $(this).attr("name") && $(this).val()) {
 			console.log($(this).attr("name") + " => " + $(this).val());
 			fields[$(this).attr("name")] = $(this).val();
@@ -76,6 +80,7 @@ $(function() {
 	$(".validate-me input")
 	.not(".validate-me input[type=submit]")
 	.not(".validate-me input[type=button]")
+	.not(".ignore")
 	.blur(function () {
 		console.log("MODEL: " + $(".validate-me").attr("model"));
 		console.log($(this).attr("name") + " => " + $(this).val());

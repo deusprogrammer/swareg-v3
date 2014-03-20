@@ -1,10 +1,5 @@
 <html>
     <head>
-        <link rel="stylesheet" href="${resource(dir: 'css', file: 'new.css')}" type="text/css">
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-        <script src="${resource(dir: 'js', file: 'screenpos.js')}"></script>
         <meta name="layout" content="new" />
         <script>
 			$(function() {
@@ -19,7 +14,7 @@
 		    	<div class="dash small-scaled short left rounded">
 			        <span class="legend">New Offer</span>
 			        <div class="inner">
-				        <g:form action="savePreRegOffer">
+				        <g:form class="validate-me" model="preRegistrationOffer" action="savePreRegOffer">
 					        <table>
 					            <tbody>
 					                <tr>
@@ -29,13 +24,13 @@
 					                   </td>
 					                </tr>
 					                <tr>
-					                   <td class="label">Price</td><td><g:textField class="price" name="price" placeholder="0.00" /></td>
+					                   <td class="label">Price</td><td><g:textField name="price" placeholder="0.00" /></td>
 					                </tr>
 					                <tr>
-					                   <td class="label">Start Date</td><td><input type="text" class="datepicker" name="startDate" /></td>
+					                   <td class="label">Start Date</td><td><input type="text" class="datepicker ignore" name="startDate" /></td>
 				                    </tr>
 					                <tr>
-					                   <td class="label">End Date</td><td><input type="text" class="datepicker" name="endDate" /></td>
+					                   <td class="label">End Date</td><td><input type="text" class="datepicker ignore" name="endDate" /></td>
 					                </tr>
 					            </tbody>
 					        </table>

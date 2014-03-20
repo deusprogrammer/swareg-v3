@@ -13,7 +13,7 @@
         <div class="dash rounded skinny-scaled spaced">
         	<span class="legend">Merchant Info</span>
         	<div class="inner-x">
-		        <g:form>
+		        <g:form class="validate-me" model="event">
 		            <table class="pairs">
 		                <tr><td>Pay Pal Email Address</td><td><g:textField class="email" name="merchantEmail" value="${eventData?.merchantEmail}" placeholder="user@email.com" /></td></tr>
 		                <tr><td>Currency</td><td><g:select name="currency" from="${com.swag.registration.domain.Currency?.values()}" keys="${com.swag.registration.domain.Currency.values()*.name()}" required="" value="${eventInstance?.currency?.name()}"/></td></tr>

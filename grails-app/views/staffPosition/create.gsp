@@ -19,7 +19,7 @@
 			<div class="dash rounded wider-scaled side-by-side spaced">
 				<span class="legend">Position</span>
 				<div class="inner-x">
-					<g:form action="save">
+					<g:form class="validate-me" model="position" action="save">
 						<table>
 							<g:hiddenField name="event.id" value="${event.id}" />
 							<tr><td>Title</td><td><g:textField size="30" name="title" /></td></tr>
