@@ -17,11 +17,100 @@
     }
 })(jQuery);
 
+function validateForm() {
+	console.log("MODEL: " + $(".validate-me").attr("model"));
+	
+	$.ajaxSetup({
+		async: false
+	})
+	
+	var fields = {};
+	var jsonObject = {};
+	var result = false;
+
+	$(".validate-me input").each(function () {
+		if ( $(this).attr("name") && $(this).val()) {
+			console.log($(this).attr("name") + " => " + $(this).val());
+			fields[$(this).attr("name")] = $(this).val();
+		}
+	});
+	
+	jsonObject.fields = fields;
+	jsonObject.domain = $(".validate-me").attr("model");
+	
+	console.log("CALLING VALIDATE(n)!");
+	$.ajax({
+		   url: "/swareg/validation/validate",
+		   type: "PUT",
+		   data: JSON.stringify(jsonObject),
+		   dataType: "json",
+	       contentType: "application/json; charset=utf-8",
+		   success: function(data) {
+			   result = data.success
+		  		for (field in data.fields) {
+		  			var selector = "input[name=" + field + "]";
+		  			if (!data.fields[field].success) {
+		  				$(selector).setError(true, data.fields[field].message);
+		  			} else {
+		  				$(selector).clearError();
+		  			}
+		  		}
+				if (data.success) {
+					console.log("VALIDATE SUCCESSFUL!");
+				}
+		  	}
+	});
+	
+	console.log("SUCCESS? " + result);
+	
+	return result;
+}
+
 $(function() {
     $("#date").datepicker();
     $("#startDate").datepicker();
     $("#endDate").datepicker();
     
+    $(".validate-me").attr("onsubmit", "return validateForm();")
+    
+	$(".validate-me input")
+	.not(".validate-me input[type=submit]")
+	.not(".validate-me input[type=button]")
+	.blur(function () {
+		console.log("MODEL: " + $(".validate-me").attr("model"));
+		console.log($(this).attr("name") + " => " + $(this).val());
+		
+		var jsonObject = {};
+
+		jsonObject.fields = {};
+		jsonObject.fields[$(this).attr("name")] = $(this).val();
+		jsonObject.domain = $(".validate-me").attr("model");
+		
+		console.log("CALLED VALIDATE(1)!");
+		$.ajax({
+			   url: "/swareg/validation/validate",
+			   type: "PUT",
+			   data: JSON.stringify(jsonObject),
+			   dataType: "json",
+		       contentType: "application/json; charset=utf-8",
+			   success: function(data) {
+				   result = data.success
+			  		for (field in data.fields) {
+			  			var selector = "input[name=" + field + "]";
+			  			if (!data.fields[field].success) {
+			  				$(selector).setError(true, data.fields[field].message);
+			  			} else {
+			  				$(selector).clearError();
+			  			}
+			  		}
+					if (data.success) {
+						console.log("VALIDATE SUCCESSFUL!");
+					}
+			  	}
+		});
+	});
+    
+	/*
     $("input[type=text]").blur(function() {
         console.log("CLEARING");
         
@@ -104,6 +193,7 @@ $(function() {
             $(this).clearError();
         }
     });
+    */
     
     $('.disableoncheck').on('click', function () {
         $(this).closest('fieldset').find('input[type=text]').prop('disabled', this.checked);

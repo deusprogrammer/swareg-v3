@@ -13,7 +13,7 @@
         <div class="dash rounded skinny-scaled spaced">
         	<span class="legend">Basic Info</span>
         	<div class="inner-x">
-		        <g:form>
+		        <g:form class="validate-me" model="event">
 		            <table class="pairs">
 		                <tr><td>Event Name</td><td><g:textField name="name" value="${eventData?.name}" placeholder="Convention Name" /></td></tr>
 		                <tr><td>Year</td><td><g:textField name="year" class="numeric" value="${eventData?.year}" placeholder="2014"/></td></tr>

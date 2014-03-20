@@ -19,13 +19,22 @@ class ValidationService {
 		Boolean result = object.validate(properties.keySet() as List)
 		Map resultMap = [success: result, fields: [:]]
 		
-		properties.keySet().each { field ->
+		properties.each { field, value ->
 			FieldError error = object.errors.getFieldError(field)
+			
+			String message = "Validated!"
+			Map pair = [:]
 			if (error) {
-				String message = messageSource.getMessage(error, locale)
-				resultMap["fields"].putAt(field, message)
+				message = messageSource.getMessage(error, locale)
+				pair = [success: false, message: message]
+			} else {
+				pair = [success: true, message: message]
 			}
+			resultMap["fields"].putAt(field, pair)
+			
 		}
+		
+		println resultMap as JSON
 		
 		return resultMap as JSON
 	}
