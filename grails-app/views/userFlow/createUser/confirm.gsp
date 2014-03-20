@@ -36,18 +36,6 @@
 				            </table>
 			            </div>
 					</div>
-					<div class="dash rounded skinny-scaled side-by-side top">
-			       		<span class="legend">Billing Address</span>
-			       		<div class="inner-x">
-				            <table class="pairs">
-				                <tr><td>Street Address</td><td>${billingData?.streetAddress1}</td></tr>
-				                <tr><td></td><td>${billingData?.streetAddress2}</td></tr>
-				                <tr><td>City</td><td>${billingData?.city}</td></tr>
-				                <tr><td>State</td><td>${billingData?.state}</td></tr>
-				                <tr><td>Zip Code</td><td>${billingData?.zipCode}</td></tr>
-				            </table>
-			            </div>
-		            </div>
 		        </div>
             </g:if>
 			<div class="dash rounded skinny-scaled spaced">

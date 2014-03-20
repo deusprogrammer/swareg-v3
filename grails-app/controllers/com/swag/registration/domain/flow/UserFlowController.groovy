@@ -363,33 +363,15 @@ class UserFlowController {
                 flow.shippingData["city"] = params.city
                 flow.shippingData["state"] = params.state
                 flow.shippingData["zipCode"] = params.zipCode
-            }.to "enterBilling"
-            on ("back") { [flow: flow] }.to "enterUserData"
-        }
-
-        enterBilling {
-            on ("next") {
-                if (params.sameAsShipping) {
-                    flow.billingData = flow.shippingData
-                    flow.billingData["sameAsShipping"] = true
-                } else {
-                    flow.billingData["streetAddress1"] = params.streetAddress1
-                    flow.billingData["streetAddress2"] = params.streetAddress2
-                    flow.billingData["city"] = params.city
-                    flow.billingData["state"] = params.state
-                    flow.billingData["zipCode"] = params.zipCode
-                    flow.billingData["sameAsShipping"] = params.sameAsShipping
-                }
             }.to "confirm"
-            on ("back").to "enterShipping"
+            on ("back") { [flow: flow] }.to "enterUserData"
         }
 
         confirm {
             on ("confirm").to "saveUser"
             on ("editUserInfo").to "enterUserData"
             on ("editShippingInfo").to "enterShipping"
-            on ("editBillingInfo").to "enterBilling"
-            on ("back").to "enterBilling"
+            on ("back").to "enterShipping"
         }
 
         saveUser {
