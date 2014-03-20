@@ -43,7 +43,7 @@ class Event implements Serializable, Payable, Ownable {
         logoUrl nullable: true
         uuid nullable: true
         apiKey nullable: true
-		//taxRate max: 1.0
+		taxRate max: 1.0 as Double, min: 0.0 as Double
     }
 
     static mapping = {
