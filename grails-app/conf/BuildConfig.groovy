@@ -2,8 +2,8 @@ grails.servlet.version = "2.5" // Change depending on target container complianc
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.7
+grails.project.source.level = 1.7
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
@@ -24,14 +24,6 @@ grails.project.dependency.resolution = {
 
         mavenLocal()
         mavenCentral()
-
-        //flatDir(name: 'myRepo', dirs: System.getenv('GRAILS_REPO'))
-        flatDir(
-            name: 'myRepo',
-            //dirs: "/home/mmain/flat_repo/"
-            dirs: "C:\\Users\\mmain\\repo\\"
-            //dirs: "C:\\Users\\Michael\\repo\\"
-        )
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
@@ -55,13 +47,12 @@ grails.project.dependency.resolution = {
         compile ":avatar:0.6.3"
         compile ":spring-security-core:1.2.7.3"
         compile ":jersey-request-builder:1.1.3"
-        compile ":grails-pay-pal-rest:1.0.3"
         compile ":simple-captcha:0.9.9"
+		
+		compile "com.trinary:PayPal-REST:1.0.3"
 
         compile ':cache:1.0.0'
-        compile ":mail:1.0.1", {
-            excludes 'spring-test'
-        }
+        compile ":mail:1.0.6"
         compile ':webflow:2.0.8.1', {
             excludes 'javassist'
         }
